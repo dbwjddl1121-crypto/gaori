@@ -32,7 +32,10 @@ public class TrashClickPickup : MonoBehaviour
             return;
         }
 
-        float distance = Vector2.Distance(player.position, transform.position);
+        float distance = Vector2.Distance(
+            player.position,
+            transform.position
+        );
 
         if (distance > pickupRange)
         {
@@ -40,29 +43,23 @@ public class TrashClickPickup : MonoBehaviour
             return;
         }
 
+        // --- 1. 인벤토리에 아이템 추가하는 로직 추가 ---
         InventoryManager inventory = FindAnyObjectByType<InventoryManager>();
 
         if (inventory != null)
         {
             Item newItem = new Item();
             newItem.itemName = trashName;
-            newItem.itemCount = 1;
 
-            // 바닥에 있는 쓰레기의 SpriteRenderer에서 이미지를 가져옵니다.
+            // 스프라이트 렌더러의 이미지를 아이콘으로 사용
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            if (sr != null && sr.sprite != null)
-            {
-                newItem.itemIcon = sr.sprite;
-                Debug.Log("쓰레기 이미지 가져오기 성공: " + sr.sprite.name);
-            }
-            else
-            {
-                Debug.LogWarning("TrashClickPickup: 쓰레기에 SpriteRenderer나 Sprite가 없습니다!");
-            }
+            newItem.itemIcon = sr != null ? sr.sprite : null;
+            newItem.itemCount = 1;
 
             // 인벤토리에 넣기 시도
             bool isSuccess = inventory.AddItem(newItem);
 
+            // 2. 인벤토리 추가에 성공했을 때만 쓰레기 삭제
             if (isSuccess)
             {
                 Debug.Log("쓰레기 수거 및 인벤토리 추가 성공!");

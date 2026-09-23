@@ -32,8 +32,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2447126957109260423}
-  - {fileID: 1298487499165493371}
-  - {fileID: 6330963878992099973}
+  - {fileID: 6056065739072730422}
+  - {fileID: 714462668467746573}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -91,9 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1249d4b72cbfad49a4b9e54d2ee6203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Slot
-  iconImage: {fileID: 3413597249412359612}
-  countText: {fileID: 2460726479131616354}
---- !u!1 &1630518502787506743
+  iconImage: {fileID: 8559617486230776682}
+  countText: {fileID: 8902456173298009243}
+--- !u!1 &1564139200255626303
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,23 +101,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1298487499165493371}
-  - component: {fileID: 2712453857742259376}
-  - component: {fileID: 3413597249412359612}
+  - component: {fileID: 6056065739072730422}
+  - component: {fileID: 4310985174565298333}
+  - component: {fileID: 8559617486230776682}
   m_Layer: 5
-  m_Name: IconImage
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1298487499165493371
+  m_IsActive: 0
+--- !u!224 &6056065739072730422
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630518502787506743}
+  m_GameObject: {fileID: 1564139200255626303}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -125,42 +125,42 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 323119527427213113}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.00000023841858, y: -0.00000023841858}
+  m_SizeDelta: {x: 40, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &2712453857742259376
+--- !u!222 &4310985174565298333
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630518502787506743}
+  m_GameObject: {fileID: 1564139200255626303}
   m_CullTransparentMesh: 1
---- !u!114 &3413597249412359612
+--- !u!114 &8559617486230776682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630518502787506743}
+  m_GameObject: {fileID: 1564139200255626303}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &3864820780023941913
+--- !u!1 &6171299048414739846
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,23 +251,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6330963878992099973}
-  - component: {fileID: 4968849823326115282}
-  - component: {fileID: 2460726479131616354}
+  - component: {fileID: 714462668467746573}
+  - component: {fileID: 307864074521806589}
+  - component: {fileID: 8902456173298009243}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6330963878992099973
+--- !u!224 &714462668467746573
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3864820780023941913}
+  m_GameObject: {fileID: 6171299048414739846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -277,24 +277,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 20.2, y: -21.1}
-  m_SizeDelta: {x: 12.6412, y: 9.7313}
+  m_AnchoredPosition: {x: 22.098, y: -20.5}
+  m_SizeDelta: {x: 5.8041, y: 10.9992}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &4968849823326115282
+--- !u!222 &307864074521806589
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3864820780023941913}
+  m_GameObject: {fileID: 6171299048414739846}
   m_CullTransparentMesh: 1
---- !u!114 &2460726479131616354
+--- !u!114 &8902456173298009243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3864820780023941913}
+  m_GameObject: {fileID: 6171299048414739846}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -310,8 +310,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d3d39281aef54d74f9d546fac53ad380, type: 2}
+  m_sharedMaterial: {fileID: 8134645490918536254, guid: d3d39281aef54d74f9d546fac53ad380, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

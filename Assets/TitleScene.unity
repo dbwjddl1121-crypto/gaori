@@ -332,7 +332,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GameScene_Team
+          m_StringArgument: GameScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &362092087
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 384010219008374103, guid: aaac45d1e2c775b43ab152b028a097ef, type: 3}
+  m_Sprite: {fileID: -6600796520556517803, guid: 0c63b4ee957fe9c4daa48139276d33be, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

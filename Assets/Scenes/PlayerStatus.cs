@@ -30,13 +30,19 @@ public class PlayerStatus : MonoBehaviour
         currentOxygen = maxOxygen;
         currentHealth = maxHealth;
 
-        // 산소바 설정
-        oxygenBar.maxValue = maxOxygen;
-        oxygenBar.value = currentOxygen;
+        // 산소바 설정 (안전장치 추가)
+        if (oxygenBar != null)
+        {
+            oxygenBar.maxValue = maxOxygen;
+            oxygenBar.value = currentOxygen;
+        }
 
-        // 체력바 설정
-        healthBar.maxValue = maxHealth;
-        healthBar.value = currentHealth;
+        // 체력바 설정 (안전장치 추가)
+        if (healthBar != null)
+        {
+            healthBar.maxValue = maxHealth;
+            healthBar.value = currentHealth;
+        }
     }
 
     void Update()
@@ -53,7 +59,10 @@ public class PlayerStatus : MonoBehaviour
             }
 
             // 산소바 업데이트
-            oxygenBar.value = currentOxygen;
+            if (oxygenBar != null)
+            {
+                oxygenBar.value = currentOxygen;
+            }
         }
         else
         {
@@ -66,7 +75,10 @@ public class PlayerStatus : MonoBehaviour
                 currentHealth -= 5f;
 
                 // 체력바 업데이트
-                healthBar.value = currentHealth;
+                if (healthBar != null)
+                {
+                    healthBar.value = currentHealth;
+                }
 
                 // 타이머 초기화
                 healthTimer = 0f;
@@ -77,7 +89,6 @@ public class PlayerStatus : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-
             Debug.Log("GAME OVER");
         }
     }
