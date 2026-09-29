@@ -4,7 +4,15 @@ public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 7f;
 
+    // 실제 점프 설정
+    public float jumpHeight = 0.5f;
+    public float jumpDuration = 0.6f;
+
     private Animator animator;
+
+    private bool isJumping = false;
+    private float jumpTimer = 0f;
+    private float jumpStartY;
 
     void Start()
     {
@@ -16,8 +24,12 @@ public class PlayerMove : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
-        transform.position += movement * moveSpeed * Time.deltaTime;
+        // 이동
+        if (!isJumping)
+        {
+            Vector3 movement = new Vector3(moveX, moveY, 0f).normalized;
+            transform.position += movement * moveSpeed * Time.deltaTime;
+        }
 
         animator.SetFloat("MoveX", moveX);
         animator.SetFloat("MoveY", moveY);
@@ -27,11 +39,44 @@ public class PlayerMove : MonoBehaviour
         animator.SetBool("IsMoving", isMoving);
 
         // 스페이스바를 누르면 점프
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            animator.SetBool("Jump", true);
+            isJumping = true;
+            jumpTimer = 0f;
+            jumpStartY = transform.position.y;
 
-            Invoke(nameof(EndJump), 2f);
+            animator.SetBool("Jump", true);
+        }
+
+        // 실제 캐릭터 점프
+        if (isJumping)
+        {
+            jumpTimer += Time.deltaTime;
+
+            // 0 → 1
+            float progress = jumpTimer / 2f;
+
+            // 위로 올라갔다가 내려오는 움직임
+            float height = Mathf.Sin(progress * Mathf.PI) * jumpHeight;
+
+            transform.position = new Vector3(
+                transform.position.x,
+                jumpStartY + height,
+                transform.position.z
+            );
+
+            // 2초가 지나면 점프 종료
+            if (jumpTimer >= 2f)
+            {
+                transform.position = new Vector3(
+                    transform.position.x,
+                    jumpStartY,
+                    transform.position.z
+                );
+
+                isJumping = false;
+                animator.SetBool("Jump", false);
+            }
         }
 
         // Shift를 누르고 있는 동안 울기
@@ -43,10 +88,5 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("Cry", false);
         }
-    }
-
-    void EndJump()
-    {
-        animator.SetBool("Jump", false);
     }
 }
