@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MainScene/coinscene.unity
+    path: Assets/coinscene.unity
     guid: fad9846f735cd0d459472baf37922e38
   - enabled: 1
     path: Assets/Scenes/REBLUE_Backup.unity

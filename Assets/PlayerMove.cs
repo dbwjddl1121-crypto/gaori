@@ -14,6 +14,9 @@ public class PlayerMove : MonoBehaviour
     private float jumpTimer = 0f;
     private float jumpStartY;
 
+    // Ctrl 상태 확인
+    private bool wasCtrlPressed = false;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -53,7 +56,6 @@ public class PlayerMove : MonoBehaviour
         {
             jumpTimer += Time.deltaTime;
 
-            // 0 → 1
             float progress = jumpTimer / 2f;
 
             // 위로 올라갔다가 내려오는 움직임
@@ -79,8 +81,36 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        // Shift를 누르고 있는 동안 울기
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        // =========================
+        // Ctrl → 뒷모습 서 있기
+        // =========================
+
+        bool ctrlPressed =
+            Input.GetKey(KeyCode.LeftControl) ||
+            Input.GetKey(KeyCode.RightControl);
+
+        // Ctrl을 새로 눌렀을 때
+        if (ctrlPressed && !wasCtrlPressed)
+        {
+            animator.SetBool("IsCtrl", true);
+            animator.Play("Player_Idle_Back");
+        }
+
+        // Ctrl을 뗐을 때
+        if (!ctrlPressed && wasCtrlPressed)
+        {
+            animator.SetBool("IsCtrl", false);
+            animator.Play("Player_Idle");
+        }
+
+        wasCtrlPressed = ctrlPressed;
+
+        // =========================
+        // Shift → 울기
+        // =========================
+
+        if (Input.GetKey(KeyCode.LeftShift) ||
+            Input.GetKey(KeyCode.RightShift))
         {
             animator.SetBool("Cry", true);
         }
