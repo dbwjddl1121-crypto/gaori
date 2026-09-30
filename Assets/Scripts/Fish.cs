@@ -13,7 +13,7 @@ public class Fish : MonoBehaviour
 
         if (clickCount >= clicksNeeded)
         {
-            CashManager.Instance.AddCash(cashReward);
+            CashM.Instance.AddCash(cashReward);
             clickCount = 0;
 
             // 잡은 물고기를 사라지게 하고 싶으면 아래 주석 해제

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PixelFishSmooth : MonoBehaviour
 {
@@ -19,28 +20,48 @@ public class PixelFishSmooth : MonoBehaviour
     public float swimHeight = 0.2f;
     public float swimSpeed = 2f;
 
+    [Header("잡기 설정")]
+    public int hitsToCatch = 3;
+    public int rewardCash = 50;
+    public float fleeSpeedMultiplier = 4f; // 터치 시 도망 속도 배율
+    public float fleeDuration = 1.2f;      // 도망치는 시간
+    public Color hitColor = Color.red;
+
+    [Header("잡을 수 있는 거리 (화면 픽셀 기준)")]
+    public float catchDistancePixels = 300f;
+
     private float speed;
     private int direction;
-
     private Vector3 startPos;
     private float swimOffset;
 
+    private int hitCount = 0;
+    private bool isFleeing = false;
+    private bool isCaught = false;
+    private SpriteRenderer sr;
+    private Color originalColor;
+    private Transform player;
+    private Camera cam;
+
     void Start()
     {
+        cam = Camera.main;
+
+        PlayerMovement pm = FindFirstObjectByType<PlayerMovement>();
+        if (pm != null)
+            player = pm.transform;
+        else
+            Debug.Log("PlayerMovement를 찾지 못했어요!");
+
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) originalColor = sr.color;
+
         startPos = transform.position;
-
-        // 랜덤 속도
         speed = Random.Range(minSpeed, maxSpeed);
-
-        // 시작 방향
         direction = startRight ? 1 : -1;
-
-        // 둥실 타이밍 랜덤
         swimOffset = Random.Range(0f, 10f);
 
-        // 랜덤 크기
         float size = Random.Range(0.8f, 1.3f);
-
         transform.localScale = new Vector3(
             Mathf.Abs(transform.localScale.x) * size,
             transform.localScale.y * size,
@@ -52,26 +73,19 @@ public class PixelFishSmooth : MonoBehaviour
 
     void Update()
     {
-        // 이동
-        transform.Translate(
-            Vector3.right *
-            direction *
-            speed *
-            Time.deltaTime
-        );
+        if (isCaught) return;
 
-        // 둥실거림
-        float y =
-            Mathf.Sin(Time.time * swimSpeed + swimOffset)
-            * swimHeight;
+        float currentSpeed = isFleeing ? speed * fleeSpeedMultiplier : speed;
 
+        transform.Translate(Vector3.right * direction * currentSpeed * Time.deltaTime);
+
+        float y = Mathf.Sin(Time.time * swimSpeed + swimOffset) * swimHeight;
         transform.position = new Vector3(
             transform.position.x,
             startPos.y + y,
             transform.position.z
         );
 
-        // 방향 전환
         if (transform.position.x > startPos.x + moveRange)
         {
             direction = -1;
@@ -85,20 +99,118 @@ public class PixelFishSmooth : MonoBehaviour
         }
     }
 
+    Vector2 GetPlayerScreenPos()
+    {
+        Canvas canvas = player.GetComponentInParent<Canvas>();
+
+        if (canvas != null && canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            return player.position;
+        else if (canvas != null && canvas.worldCamera != null)
+            return canvas.worldCamera.WorldToScreenPoint(player.position);
+        else
+            return cam.WorldToScreenPoint(player.position);
+    }
+
+    float GetScreenDistance()
+    {
+        Vector2 fishScreen = cam.WorldToScreenPoint(transform.position);
+        return Vector2.Distance(fishScreen, GetPlayerScreenPos());
+    }
+
+    void OnMouseDown()
+    {
+        if (isCaught) return;
+
+        if (player != null && cam != null)
+        {
+            float dist = GetScreenDistance();
+            Debug.Log("화면 거리: " + dist + " (허용: " + catchDistancePixels + ")");
+
+            if (dist > catchDistancePixels)
+            {
+                Debug.Log("너무 멀어요!");
+                return;
+            }
+        }
+
+        hitCount++;
+
+        if (hitCount >= hitsToCatch)
+        {
+            Catch();
+        }
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(HitReaction());
+        }
+    }
+
+    IEnumerator HitReaction()
+    {
+        isFleeing = true;
+
+        // 플레이어 반대 방향으로 도망
+        if (player != null && cam != null)
+        {
+            Vector2 fishScreen = cam.WorldToScreenPoint(transform.position);
+            Vector2 playerScreen = GetPlayerScreenPos();
+
+            direction = (fishScreen.x >= playerScreen.x) ? 1 : -1;
+            Flip();
+        }
+
+        float t = 0f;
+        Color target = Color.Lerp(originalColor, hitColor, (float)hitCount / hitsToCatch);
+
+        if (sr != null) sr.color = hitColor;
+
+        while (t < fleeDuration)
+        {
+            t += Time.deltaTime;
+            if (sr != null)
+                sr.color = Color.Lerp(hitColor, target, t / fleeDuration);
+            yield return null;
+        }
+
+        isFleeing = false;
+    }
+
+    void Catch()
+    {
+        isCaught = true;
+        StopAllCoroutines();
+
+        if (CashManager.Instance != null)
+            CashManager.Instance.AddCash(rewardCash);
+
+        StartCoroutine(CatchEffect());
+    }
+
+    IEnumerator CatchEffect()
+    {
+        Vector3 startScale = transform.localScale;
+        float t = 0f;
+        float duration = 0.3f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(startScale, Vector3.zero, t / duration);
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
     void Flip()
     {
         Vector3 scale = transform.localScale;
 
         if (spriteFacesRight)
-        {
-            scale.x =
-                Mathf.Abs(scale.x) * direction;
-        }
+            scale.x = Mathf.Abs(scale.x) * direction;
         else
-        {
-            scale.x =
-                -Mathf.Abs(scale.x) * direction;
-        }
+            scale.x = -Mathf.Abs(scale.x) * direction;
 
         transform.localScale = scale;
     }

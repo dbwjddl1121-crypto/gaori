@@ -1,40 +1,79 @@
 using UnityEngine;
-using TMPro; // TextMeshPro ¾µ °æ¿ì. Legacy Text¸é using UnityEngine.UI;
+using System;
 
 public class CashManager : MonoBehaviour
 {
     public static CashManager Instance;
 
-    public int cash = 0;
-    public TextMeshProUGUI coinText; // Legacy Text¸é public Text coinText;
+    public int startCash = 100;   // ìƒˆ ê²Œìž„ ì‹œìž‘ ê¸ˆì•¡
+    public int cash;                  // í˜„ìž¬ ê¸ˆì•¡
+
+    public event Action<int> OnCashChanged;
+
+    const string SaveKey = "PlayerCash";
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); 
-            // GameManager¿Í Canvas¸¦ °°Àº ºÎ¸ð·Î ¹­°Å³ª,
-            // Canvasµµ µû·Î DontDestroyOnLoad ÇØÁà¾ß ÇÔ (¾Æ·¡ Âü°í)
-        }
-        else
+        // ì´ë¯¸ ë‹¤ë¥¸ CashManagerê°€ ìžˆìœ¼ë©´ ë‚˜ëŠ” ì‚­ì œ (ì¤‘ë³µ ë°©ì§€)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        UpdateUI();
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        Load();
+    }
+
+    void Start()
+    {
+        OnCashChanged?.Invoke(cash);
+    }
+
+    void Load()
+    {
+        // ì €ìž¥ëœ ê°’ì´ ìžˆìœ¼ë©´ ë¶ˆëŸ¬ì˜¤ê³ , ì—†ìœ¼ë©´ ì‹œìž‘ ê¸ˆì•¡ ì‚¬ìš©
+        if (PlayerPrefs.HasKey(SaveKey))
+            cash = PlayerPrefs.GetInt(SaveKey);
+        else
+            cash = startCash;
+    }
+
+    void Save()
+    {
+        PlayerPrefs.SetInt(SaveKey, cash);
+        PlayerPrefs.Save();
+    }
+
+    public bool CanAfford(int amount)
+    {
+        return cash >= amount;
+    }
+
+    public bool SpendCash(int amount)
+    {
+        if (cash < amount) return false;
+
+        cash -= amount;
+        Save();
+        OnCashChanged?.Invoke(cash);
+        return true;
     }
 
     public void AddCash(int amount)
     {
         cash += amount;
-        UpdateUI();
+        Save();
+        OnCashChanged?.Invoke(cash);
     }
 
-    void UpdateUI()
+    // í…ŒìŠ¤íŠ¸ìš©: ìƒˆ ê²Œìž„ì²˜ëŸ¼ ì´ˆê¸°í™”
+    [ContextMenu("Reset Save")]
+    public void ResetSave()
     {
-        if (coinText != null)
-            coinText.text = cash.ToString();
+        PlayerPrefs.DeleteKey(SaveKey);
+        cash = startCash;
+        OnCashChanged?.Invoke(cash);
     }
 }
