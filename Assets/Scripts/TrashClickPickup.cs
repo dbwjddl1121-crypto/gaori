@@ -9,9 +9,20 @@ public class TrashClickPickup : MonoBehaviour
     public string trashName = "쓰레기";
 
     private Transform player;
+    private string myID;
 
     void Start()
     {
+        // 시작 위치 기준으로 ID 만들기
+        myID = MakeID();
+
+        // 이미 수거한 쓰레기라면 바로 삭제
+        if (CollectedRecord.Has(myID))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
@@ -22,6 +33,12 @@ public class TrashClickPickup : MonoBehaviour
         {
             Debug.LogWarning("TrashClickPickup: Player 태그를 찾을 수 없습니다.");
         }
+    }
+
+    string MakeID()
+    {
+        Vector3 p = transform.position;
+        return gameObject.scene.name + "_" + gameObject.name + "_" + Mathf.RoundToInt(p.x * 10) + "_" + Mathf.RoundToInt(p.y * 10);
     }
 
     private void OnMouseDown()
@@ -43,7 +60,6 @@ public class TrashClickPickup : MonoBehaviour
             return;
         }
 
-        // --- 1. 인벤토리에 아이템 추가하는 로직 추가 ---
         InventoryManager inventory = FindAnyObjectByType<InventoryManager>();
 
         if (inventory != null)
@@ -51,18 +67,17 @@ public class TrashClickPickup : MonoBehaviour
             Item newItem = new Item();
             newItem.itemName = trashName;
 
-            // 스프라이트 렌더러의 이미지를 아이콘으로 사용
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             newItem.itemIcon = sr != null ? sr.sprite : null;
             newItem.itemCount = 1;
 
-            // 인벤토리에 넣기 시도
             bool isSuccess = inventory.AddItem(newItem);
 
-            // 2. 인벤토리 추가에 성공했을 때만 쓰레기 삭제
             if (isSuccess)
             {
                 Debug.Log("쓰레기 수거 및 인벤토리 추가 성공!");
+                RunStats.trashCount++;
+                CollectedRecord.Add(myID);   // 수거 기록 저장
                 Destroy(gameObject);
             }
             else

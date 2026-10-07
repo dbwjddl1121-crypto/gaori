@@ -43,9 +43,21 @@ public class PixelFishSmooth : MonoBehaviour
     private Transform player;
     private Camera cam;
     private Collider2D col;
+    private string myID;
 
     void Start()
     {
+        // 움직이기 전, 시작 위치 기준으로 ID 만들기
+        Vector3 p = transform.position;
+        myID = gameObject.scene.name + "_" + gameObject.name + "_" + Mathf.RoundToInt(p.x * 10) + "_" + Mathf.RoundToInt(p.y * 10);
+
+        // 이미 잡은 물고기라면 바로 삭제
+        if (CollectedRecord.Has(myID))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         cam = Camera.main;
         col = GetComponent<Collider2D>();
 
@@ -205,6 +217,7 @@ public class PixelFishSmooth : MonoBehaviour
 
         RunStats.fishCaught++;              // 추가
         RunStats.cashEarned += rewardCash;  // 추가
+        CollectedRecord.Add(myID);   // 추가
 
         if (CashManager.Instance != null)
             CashManager.Instance.AddCash(rewardCash);
