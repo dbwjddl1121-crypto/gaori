@@ -7,6 +7,9 @@ public class WorkshopController : MonoBehaviour
     public GameObject workshopInteriorPanel;
     public GameObject blackScreenPanel;
 
+    [Header("배경과 같이 페이드시킬 스프라이트 (플레이어, 쓰레기통)")]
+    public SpriteFadeGroup spriteFadeGroup;
+
     private CanvasGroup interiorCanvasGroup;
     private CanvasGroup blackCanvasGroup;
 
@@ -30,6 +33,13 @@ public class WorkshopController : MonoBehaviour
             if (blackCanvasGroup == null)
                 blackCanvasGroup = blackScreenPanel.AddComponent<CanvasGroup>();
         }
+    }
+
+    // 배경 alpha와 스프라이트 alpha를 항상 같이 설정
+    private void SetInteriorAlpha(float a)
+    {
+        if (interiorCanvasGroup != null) interiorCanvasGroup.alpha = a;
+        if (spriteFadeGroup != null) spriteFadeGroup.SetAlpha(a);
     }
 
     public void EnterWorkshop()
@@ -56,7 +66,7 @@ public class WorkshopController : MonoBehaviour
         if (workshopInteriorPanel != null)
         {
             workshopInteriorPanel.SetActive(false);
-            interiorCanvasGroup.alpha = 0f;
+            SetInteriorAlpha(0f);
         }
 
         // 1단계: 검은 화면이 서서히 어두워짐
@@ -69,17 +79,17 @@ public class WorkshopController : MonoBehaviour
         }
         blackCanvasGroup.alpha = maxBlackAlpha;
 
-        // 2단계: 작업장 등장
+        // 2단계: 작업장 등장 (알파 0 상태에서 켜기)
         if (workshopInteriorPanel != null) workshopInteriorPanel.SetActive(true);
 
         timer = 0f;
         while (timer < interiorFadeDuration)
         {
             timer += Time.unscaledDeltaTime;
-            interiorCanvasGroup.alpha = Mathf.Clamp01(timer / interiorFadeDuration);
+            SetInteriorAlpha(Mathf.Clamp01(timer / interiorFadeDuration));
             yield return null;
         }
-        interiorCanvasGroup.alpha = 1f;
+        SetInteriorAlpha(1f);
     }
 
     IEnumerator FadeOutWorkshopSequence()
@@ -87,15 +97,15 @@ public class WorkshopController : MonoBehaviour
         float timer = 0f;
         float startInteriorAlpha = interiorCanvasGroup != null ? interiorCanvasGroup.alpha : 1f;
 
-        // 1단계: 작업장이 사라짐
+        // 1단계: 작업장이 사라짐 (스프라이트도 같이)
         while (timer < interiorFadeDuration)
         {
             timer += Time.unscaledDeltaTime;
-            interiorCanvasGroup.alpha = Mathf.Lerp(startInteriorAlpha, 0f, timer / interiorFadeDuration);
+            SetInteriorAlpha(Mathf.Lerp(startInteriorAlpha, 0f, timer / interiorFadeDuration));
             yield return null;
         }
 
-        interiorCanvasGroup.alpha = 0f;
+        SetInteriorAlpha(0f);
         if (workshopInteriorPanel != null) workshopInteriorPanel.SetActive(false);
 
         // 2단계: 검은 화면이 걷힘

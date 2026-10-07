@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneFader : MonoBehaviour
 {
+    [Header("같이 페이드시킬 스프라이트 (플레이어, 쓰레기통)")]
+    public SpriteFadeGroup spriteFadeGroup;
+
     [Header("검은 화면")]
     public Image fadeImage; // 검은 패널의 Image 연결
     public float fadeDuration = 1.0f; // 검은 화면 페이드 시간
@@ -53,6 +56,11 @@ public class SceneFader : MonoBehaviour
     IEnumerator FadeOut(string sceneName)
     {
         fadeImage.gameObject.SetActive(true);
+
+        // 검은 화면이 덮이는 것과 동시에 스프라이트도 같이 페이드아웃
+        if (spriteFadeGroup != null)
+            StartCoroutine(spriteFadeGroup.FadeOut(fadeDuration));
+
         float timer = 0f;
         Color color = fadeImage.color;
 
