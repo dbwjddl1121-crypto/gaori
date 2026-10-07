@@ -7,8 +7,8 @@ public class Inventory : MonoBehaviour
     [Header("인벤토리 UI 패널")]
     public GameObject inventoryPanel; // InventoryPanel 연결
 
-    [Header("하단 닫기 버튼 (BottomBar 내부 버튼)")]
-    public Button closeButton; // BottomBar에 있는 닫기 버튼 연결 (선택사항)
+    [Header("닫기 버튼 (X 버튼 / EscButton)")]
+    public Button closeButton; // 인벤토리의 X(닫기) 버튼 연결 (선택사항)
 
     private bool isOpen = false;
 
@@ -29,21 +29,11 @@ public class Inventory : MonoBehaviour
 
     void Update()
     {
-        // 1. 인벤토리가 닫혀있을 때만: I 키 또는 마우스 우클릭으로 열기
-        if (!isOpen)
+        // E 키: 열려있으면 닫고, 닫혀있으면 연다 (토글)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.I) || Input.GetMouseButtonDown(1))
-            {
-                OpenInventory();
-            }
-        }
-        // 2. 인벤토리가 열려있을 때만: ESC 키로 닫기
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                CloseInventory();
-            }
+            if (isOpen) CloseInventory();
+            else OpenInventory();
         }
     }
 
@@ -57,7 +47,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // 인벤토리를 닫는 함수 (ESC 또는 하단 바 전용)
+    // 인벤토리를 닫는 함수 (E 키 또는 X 버튼)
     public void CloseInventory()
     {
         isOpen = false;

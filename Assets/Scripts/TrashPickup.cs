@@ -6,6 +6,7 @@ public class TrashPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            RunStats.trashCount++;
             Destroy(gameObject);
         }
     }

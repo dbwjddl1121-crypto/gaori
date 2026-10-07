@@ -42,10 +42,12 @@ public class PixelFishSmooth : MonoBehaviour
     private Color originalColor;
     private Transform player;
     private Camera cam;
+    private Collider2D col;
 
     void Start()
     {
         cam = Camera.main;
+        col = GetComponent<Collider2D>();
 
         PlayerMovement pm = FindFirstObjectByType<PlayerMovement>();
         if (pm != null)
@@ -75,6 +77,12 @@ public class PixelFishSmooth : MonoBehaviour
     {
         if (isCaught) return;
 
+        // 우클릭 감지 (1 = 우클릭)
+        if (Input.GetMouseButtonDown(1))
+        {
+            CheckRightClick();
+        }
+
         float currentSpeed = isFleeing ? speed * fleeSpeedMultiplier : speed;
 
         transform.Translate(Vector3.right * direction * currentSpeed * Time.deltaTime);
@@ -99,6 +107,19 @@ public class PixelFishSmooth : MonoBehaviour
         }
     }
 
+    // 우클릭한 위치에 이 물고기가 있는지 확인
+    void CheckRightClick()
+    {
+        if (cam == null || col == null) return;
+
+        Vector2 mouseWorld = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        if (col.OverlapPoint(mouseWorld))
+        {
+            TryHit();
+        }
+    }
+
     Vector2 GetPlayerScreenPos()
     {
         Canvas canvas = player.GetComponentInParent<Canvas>();
@@ -117,7 +138,8 @@ public class PixelFishSmooth : MonoBehaviour
         return Vector2.Distance(fishScreen, GetPlayerScreenPos());
     }
 
-    void OnMouseDown()
+    // 기존 OnMouseDown 내용을 옮겨온 함수
+    void TryHit()
     {
         if (isCaught) return;
 
@@ -180,6 +202,9 @@ public class PixelFishSmooth : MonoBehaviour
     {
         isCaught = true;
         StopAllCoroutines();
+
+        RunStats.fishCaught++;              // 추가
+        RunStats.cashEarned += rewardCash;  // 추가
 
         if (CashManager.Instance != null)
             CashManager.Instance.AddCash(rewardCash);
