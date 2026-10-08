@@ -32,6 +32,17 @@ public class InventoryManager : MonoBehaviour
         InventoryStore.lockSave = false;
     }
 
+    // 빈 슬롯이 있는지 확인
+    public bool HasEmptySlot()
+    {
+        foreach (Slot slot in slots)
+        {
+            if (slot.CurrentItem == null) return true;
+        }
+        return false;
+    }
+
+
     // 외부에서 아이템을 획득했을 때 호출하는 함수
     public bool AddItem(Item newItem)
     {

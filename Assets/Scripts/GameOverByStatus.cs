@@ -19,6 +19,9 @@ public class GameOverByStatus : MonoBehaviour
     public Button respawnButton;
     public Button homeButton;
 
+    [Header("사망 후 재시작 체력")]
+    public float respawnHealth = 3f;   // 체력 '한 칸' 분량 (Health Damage Per Tick 값과 똑같이)
+
     [Header("씬 이름 (Build Profiles에 등록된 이름과 똑같이)")]
     public string respawnSceneName = "GameScene_Team";
     public string homeSceneName = "MainMenu";
@@ -132,6 +135,7 @@ public class GameOverByStatus : MonoBehaviour
     void Respawn()
     {
         Time.timeScale = 1f;
+        PlayerVitals.savedHealth = respawnHealth;   // 추가
         CollectedRecord.RestoreCheckpoint();
         InventoryStore.RestoreCheckpoint();   // 추가됨
         RunStats.RestoreCheckpoint();
@@ -143,6 +147,7 @@ public class GameOverByStatus : MonoBehaviour
     void GoHome()
     {
         Time.timeScale = 1f;
+        PlayerVitals.savedHealth = respawnHealth;   // 추가
         CollectedRecord.RestoreCheckpoint();
         InventoryStore.RestoreCheckpoint();
         RunStats.RestoreCheckpoint();

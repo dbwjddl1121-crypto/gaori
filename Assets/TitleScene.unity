@@ -785,6 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad4924ea73449d4fbbb91f82fc53f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneFader
+  spriteFadeGroup: {fileID: 0}
   fadeImage: {fileID: 1149922547}
   fadeDuration: 1
   transitionImage: {fileID: 0}
@@ -1575,9 +1576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d99b77a5a5634c4e97e2fa7764488a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WavyImage
-  waveSpeed: 0.7
-  waveAmountX: 5
-  waveAmountY: 3
+  waveSpeed: 0.5
+  waveAmountX: 3
+  waveAmountY: 1
 --- !u!1 &1611737652
 GameObject:
   m_ObjectHideFlags: 0

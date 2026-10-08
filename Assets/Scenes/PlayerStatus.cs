@@ -3,89 +3,93 @@ using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
 {
-    // 산소바
     public Slider oxygenBar;
-
-    // 체력바
     public Slider healthBar;
 
-    // 산소 최대값
     public float maxOxygen = 30f;
-
-    // 현재 산소
     private float currentOxygen;
 
-    // 체력 최대값
     public float maxHealth = 50f;
-
-    // 현재 체력
     private float currentHealth;
 
-    // 체력 감소 타이머
+    [Header("체력 감소 설정 (산소가 0일 때만 적용)")]
+    public float healthTickInterval = 3f;
+    public float healthDamagePerTick = 3f;
+
     private float healthTimer = 0f;
+
+    void OnEnable()
+    {
+        PlayerVitals.OnHealthChanged += SyncHealth;
+    }
+
+    void OnDisable()
+    {
+        PlayerVitals.OnHealthChanged -= SyncHealth;
+    }
+
+    // 포션으로 체력이 회복되면 호출됨
+    void SyncHealth()
+    {
+        currentHealth = PlayerVitals.savedHealth;
+        if (healthBar != null)
+            healthBar.value = currentHealth;
+    }
 
     void Start()
     {
-        // 시작 값 설정
         currentOxygen = maxOxygen;
-        currentHealth = maxHealth;
 
-        // 산소바 설정 (안전장치 추가)
+        // 작업장에서도 최대 체력을 알 수 있게 기록
+        PlayerVitals.maxHealth = maxHealth;
+
+        if (PlayerVitals.savedHealth > 0f)
+            currentHealth = Mathf.Min(PlayerVitals.savedHealth, maxHealth);
+        else
+            currentHealth = maxHealth;
+
         if (oxygenBar != null)
         {
             oxygenBar.maxValue = maxOxygen;
             oxygenBar.value = currentOxygen;
         }
 
-        // 체력바 설정 (안전장치 추가)
         if (healthBar != null)
         {
             healthBar.maxValue = maxHealth;
             healthBar.value = currentHealth;
         }
+
+        PlayerVitals.savedHealth = currentHealth;
     }
 
     void Update()
     {
-        // 산소가 남아있으면 감소
         if (currentOxygen > 0)
         {
             currentOxygen -= Time.deltaTime;
+            if (currentOxygen < 0) currentOxygen = 0;
 
-            // 0 이하 방지
-            if (currentOxygen < 0)
-            {
-                currentOxygen = 0;
-            }
-
-            // 산소바 업데이트
             if (oxygenBar != null)
-            {
                 oxygenBar.value = currentOxygen;
-            }
         }
         else
         {
-            // 산소가 없으면 체력 감소 타이머 시작
             healthTimer += Time.deltaTime;
 
-            // 5초마다 체력 감소
-            if (healthTimer >= 5f)
+            if (healthTimer >= healthTickInterval)
             {
-                currentHealth -= 5f;
+                currentHealth -= healthDamagePerTick;
+                if (currentHealth < 0) currentHealth = 0;
 
-                // 체력바 업데이트
                 if (healthBar != null)
-                {
                     healthBar.value = currentHealth;
-                }
 
-                // 타이머 초기화
+                PlayerVitals.savedHealth = currentHealth;
                 healthTimer = 0f;
             }
         }
 
-        // 체력 0이면 게임오버
         if (currentHealth <= 0)
         {
             currentHealth = 0;

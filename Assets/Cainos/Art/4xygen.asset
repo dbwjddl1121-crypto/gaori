@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bf07490454265643b161b9f86331f93, type: 3}
-  m_Name: 2xygen
+  m_Name: 4xygen
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemData
-  itemName: "\uC791\uC0B4"
-  price: 200
-  icon: {fileID: -3286754477329502695, guid: aa1cba66560cd3f4a8c48eee395db191, type: 3}
+  itemName: "\uC190\uC804\uB4F1"
+  price: 700
+  icon: {fileID: -2621890254544512445, guid: 27ebdd9797979204bbf63656a2a2c1f1, type: 3}
