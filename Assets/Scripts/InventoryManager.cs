@@ -32,6 +32,20 @@ public class InventoryManager : MonoBehaviour
         InventoryStore.lockSave = false;
     }
 
+    // i번째 슬롯의 아이템을 돌려줌 (퀵슬롯 표시용)
+    public Item GetItemAt(int index)
+    {
+        if (index < 0 || index >= slots.Count) return null;
+        return slots[index].CurrentItem;
+    }
+
+    // i번째 슬롯의 아이템을 사용 (퀵슬롯 숫자키용)
+    public void UseItemAt(int index)
+    {
+        if (index < 0 || index >= slots.Count) return;
+        slots[index].UseItem();
+    }
+
     // 빈 슬롯이 있는지 확인
     public bool HasEmptySlot()
     {

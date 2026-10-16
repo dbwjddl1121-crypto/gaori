@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
@@ -12,6 +13,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [Header("체력 포션 설정")]
     public string potionName = "체력 포션";  // 상점 아이템 이름과 똑같이
     public float healAmount = 15f;           // 한 번에 회복되는 체력
+
+    // 퀵슬롯 표시용 복사본 슬롯이면 true (QuickSlotBar가 자동으로 설정)
+    [HideInInspector] public bool isMirror = false;
+
+    // 어떤 슬롯이든 내용이 바뀌면 호출됨 (퀵슬롯 갱신용)
+    public static event Action OnAnySlotChanged;
 
     private Item currentItem;
     public Item CurrentItem => currentItem;
@@ -38,6 +45,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             countText.text = item.itemCount > 1 ? item.itemCount.ToString() : "";
         }
+
+        OnAnySlotChanged?.Invoke();
     }
 
     public void ClearSlot()
@@ -58,15 +67,24 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             countText.text = "";
         }
+
+        OnAnySlotChanged?.Invoke();
     }
 
-    // 슬롯 우클릭 → 체력 포션 사용
+    // 슬롯 우클릭 → 체력 포션 사용 (퀵슬롯 복사본은 무시)
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Right) return;
+        if (isMirror) return;
+        UseItem();
+    }
+
+    // 아이템 사용 (우클릭, 숫자키 둘 다 이 함수를 씀)
+    public void UseItem()
+    {
         if (currentItem == null) return;
 
-        Debug.Log("클릭한 아이템 이름: " + currentItem.itemName);
+        Debug.Log("사용한 아이템 이름: " + currentItem.itemName);
         if (currentItem.itemName != potionName) return;
 
         // 체력이 가득 차 있으면 사용하지 않음

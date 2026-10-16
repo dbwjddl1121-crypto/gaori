@@ -10,6 +10,9 @@ public class Inventory : MonoBehaviour
     [Header("닫기 버튼 (X 버튼 / EscButton)")]
     public Button closeButton; // 인벤토리의 X(닫기) 버튼 연결 (선택사항)
 
+    [Header("퀵슬롯")]
+    public QuickSlotBar quickSlotBar; // 인벤토리가 열리면 숨길 퀵슬롯 (선택사항)
+
     private bool isOpen = false;
 
     void Start()
@@ -45,6 +48,12 @@ public class Inventory : MonoBehaviour
         {
             inventoryPanel.SetActive(true);
         }
+
+        // 인벤토리가 열리면 퀵슬롯 숨김
+        if (quickSlotBar != null)
+        {
+            quickSlotBar.SetBarVisible(false);
+        }
     }
 
     // 인벤토리를 닫는 함수 (E 키 또는 X 버튼)
@@ -54,6 +63,12 @@ public class Inventory : MonoBehaviour
         if (inventoryPanel != null)
         {
             inventoryPanel.SetActive(false);
+        }
+
+        // 인벤토리가 닫히면 퀵슬롯 다시 표시
+        if (quickSlotBar != null)
+        {
+            quickSlotBar.SetBarVisible(true);
         }
     }
 }
