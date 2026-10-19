@@ -6045,8 +6045,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1231205131}
         m_TargetAssemblyTypeName: SceneFader, Assembly-CSharp
-        m_MethodName: FadeToScene
-        m_Mode: 5
+        m_MethodName: ShowStageSelect
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7606,6 +7606,7 @@ MonoBehaviour:
   amount: 1.5
   imageFadeOutDuration: 1
   blackHoldDuration: 0.2
+  stageSelectPanel: {fileID: 1770610316}
 --- !u!114 &1231205132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9425,6 +9426,7 @@ GameObject:
   - component: {fileID: 1770610317}
   - component: {fileID: 1770610319}
   - component: {fileID: 1770610318}
+  - component: {fileID: 1770610320}
   m_Layer: 5
   m_Name: stageSelectPanel
   m_TagString: Untagged
@@ -9494,6 +9496,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770610316}
   m_CullTransparentMesh: 1
+--- !u!114 &1770610320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770610316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82482fb146022b4c9d55961fbed71d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::stageSelectUI
+  stages:
+  - {fileID: 11400000, guid: 14463d93eb2771f479c5013fac06fda2, type: 2}
+  - {fileID: 11400000, guid: e04fecd44e0d1ea46814655ee91dedc3, type: 2}
+  - {fileID: 11400000, guid: b0e48b64664a8b94da6ffebe767e813c, type: 2}
+  stageNameText: {fileID: 981165440}
+  stageTitleText: {fileID: 1986922344}
+  stagePreview: {fileID: 1353845871}
+  prevButton: {fileID: 1503280384}
+  nextButton: {fileID: 708697441}
+  enterButton: {fileID: 935619734}
 --- !u!1001 &1818038194
 PrefabInstance:
   m_ObjectHideFlags: 0
