@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -10,43 +11,52 @@ public class GameOverByStatus : MonoBehaviour
     public Slider healthBar;
 
     [Header("사망 화면")]
-    public GameObject deathPanel;        // DeathPanel
-    public CanvasGroup deathPanelGroup;  // DeathPanel의 Canvas Group
-    public TMP_Text statsText;           // StatsText
-    public Image flashImage;             // DeathFlash의 Image
+    public GameObject deathPanel;
+    public CanvasGroup deathPanelGroup;
+    public TMP_Text statsText;
+    public Image flashImage;
 
     [Header("버튼")]
     public Button respawnButton;
     public Button homeButton;
 
     [Header("사망 후 재시작 체력")]
-    public float respawnHealth = 3f;   // 체력 '한 칸' 분량 (Health Damage Per Tick 값과 똑같이)
+    public float respawnHealth = 3f;
 
-    [Header("씬 이름 (Build Profiles에 등록된 이름과 똑같이)")]
-    public string respawnSceneName = "GameScene_Team";
-    public string homeSceneName = "MainMenu";
+    [Header("씬 이름")]
+    public string homeSceneName = "TitleScene";
 
     [Header("사망 연출")]
-    public float slowMotionScale = 0.3f;  // 슬로모션 속도
-    public float flashDuration = 0.5f;    // 붉은 번쩍임 시간
-    public float shakePower = 0.3f;       // 카메라 흔들림 세기
-    public float shakeDuration = 0.6f;    // 카메라 흔들림 시간
-    public float panelFadeDuration = 1f;  // 사망 창이 나타나는 시간
+    public float slowMotionScale = 0.3f;
+    public float flashDuration = 0.5f;
+    public float shakePower = 0.3f;
+    public float shakeDuration = 0.6f;
+    public float panelFadeDuration = 1f;
 
     private bool isGameOver = false;
     private bool hasBeenFilled = false;
+
+    // 현재 플레이 중인 스테이지 이름 저장
+    private string currentSceneName;
 
     void Start()
     {
         Time.timeScale = 1f;
 
+        // 현재 플레이 중인 씬 이름 기억
+        currentSceneName = SceneManager.GetActiveScene().name;
+
         // 바다에 들어온 순간의 상태를 저장점으로 기록
         CollectedRecord.SaveCheckpoint();
         InventoryStore.SaveCheckpoint();
-        RunStats.StartNewRun();   // 입장할 때마다 이번 기록을 0으로
-        if (CashManager.Instance != null) CashManager.Instance.SaveCheckpoint();
+        RunStats.StartNewRun();
 
-        if (deathPanel != null) deathPanel.SetActive(false);
+        if (CashManager.Instance != null)
+            CashManager.Instance.SaveCheckpoint();
+
+        if (deathPanel != null)
+            deathPanel.SetActive(false);
+
         if (flashImage != null)
         {
             Color c = flashImage.color;
@@ -54,13 +64,17 @@ public class GameOverByStatus : MonoBehaviour
             flashImage.color = c;
         }
 
-        if (respawnButton != null) respawnButton.onClick.AddListener(Respawn);
-        if (homeButton != null) homeButton.onClick.AddListener(GoHome);
+        if (respawnButton != null)
+            respawnButton.onClick.AddListener(Respawn);
+
+        if (homeButton != null)
+            homeButton.onClick.AddListener(GoHome);
     }
 
     void Update()
     {
-        if (isGameOver || healthBar == null) return;
+        if (isGameOver || healthBar == null)
+            return;
 
         if (healthBar.value > healthBar.minValue)
             hasBeenFilled = true;
@@ -77,8 +91,13 @@ public class GameOverByStatus : MonoBehaviour
         // 1. 슬로모션 시작
         Time.timeScale = slowMotionScale;
 
-        // 2. 붉은 번쩍임 + 카메라 흔들림 (동시에 진행)
+        // 2. 붉은 번쩍임과 카메라 흔들림
         Camera cam = Camera.main;
+        Vector3 originalCameraPosition = Vector3.zero;
+
+        if (cam != null)
+            originalCameraPosition = cam.transform.position;
+
         float t = 0f;
         float total = Mathf.Max(flashDuration, shakeDuration);
 
@@ -86,7 +105,6 @@ public class GameOverByStatus : MonoBehaviour
         {
             t += Time.unscaledDeltaTime;
 
-            // 붉은 번쩍임: 확 켜졌다가 점점 옅어짐
             if (flashImage != null && t < flashDuration)
             {
                 Color c = flashImage.color;
@@ -94,17 +112,22 @@ public class GameOverByStatus : MonoBehaviour
                 flashImage.color = c;
             }
 
-            // 카메라 흔들림: 점점 약해짐
             if (cam != null && t < shakeDuration)
             {
                 float power = shakePower * (1f - t / shakeDuration);
-                cam.transform.position += (Vector3)(Random.insideUnitCircle * power);
+                cam.transform.position =
+                    originalCameraPosition +
+                    (Vector3)(Random.insideUnitCircle * power);
             }
 
             yield return null;
         }
 
-        // 3. 기록 표시 문구 만들기
+        // 카메라 원래 위치로 복원
+        if (cam != null)
+            cam.transform.position = originalCameraPosition;
+
+        // 3. 사망 기록 표시
         if (statsText != null)
         {
             statsText.text =
@@ -113,45 +136,67 @@ public class GameOverByStatus : MonoBehaviour
                 "번 캐시: " + RunStats.cashEarned;
         }
 
-        // 4. 사망 창 서서히 나타나기
-        if (deathPanel != null) deathPanel.SetActive(true);
-        if (deathPanelGroup != null) deathPanelGroup.alpha = 0f;
+        // 4. 사망 창 표시
+        if (deathPanel != null)
+            deathPanel.SetActive(true);
+
+        if (deathPanelGroup != null)
+            deathPanelGroup.alpha = 0f;
 
         t = 0f;
+
         while (t < panelFadeDuration)
         {
             t += Time.unscaledDeltaTime;
+
             if (deathPanelGroup != null)
-                deathPanelGroup.alpha = Mathf.Lerp(0f, 1f, t / panelFadeDuration);
+            {
+                deathPanelGroup.alpha =
+                    Mathf.Lerp(0f, 1f, t / panelFadeDuration);
+            }
+
             yield return null;
         }
-        if (deathPanelGroup != null) deathPanelGroup.alpha = 1f;
 
-        // 5. 게임 완전 정지
+        if (deathPanelGroup != null)
+            deathPanelGroup.alpha = 1f;
+
+        // 5. 게임 정지
         Time.timeScale = 0f;
     }
 
-    // 다시 시작: 마지막으로 들어왔을 때 상태로 복원
+    // 다시 시작: 죽었던 스테이지를 다시 불러오기
     void Respawn()
     {
         Time.timeScale = 1f;
-        PlayerVitals.savedHealth = respawnHealth;   // 추가
-        CollectedRecord.RestoreCheckpoint();
-        InventoryStore.RestoreCheckpoint();   // 추가됨
-        RunStats.RestoreCheckpoint();
-        if (CashManager.Instance != null) CashManager.Instance.RestoreCheckpoint();
-        SceneManager.LoadScene(respawnSceneName);
-    }
 
-    // 타이틀로: 다시하기와 똑같이 마지막 입장 시점 상태로 복원
-    void GoHome()
-    {
-        Time.timeScale = 1f;
-        PlayerVitals.savedHealth = respawnHealth;   // 추가
+        PlayerVitals.savedHealth = respawnHealth;
+
         CollectedRecord.RestoreCheckpoint();
         InventoryStore.RestoreCheckpoint();
         RunStats.RestoreCheckpoint();
-        if (CashManager.Instance != null) CashManager.Instance.RestoreCheckpoint();
+
+        if (CashManager.Instance != null)
+            CashManager.Instance.RestoreCheckpoint();
+
+        // 해안으로 고정하지 않고 현재 씬을 다시 로드
+        SceneManager.LoadScene(currentSceneName);
+    }
+
+    // 홈으로 이동
+    void GoHome()
+    {
+        Time.timeScale = 1f;
+
+        PlayerVitals.savedHealth = respawnHealth;
+
+        CollectedRecord.RestoreCheckpoint();
+        InventoryStore.RestoreCheckpoint();
+        RunStats.RestoreCheckpoint();
+
+        if (CashManager.Instance != null)
+            CashManager.Instance.RestoreCheckpoint();
+
         SceneManager.LoadScene(homeSceneName);
     }
 }

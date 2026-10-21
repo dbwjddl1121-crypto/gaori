@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,6 +8,14 @@ public class stageSelectUI : MonoBehaviour
     [Header("스테이지 데이터 (3개)")]
     public stageData[] stages;
 
+    [Header("스테이지별 씬 이름")]
+    public string[] sceneNames =
+    {
+        "GameScene_Team",
+        "GameScene_Mid",
+        "GameScene_Deep"
+    };
+
     [Header("UI 연결")]
     public TMP_Text stageNameText;
     public TMP_Text stageTitleText;
@@ -15,23 +24,46 @@ public class stageSelectUI : MonoBehaviour
     public Button nextButton;
     public Button enterButton;
 
-    // 선택된 스테이지 번호 (다른 스크립트에서 읽을 수 있어요)
     public static int selectedStageIndex = 0;
 
-    int currentIndex = 0;
+    private int currentIndex = 0;
+    private SceneFader sceneFader;
 
     void Start()
     {
-        prevButton.onClick.AddListener(Prev);
-        nextButton.onClick.AddListener(Next);
-        enterButton.onClick.AddListener(EnterStage);
+        sceneFader = FindFirstObjectByType<SceneFader>();
+
+        if (prevButton != null)
+        {
+            prevButton.onClick.RemoveListener(Prev);
+            prevButton.onClick.AddListener(Prev);
+        }
+
+        if (nextButton != null)
+        {
+            nextButton.onClick.RemoveListener(Next);
+            nextButton.onClick.AddListener(Next);
+        }
+
+        if (enterButton != null)
+        {
+            enterButton.onClick.RemoveListener(EnterStage);
+            enterButton.onClick.AddListener(EnterStage);
+        }
+
         Refresh();
     }
 
     void OnEnable()
     {
         currentIndex = 0;
-        if (stageNameText != null) Refresh();
+
+        if (stages != null &&
+            stages.Length > 0 &&
+            stageNameText != null)
+        {
+            Refresh();
+        }
     }
 
     void Prev()
@@ -42,27 +74,86 @@ public class stageSelectUI : MonoBehaviour
 
     void Next()
     {
-        currentIndex = Mathf.Min(stages.Length - 1, currentIndex + 1);
+        if (stages == null || stages.Length == 0)
+            return;
+
+        currentIndex = Mathf.Min(
+            stages.Length - 1,
+            currentIndex + 1
+        );
+
         Refresh();
     }
 
     void Refresh()
     {
-        stageData data = stages[currentIndex];
-        stageNameText.text = data.stageLabel;
-        stageTitleText.text = data.stageTitle;
+        if (stages == null ||
+            stages.Length == 0 ||
+            currentIndex >= stages.Length)
+        {
+            Debug.LogError("스테이지 데이터가 연결되지 않았습니다.");
+            return;
+        }
 
-        if (data.previewImage != null)
+        stageData data = stages[currentIndex];
+
+        if (data == null)
+            return;
+
+        if (stageNameText != null)
+            stageNameText.text = data.stageLabel;
+
+        if (stageTitleText != null)
+            stageTitleText.text = data.stageTitle;
+
+        if (stagePreview != null && data.previewImage != null)
             stagePreview.sprite = data.previewImage;
 
-        prevButton.interactable = currentIndex > 0;
-        nextButton.interactable = currentIndex < stages.Length - 1;
+        if (prevButton != null)
+            prevButton.interactable = currentIndex > 0;
+
+        if (nextButton != null)
+        {
+            nextButton.interactable =
+                currentIndex < stages.Length - 1;
+        }
     }
 
     void EnterStage()
     {
+        if (stages == null ||
+            currentIndex >= stages.Length ||
+            stages[currentIndex] == null)
+        {
+            Debug.LogError("선택한 스테이지 데이터가 없습니다.");
+            return;
+        }
+
+        if (sceneFader == null)
+        {
+            Debug.LogError("SceneFader를 찾을 수 없습니다.");
+            return;
+        }
+
+        if (sceneNames == null ||
+            currentIndex >= sceneNames.Length ||
+            string.IsNullOrEmpty(sceneNames[currentIndex]))
+        {
+            Debug.LogError("해당 스테이지의 씬 이름을 설정해 주세요.");
+            return;
+        }
+
         selectedStageIndex = stages[currentIndex].stageIndex;
-        Debug.Log("선택한 스테이지: " + selectedStageIndex);
-        // 바다 화면으로 이동하는 코드는 다음 단계에서 추가해요
+
+        string targetScene = sceneNames[currentIndex];
+
+        Debug.Log(
+            "선택한 스테이지: " +
+            stages[currentIndex].stageTitle +
+            " / 이동할 씬: " +
+            targetScene
+        );
+
+        sceneFader.FadeToScene(targetScene);
     }
 }
