@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class Slot : MonoBehaviour, IPointerClickHandler
+public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("UI 컴포넌트")]
     public Image iconImage;
@@ -23,6 +23,18 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     private Item currentItem;
     public Item CurrentItem => currentItem;
 
+    private bool hovering = false;
+
+    void Awake()
+    {
+        // 아이콘이 칸 모양대로 늘어나지 않고 원래 비율을 유지하게 함
+        if (iconImage != null)
+        {
+            iconImage.type = Image.Type.Simple;
+            iconImage.preserveAspect = true;
+        }
+    }
+
     public void SetItem(Item item)
     {
         currentItem = item;
@@ -30,6 +42,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         if (iconImage != null && item != null && item.itemIcon != null)
         {
             iconImage.sprite = item.itemIcon;
+            iconImage.preserveAspect = true;
             iconImage.gameObject.SetActive(true);
 
             Color color = iconImage.color;
@@ -68,7 +81,39 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             countText.text = "";
         }
 
+        // 마우스가 올라가 있던 칸이 비워지면 툴팁도 끔
+        HideTooltip();
+
         OnAnySlotChanged?.Invoke();
+    }
+
+    // 마우스가 칸 위에 올라옴 → 툴팁 표시 (퀵슬롯 복사본은 제외)
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (isMirror) return;
+        hovering = true;
+
+        if (currentItem != null && ItemTooltip.Instance != null)
+            ItemTooltip.Instance.Show(currentItem);
+    }
+
+    // 마우스가 칸에서 벗어남 → 툴팁 숨김
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideTooltip();
+    }
+
+    // 인벤토리가 닫혀서 칸이 꺼질 때도 툴팁이 남지 않게 함
+    void OnDisable()
+    {
+        HideTooltip();
+    }
+
+    void HideTooltip()
+    {
+        if (!hovering) return;
+        hovering = false;
+        if (ItemTooltip.Instance != null) ItemTooltip.Instance.Hide();
     }
 
     // 슬롯 우클릭 → 체력 포션 사용 (퀵슬롯 복사본은 무시)

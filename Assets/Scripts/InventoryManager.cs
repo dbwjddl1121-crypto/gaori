@@ -68,6 +68,10 @@ public class InventoryManager : MonoBehaviour
             {
                 slot.SetItem(newItem);
                 SaveToStore();
+
+                // 도감에 얻은 쓰레기로 기록
+                TrashCollection.Record(newItem.itemName);
+
                 return true; // 추가 성공
             }
         }
