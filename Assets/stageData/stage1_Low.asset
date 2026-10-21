@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::stageData
   stageLabel: " \uC2A4\uD14C\uC774\uC9C0 1"
   stageTitle: "\uC5F0\uC548"
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 21300000, guid: eca5c09b3b0406f4ebfe120d9bfbfdd6, type: 3}
   stageIndex: 0

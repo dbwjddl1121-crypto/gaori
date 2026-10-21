@@ -40,28 +40,37 @@ public class SceneFader : MonoBehaviour
             StartCoroutine(FadeIn());
         }
 
+        if (transitionImage != null)
+        {
+            Color imageColor = transitionImage.color;
+            imageColor.a = 0f;
+            transitionImage.color = imageColor;
+            transitionImage.gameObject.SetActive(false);
+        }
+
         if (stageSelectPanel != null)
         {
             stageSelectPanel.SetActive(false);
         }
     }
 
-    // 기존 버튼의 씬 이동 기능 유지
-    public void FadeToScene(string sceneName)
-    {
-        if (isTransitioning) return;
-
-        isTransitioning = true;
-        StartCoroutine(FadeOut(sceneName));
-    }
-
-    // 배를 클릭했을 때 스테이지 선택창을 표시
+    // 배를 클릭하면 스테이지 선택창 표시
     public void ShowStageSelect()
     {
         if (isTransitioning) return;
 
         isTransitioning = true;
         StartCoroutine(FadeToStageSelect());
+    }
+
+    // 지정한 씬으로 이동
+    // 입장 버튼에서 호출
+    public void FadeToScene(string sceneName)
+    {
+        if (isTransitioning) return;
+
+        isTransitioning = true;
+        StartCoroutine(FadeOut(sceneName));
     }
 
     IEnumerator FadeIn()
@@ -87,6 +96,7 @@ public class SceneFader : MonoBehaviour
         fadeImage.gameObject.SetActive(false);
     }
 
+    // 배 클릭: 검은 페이드 후 스테이지 선택창 표시
     IEnumerator FadeToStageSelect()
     {
         if (fadeImage == null)
@@ -100,10 +110,11 @@ public class SceneFader : MonoBehaviour
 
         if (spriteFadeGroup != null)
         {
-            StartCoroutine(spriteFadeGroup.FadeOut(fadeDuration));
+            yield return StartCoroutine(
+                spriteFadeGroup.FadeOut(fadeDuration)
+            );
         }
 
-        // 1. 검은 화면으로 전환
         float timer = 0f;
         Color color = fadeImage.color;
 
@@ -118,10 +129,7 @@ public class SceneFader : MonoBehaviour
         color.a = 1f;
         fadeImage.color = color;
 
-        // 2. 전환 이미지 연출
-        yield return StartCoroutine(PlayTransitionImage());
-
-        // 3. 스테이지 선택창 표시
+        // 배 클릭에서는 전환 이미지를 실행하지 않음
         if (stageSelectPanel != null)
         {
             stageSelectPanel.SetActive(true);
@@ -129,13 +137,9 @@ public class SceneFader : MonoBehaviour
         }
         else
         {
-            Debug.LogError(
-                "Stage Select Panel이 연결되지 않았습니다. " +
-                "Inspector에서 연결해 주세요."
-            );
+            Debug.LogError("Stage Select Panel이 연결되지 않았습니다.");
         }
 
-        // 4. 검은 화면 제거
         float fadeTimer = 0f;
 
         while (fadeTimer < fadeDuration)
@@ -153,6 +157,7 @@ public class SceneFader : MonoBehaviour
         isTransitioning = false;
     }
 
+    // 입장 버튼: 전환 이미지 후 지정한 씬으로 이동
     IEnumerator FadeOut(string sceneName)
     {
         if (fadeImage == null)
@@ -183,6 +188,7 @@ public class SceneFader : MonoBehaviour
         color.a = 1f;
         fadeImage.color = color;
 
+        // 입장할 때만 전환 이미지 표시
         yield return StartCoroutine(PlayTransitionImage());
 
         SceneManager.LoadScene(sceneName);
@@ -192,6 +198,7 @@ public class SceneFader : MonoBehaviour
     {
         if (transitionImage == null)
         {
+            Debug.LogWarning("Transition Image가 연결되지 않았습니다.");
             yield break;
         }
 
@@ -200,7 +207,6 @@ public class SceneFader : MonoBehaviour
         transitionImage.color = imgColor;
         transitionImage.gameObject.SetActive(true);
 
-        // 1. 전환 이미지 나타내기
         float timer = 0f;
 
         while (timer < imageFadeDuration)
@@ -214,7 +220,6 @@ public class SceneFader : MonoBehaviour
         imgColor.a = 1f;
         transitionImage.color = imgColor;
 
-        // 2. 이미지 흔들림
         RectTransform rect = transitionImage.rectTransform;
         Vector2 basePos = rect.anchoredPosition;
 
@@ -237,7 +242,6 @@ public class SceneFader : MonoBehaviour
 
         rect.anchoredPosition = basePos;
 
-        // 3. 전환 이미지 사라지기
         float fadeTimer = 0f;
 
         while (fadeTimer < imageFadeOutDuration)
@@ -257,7 +261,6 @@ public class SceneFader : MonoBehaviour
         transitionImage.color = imgColor;
         transitionImage.gameObject.SetActive(false);
 
-        // 4. 검은 화면 유지
         yield return new WaitForSeconds(blackHoldDuration);
     }
 }

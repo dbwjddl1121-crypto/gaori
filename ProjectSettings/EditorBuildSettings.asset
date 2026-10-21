@@ -26,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameScene_Team.unity
     guid: 304f4eb10265a7e41b188dfb8109109b
+  - enabled: 1
+    path: Assets/GameScene_Deep.unity
+    guid: c15260d01da9fb744a4b1d359874fb66
+  - enabled: 1
+    path: Assets/GameScene_Mid.unity
+    guid: 6861b284f6a797f478d234cad2f94bbd
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
