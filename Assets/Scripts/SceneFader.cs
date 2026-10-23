@@ -1,4 +1,3 @@
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,6 +72,15 @@ public class SceneFader : MonoBehaviour
         StartCoroutine(FadeOut(sceneName));
     }
 
+    // 종료 버튼에서 호출: 화면이 어두워진 뒤 게임 종료
+    public void FadeToQuit()
+    {
+        if (isTransitioning) return;
+
+        isTransitioning = true;
+        StartCoroutine(FadeQuit());
+    }
+
     IEnumerator FadeIn()
     {
         if (fadeImage == null) yield break;
@@ -94,6 +102,47 @@ public class SceneFader : MonoBehaviour
         color.a = 0f;
         fadeImage.color = color;
         fadeImage.gameObject.SetActive(false);
+    }
+
+    // 종료용 페이드: 검게 변한 뒤 게임 종료
+    IEnumerator FadeQuit()
+    {
+        if (fadeImage == null)
+        {
+            Debug.LogError("SceneFader에 Fade Image가 연결되지 않았습니다.");
+            isTransitioning = false;
+            yield break;
+        }
+
+        fadeImage.gameObject.SetActive(true);
+
+        if (spriteFadeGroup != null)
+        {
+            StartCoroutine(spriteFadeGroup.FadeOut(fadeDuration));
+        }
+
+        float timer = 0f;
+        Color color = fadeImage.color;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            color.a = Mathf.Lerp(0f, 1f, timer / fadeDuration);
+            fadeImage.color = color;
+            yield return null;
+        }
+
+        color.a = 1f;
+        fadeImage.color = color;
+
+        yield return new WaitForSeconds(blackHoldDuration);
+
+        Debug.Log("게임 종료");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     // 배 클릭: 검은 페이드 후 스테이지 선택창 표시
