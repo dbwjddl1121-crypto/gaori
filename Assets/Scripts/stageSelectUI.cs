@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,6 +22,9 @@ public class stageSelectUI : MonoBehaviour
     public Button prevButton;
     public Button nextButton;
     public Button enterButton;
+
+    [Header("바다 미리보기")]
+    public OceanPreview oceanPreview;
 
     public static int selectedStageIndex = 0;
 
@@ -64,6 +66,12 @@ public class stageSelectUI : MonoBehaviour
         {
             Refresh();
         }
+    }
+
+    void OnDisable()
+    {
+        if (oceanPreview != null)
+            oceanPreview.ClosePreview();
     }
 
     void Prev()
@@ -109,6 +117,9 @@ public class stageSelectUI : MonoBehaviour
         if (stagePreview != null && data.previewImage != null)
             stagePreview.sprite = data.previewImage;
 
+        if (oceanPreview != null)
+            oceanPreview.SelectStage(currentIndex);
+
         if (prevButton != null)
             prevButton.interactable = currentIndex > 0;
 
@@ -153,6 +164,9 @@ public class stageSelectUI : MonoBehaviour
             " / 이동할 씬: " +
             targetScene
         );
+
+        if (oceanPreview != null)
+            oceanPreview.ClosePreview();
 
         sceneFader.FadeToScene(targetScene);
     }
