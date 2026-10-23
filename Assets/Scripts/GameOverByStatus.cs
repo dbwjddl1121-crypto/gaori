@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -26,6 +25,9 @@ public class GameOverByStatus : MonoBehaviour
     [Header("씬 이름")]
     public string homeSceneName = "TitleScene";
 
+    [Header("이 바다의 전체 쓰레기 수 (정화율 계산용)")]
+    public int totalTrashInScene = 10;
+
     [Header("사망 연출")]
     public float slowMotionScale = 0.3f;
     public float flashDuration = 0.5f;
@@ -50,6 +52,7 @@ public class GameOverByStatus : MonoBehaviour
         CollectedRecord.SaveCheckpoint();
         InventoryStore.SaveCheckpoint();
         RunStats.StartNewRun();
+        RunStats.SetTotalTrash(totalTrashInScene);
 
         if (CashManager.Instance != null)
             CashManager.Instance.SaveCheckpoint();

@@ -8,6 +8,7 @@ public class QuickSlotBar : MonoBehaviour
     public InventoryManager inventory;      // 인벤토리 매니저
     public Transform quickSlotContainer;    // 퀵슬롯 8개가 들어있는 QuickSlotBar
     public RectTransform selectionFrame;    // 선택 표시 테두리
+    public GameObject quickSlotFrame;       // 퀵슬롯을 감싸는 배경 프레임 (QuickSlotFrame)
 
     [Header("키 설정")]
     public KeyCode useKey = KeyCode.Q;      // 선택한 칸 아이템 사용 키
@@ -112,13 +113,17 @@ public class QuickSlotBar : MonoBehaviour
             selectionFrame.gameObject.SetActive(false);
     }
 
-    // 퀵슬롯 칸들과 선택 테두리를 보이거나 숨김 (Inventory.cs에서 호출)
+    // 퀵슬롯 칸들과 선택 테두리, 배경 프레임을 보이거나 숨김 (Inventory.cs에서 호출)
     public void SetBarVisible(bool visible)
     {
         barHidden = !visible;
 
         foreach (Slot slot in quickSlots)
             slot.gameObject.SetActive(visible);
+
+        // 퀵슬롯을 감싸는 배경 프레임도 같이 숨김/표시
+        if (quickSlotFrame != null)
+            quickSlotFrame.SetActive(visible);
 
         // 인벤토리를 열었다 닫으면 테두리는 숨긴 상태로 시작
         HideSelectionFrame();
