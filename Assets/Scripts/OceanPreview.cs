@@ -13,10 +13,13 @@ public class OceanPreview : MonoBehaviour
     [SerializeField] string playerTag = "Player";
     [SerializeField] Vector2Int textureSize = new Vector2Int(1280, 720);
 
-    [Header("전체 화면 맞춤")]
-    [SerializeField] bool autoFit = true;          // 바다 전체가 보이게 자동 조절
-    [SerializeField] float padding = 1.0f;         // 1.0 = 딱 맞게, 1.1 = 10% 여유
-    [SerializeField] float manualSizeMultiplier = 1f; // 결과가 마음에 안 들 때 확대/축소 (작을수록 확대)
+    [Header("화면 맞춤 (칸을 꽉 채우고 긴 쪽은 잘라냄)")]
+    [SerializeField] bool autoFit = true;
+    [Range(0f, 1f)]
+    [SerializeField] float focusX = 0.5f;   // 0=왼쪽, 0.5=가운데, 1=오른쪽
+    [Range(0f, 1f)]
+    [SerializeField] float focusY = 0.5f;   // 0=아래, 0.5=가운데, 1=위
+    [SerializeField] float zoom = 1f;       // 1=칸 꽉 채움, 1보다 크면 확대, 작으면 축소
 
     [Header("연결")]
     [SerializeField] Camera mainCamera;
@@ -116,7 +119,6 @@ public class OceanPreview : MonoBehaviour
             previewCamera.backgroundColor = oceanCam.backgroundColor;
         }
 
-        // 바다 전체가 보이도록 카메라 맞춤
         if (autoFit)
             FitCameraToScene(oceanScene);
     }
@@ -130,7 +132,7 @@ public class OceanPreview : MonoBehaviour
         {
             foreach (var sr in root.GetComponentsInChildren<SpriteRenderer>(false))
             {
-                if (!sr.enabled) continue;              // 숨긴 플레이어 등 제외
+                if (!sr.enabled) continue;   // 숨긴 플레이어 제외
                 if (sr.sprite == null) continue;
 
                 if (!hasBounds)
@@ -153,12 +155,28 @@ public class OceanPreview : MonoBehaviour
 
         float aspect = (float)textureSize.x / textureSize.y;
 
+        // cover 방식: 두 값 중 작은 쪽을 써서 칸을 꽉 채우고 긴 쪽은 잘라냄
         float sizeByHeight = bounds.size.y / 2f;
         float sizeByWidth = bounds.size.x / (2f * aspect);
-        float size = Mathf.Max(sizeByHeight, sizeByWidth) * padding * manualSizeMultiplier;
+        float size = Mathf.Min(sizeByHeight, sizeByWidth) / Mathf.Max(0.01f, zoom);
+
+        float halfH = size;
+        float halfW = size * aspect;
+
+        // 카메라 중심 위치: 잘리는 쪽에서만 focus 값으로 이동
+        float x = bounds.center.x;
+        float y = bounds.center.y;
+
+        float minX = bounds.min.x + halfW;
+        float maxX = bounds.max.x - halfW;
+        if (maxX > minX) x = Mathf.Lerp(minX, maxX, focusX);
+
+        float minY = bounds.min.y + halfH;
+        float maxY = bounds.max.y - halfH;
+        if (maxY > minY) y = Mathf.Lerp(minY, maxY, focusY);
 
         float z = previewCamera.transform.position.z;
-        previewCamera.transform.position = new Vector3(bounds.center.x, bounds.center.y, z);
+        previewCamera.transform.position = new Vector3(x, y, z);
         previewCamera.orthographicSize = size;
     }
 

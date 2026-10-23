@@ -5124,6 +5124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 796871030}
   - component: {fileID: 796871029}
+  - component: {fileID: 796871031}
   m_Layer: 0
   m_Name: OceanPreviewManager
   m_TagString: Untagged
@@ -5150,6 +5151,10 @@ MonoBehaviour:
   previewLayerName: OceanPreview
   playerTag: Player
   textureSize: {x: 1280, y: 720}
+  autoFit: 1
+  focusX: 0.5
+  focusY: 0.5
+  zoom: 1
   mainCamera: {fileID: 1978613287}
   previewCamera: {fileID: 1742864425}
   previewImage: {fileID: 185769922}
@@ -5168,6 +5173,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &796871031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796871028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10cd244f264c634c949e82ea179d71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageSelectOpener
+  stageSelectPanel: {fileID: 1770610316}
 --- !u!224 &797950382 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2812489528508677938, guid: a8ec09e76ce1f2448a1785d7169955a0, type: 3}
@@ -8265,7 +8283,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1231205129}
-  - component: {fileID: 1231205130}
   - component: {fileID: 1231205131}
   - component: {fileID: 1231205132}
   m_Layer: 0
@@ -8290,24 +8307,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1231205130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231205128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fec9bc922665aa44b7f0710186b97f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
-  oxygenBar: {fileID: 0}
-  healthBar: {fileID: 0}
-  maxOxygen: 30
-  maxHealth: 50
-  healthTickInterval: 3
-  healthDamagePerTick: 3
 --- !u!114 &1231205131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13177,14 +13176,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1309063303993055485, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1309063303993055485, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1309063303993055485, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2751642721307742072, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5992612172058529777, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
@@ -13197,31 +13200,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7418059946710239385, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7418059946710239385, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7418059946710239385, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7639740158261699174, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7639740158261699174, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8428881987367558744, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8428881987367558744, guid: c075db83d8e85c0429545f539fa90a04, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

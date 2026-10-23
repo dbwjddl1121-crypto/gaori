@@ -58,7 +58,10 @@ public class stageSelectUI : MonoBehaviour
 
     void OnEnable()
     {
+        // 정화 후 돌아온 경우 그 스테이지를 선택, 아니면 첫 번째
         currentIndex = 0;
+        if (StageProgress.returnStage >= 0 && stages != null && stages.Length > 0)
+            currentIndex = Mathf.Min(StageProgress.returnStage, stages.Length - 1);
 
         if (stages != null &&
             stages.Length > 0 &&
