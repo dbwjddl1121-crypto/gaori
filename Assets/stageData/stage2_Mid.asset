@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::stageData
   stageLabel: " \uC2A4\uD14C\uC774\uC9C0 2"
   stageTitle: "\uC911\uCE35"
+  stageDescription: "\uC4F0\uB808\uAE30\uB294 \uBB3C\uC0B4\uC744 \uB530\uB77C \uC911\uCE35\uAE4C\uC9C0
+    \uD758\uB7EC\uB4E4\uC5C8\uB2E4. \n\n\uD76C\uBBF8\uD574\uC9C4 \uBE5B \uC0AC\uC774\uB85C
+    \uC4F0\uB808\uAE30\uAC00 \uB5A0\uB2E4\uB2C8\uACE0, \n\n\uBC14\uB2F7\uC18D \uC0DD\uD0DC\uACC4\uC5D0\uB3C4
+    \uBCC0\uD654\uAC00 \uB098\uD0C0\uB098\uAE30 \uC2DC\uC791\uD588\uB2E4."
   previewImage: {fileID: 5746158101184120910, guid: c5bd592cfa9289c4380d52708980d62f, type: 3}
   stageIndex: 1

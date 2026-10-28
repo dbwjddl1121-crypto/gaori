@@ -316,11 +316,16 @@ MonoBehaviour:
   trashTag: Trash
   pollutedRenderer: {fileID: 1871080830}
   cleanRenderer: {fileID: 956849342}
+  cameraZoomDuration: 1.5
   crossfadeDuration: 3.5
   sparkleDuration: 2.5
   holdAfterSparkle: 0.5
+  fitPadding: 1
   sparkle: {fileID: 1358491460}
   sparkleSound: {fileID: 0}
+  sparkleCount: 100
+  sparkleSizeRatio: 0.008
+  sparkleSpreadSpeed: 0.5
   percentText: {fileID: 0}
   percentSlider: {fileID: 0}
   returnSceneName: GameScene
@@ -10232,7 +10237,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: b0bb9463990106a40b92b8d604a44563, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

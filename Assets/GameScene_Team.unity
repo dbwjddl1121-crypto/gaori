@@ -2673,7 +2673,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: b0bb9463990106a40b92b8d604a44563, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11545,8 +11545,9 @@ MonoBehaviour:
   fitPadding: 1
   sparkle: {fileID: 714842763}
   sparkleSound: {fileID: 0}
-  sparkleCount: 150
-  sparkleSizeRatio: 0.03
+  sparkleCount: 100
+  sparkleSizeRatio: 0.008
+  sparkleSpreadSpeed: 0.5
   percentText: {fileID: 2096554108}
   percentSlider: {fileID: 0}
   returnSceneName: GameScene

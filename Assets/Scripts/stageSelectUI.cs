@@ -1,6 +1,11 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 public class stageSelectUI : MonoBehaviour
 {
@@ -18,25 +23,94 @@ public class stageSelectUI : MonoBehaviour
     [Header("UI 연결")]
     public TMP_Text stageNameText;
     public TMP_Text stageTitleText;
+    public TMP_Text stageDescText;
     public Image stagePreview;
+
     public Button prevButton;
     public Button nextButton;
     public Button enterButton;
-
-    [Header("바다 미리보기")]
-    public OceanPreview oceanPreview;
+    public Button closeButton;
 
     [Header("UI 연동")]
     public GameObject bookButton;
 
+    [Header("씬 전환")]
+    public SceneFader sceneFader;
+
+    [Header("바다 미리보기")]
+    public OceanPreview oceanPreview;
+
     public static int selectedStageIndex = 0;
 
     private int currentIndex = 0;
-    private SceneFader sceneFader;
+    private bool initialized = false;
+
+    void Awake()
+    {
+        if (sceneFader == null)
+            sceneFader = FindFirstObjectByType<SceneFader>();
+    }
 
     void Start()
     {
-        sceneFader = FindFirstObjectByType<SceneFader>();
+        Init();
+        Refresh();
+    }
+
+    void OnEnable()
+    {
+        if (bookButton != null)
+            bookButton.SetActive(false);
+
+        // 정화 후 돌아온 경우 해당 스테이지 선택
+        currentIndex = 0;
+
+        if (StageProgress.returnStage >= 0 &&
+            stages != null &&
+            stages.Length > 0)
+        {
+            currentIndex = Mathf.Clamp(
+                StageProgress.returnStage,
+                0,
+                stages.Length - 1
+            );
+        }
+
+        Init();
+        Refresh();
+    }
+
+    void OnDisable()
+    {
+        if (bookButton != null)
+            bookButton.SetActive(true);
+
+        if (oceanPreview != null)
+            oceanPreview.ClosePreview();
+    }
+
+    void Update()
+    {
+        if (BPressed())
+            CloseSelect();
+    }
+
+    bool BPressed()
+    {
+#if ENABLE_INPUT_SYSTEM
+        return Keyboard.current != null &&
+               Keyboard.current.bKey.wasPressedThisFrame;
+#else
+        return Input.GetKeyDown(KeyCode.B);
+#endif
+    }
+
+    void Init()
+    {
+        if (initialized)
+            return;
+
+        initialized = true;
 
         if (prevButton != null)
         {
@@ -56,40 +130,18 @@ public class stageSelectUI : MonoBehaviour
             enterButton.onClick.AddListener(EnterStage);
         }
 
-        Refresh();
-    }
-
-    void OnEnable()
-    {
-        // 북버튼 숨기기
-        if (bookButton != null)
-            bookButton.SetActive(false);
-
-        // 정화 후 돌아온 경우 그 스테이지를 선택, 아니면 첫 번째
-        currentIndex = 0;
-        if (StageProgress.returnStage >= 0 && stages != null && stages.Length > 0)
-            currentIndex = Mathf.Min(StageProgress.returnStage, stages.Length - 1);
-
-        if (stages != null &&
-            stages.Length > 0 &&
-            stageNameText != null)
+        if (closeButton != null)
         {
-            Refresh();
+            closeButton.onClick.RemoveListener(CloseSelect);
+            closeButton.onClick.AddListener(CloseSelect);
         }
-    }
-
-    void OnDisable()
-    {
-        // 북버튼 다시 보이기
-        if (bookButton != null)
-            bookButton.SetActive(true);
-
-        if (oceanPreview != null)
-            oceanPreview.ClosePreview();
     }
 
     void Prev()
     {
+        if (stages == null || stages.Length == 0)
+            return;
+
         currentIndex = Mathf.Max(0, currentIndex - 1);
         Refresh();
     }
@@ -111,16 +163,20 @@ public class stageSelectUI : MonoBehaviour
     {
         if (stages == null ||
             stages.Length == 0 ||
+            currentIndex < 0 ||
             currentIndex >= stages.Length)
         {
-            Debug.LogError("스테이지 데이터가 연결되지 않았습니다.");
+            Debug.LogError("스테이지 데이터를 확인해 주세요.");
             return;
         }
 
         stageData data = stages[currentIndex];
 
         if (data == null)
+        {
+            Debug.LogError("선택한 스테이지 데이터가 비어 있습니다.");
             return;
+        }
 
         if (stageNameText != null)
             stageNameText.text = data.stageLabel;
@@ -128,11 +184,11 @@ public class stageSelectUI : MonoBehaviour
         if (stageTitleText != null)
             stageTitleText.text = data.stageTitle;
 
+        if (stageDescText != null)
+            stageDescText.text = data.stageDescription;
+
         if (stagePreview != null && data.previewImage != null)
             stagePreview.sprite = data.previewImage;
-
-        if (oceanPreview != null)
-            oceanPreview.SelectStage(currentIndex);
 
         if (prevButton != null)
             prevButton.interactable = currentIndex > 0;
@@ -142,11 +198,27 @@ public class stageSelectUI : MonoBehaviour
             nextButton.interactable =
                 currentIndex < stages.Length - 1;
         }
+
+        UpdateOceanPreview();
+    }
+
+    void UpdateOceanPreview()
+    {
+        if (oceanPreview == null)
+            return;
+
+        if (stages == null ||
+            currentIndex < 0 ||
+            currentIndex >= stages.Length)
+            return;
+
+        oceanPreview.SelectStage(currentIndex);
     }
 
     void EnterStage()
     {
         if (stages == null ||
+            currentIndex < 0 ||
             currentIndex >= stages.Length ||
             stages[currentIndex] == null)
         {
@@ -156,7 +228,12 @@ public class stageSelectUI : MonoBehaviour
 
         if (sceneFader == null)
         {
-            Debug.LogError("SceneFader를 찾을 수 없습니다.");
+            sceneFader = FindFirstObjectByType<SceneFader>();
+        }
+
+        if (sceneFader == null)
+        {
+            Debug.LogError("SceneFader가 연결되지 않았습니다.");
             return;
         }
 
@@ -164,7 +241,7 @@ public class stageSelectUI : MonoBehaviour
             currentIndex >= sceneNames.Length ||
             string.IsNullOrEmpty(sceneNames[currentIndex]))
         {
-            Debug.LogError("해당 스테이지의 씬 이름을 설정해 주세요.");
+            Debug.LogError("해당 스테이지의 씬 이름을 확인해 주세요.");
             return;
         }
 
@@ -183,5 +260,22 @@ public class stageSelectUI : MonoBehaviour
             oceanPreview.ClosePreview();
 
         sceneFader.FadeToScene(targetScene);
+    }
+
+    void CloseSelect()
+    {
+        if (sceneFader == null)
+            sceneFader = FindFirstObjectByType<SceneFader>();
+
+        if (sceneFader == null)
+        {
+            Debug.LogError("SceneFader가 연결되지 않았습니다.");
+            return;
+        }
+
+        if (oceanPreview != null)
+            oceanPreview.ClosePreview();
+
+        sceneFader.CloseStageSelect();
     }
 }
