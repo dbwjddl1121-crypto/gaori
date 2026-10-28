@@ -26,6 +26,9 @@ public class stageSelectUI : MonoBehaviour
     [Header("바다 미리보기")]
     public OceanPreview oceanPreview;
 
+    [Header("UI 연동")]
+    public GameObject bookButton;
+
     public static int selectedStageIndex = 0;
 
     private int currentIndex = 0;
@@ -58,6 +61,10 @@ public class stageSelectUI : MonoBehaviour
 
     void OnEnable()
     {
+        // 북버튼 숨기기
+        if (bookButton != null)
+            bookButton.SetActive(false);
+
         // 정화 후 돌아온 경우 그 스테이지를 선택, 아니면 첫 번째
         currentIndex = 0;
         if (StageProgress.returnStage >= 0 && stages != null && stages.Length > 0)
@@ -73,6 +80,10 @@ public class stageSelectUI : MonoBehaviour
 
     void OnDisable()
     {
+        // 북버튼 다시 보이기
+        if (bookButton != null)
+            bookButton.SetActive(true);
+
         if (oceanPreview != null)
             oceanPreview.ClosePreview();
     }

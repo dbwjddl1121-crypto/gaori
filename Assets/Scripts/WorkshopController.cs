@@ -35,7 +35,6 @@ public class WorkshopController : MonoBehaviour
         }
     }
 
-    // 배경 alpha와 스프라이트 alpha를 항상 같이 설정
     private void SetInteriorAlpha(float a)
     {
         if (interiorCanvasGroup != null) interiorCanvasGroup.alpha = a;
@@ -90,14 +89,41 @@ public class WorkshopController : MonoBehaviour
             yield return null;
         }
         SetInteriorAlpha(1f);
+
+        // 3단계: 검은 화면을 다시 걷어줌
+        timer = 0f;
+        while (timer < blackFadeDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+            blackCanvasGroup.alpha = Mathf.Lerp(maxBlackAlpha, 0f, timer / blackFadeDuration);
+            yield return null;
+        }
+        blackCanvasGroup.alpha = 0f;
+        blackCanvasGroup.blocksRaycasts = false;
+        if (blackScreenPanel != null) blackScreenPanel.SetActive(false);
     }
 
     IEnumerator FadeOutWorkshopSequence()
     {
+        if (blackScreenPanel != null)
+        {
+            blackScreenPanel.SetActive(true);
+            blackCanvasGroup.alpha = 0f;
+            blackCanvasGroup.blocksRaycasts = true;
+        }
+
         float timer = 0f;
+        while (timer < blackFadeDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+            blackCanvasGroup.alpha = Mathf.Clamp01(timer / blackFadeDuration) * maxBlackAlpha;
+            yield return null;
+        }
+        blackCanvasGroup.alpha = maxBlackAlpha;
+
         float startInteriorAlpha = interiorCanvasGroup != null ? interiorCanvasGroup.alpha : 1f;
 
-        // 1단계: 작업장이 사라짐 (스프라이트도 같이)
+        timer = 0f;
         while (timer < interiorFadeDuration)
         {
             timer += Time.unscaledDeltaTime;
@@ -108,13 +134,11 @@ public class WorkshopController : MonoBehaviour
         SetInteriorAlpha(0f);
         if (workshopInteriorPanel != null) workshopInteriorPanel.SetActive(false);
 
-        // 2단계: 검은 화면이 걷힘
         timer = 0f;
-        float startBlackAlpha = blackCanvasGroup != null ? blackCanvasGroup.alpha : maxBlackAlpha;
         while (timer < blackFadeDuration)
         {
             timer += Time.unscaledDeltaTime;
-            blackCanvasGroup.alpha = Mathf.Lerp(startBlackAlpha, 0f, timer / blackFadeDuration);
+            blackCanvasGroup.alpha = Mathf.Lerp(maxBlackAlpha, 0f, timer / blackFadeDuration);
             yield return null;
         }
 

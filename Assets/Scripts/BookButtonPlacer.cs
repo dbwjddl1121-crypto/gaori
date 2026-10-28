@@ -18,6 +18,7 @@ public class BookButtonPlacer : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
         normalPos = rect.anchoredPosition;
+        Debug.Log("[BookButtonPlacer] Awake - normalPos 저장됨: " + normalPos);
     }
 
     void Update()
@@ -29,5 +30,6 @@ public class BookButtonPlacer : MonoBehaviour
 
         lastInWorkshop = inWorkshop;
         rect.anchoredPosition = inWorkshop ? workshopPos : normalPos;
+        Debug.Log("[BookButtonPlacer] 위치 변경 -> inWorkshop=" + inWorkshop + ", 적용된 좌표=" + rect.anchoredPosition);
     }
 }

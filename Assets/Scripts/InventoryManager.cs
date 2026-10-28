@@ -1,99 +1,139 @@
+
 using UnityEngine;
 using System.Collections.Generic;
 
 public class InventoryManager : MonoBehaviour
 {
-    public Transform slotContainer; // 슬롯들이 들어있는 SlotContainer 연결
+    public Transform slotContainer;
     private List<Slot> slots = new List<Slot>();
 
     void Start()
     {
-        // 컨테이너 안에 있는 모든 슬롯 컴포넌트를 가져와 리스트에 담습니다.
+        if (slotContainer == null)
+        {
+            Debug.LogError("InventoryManager: Slot Container가 연결되지 않았습니다!");
+            return;
+        }
+
+        slots.Clear();
+
         foreach (Transform child in slotContainer)
         {
             Slot slot = child.GetComponent<Slot>();
+
             if (slot != null)
             {
                 slots.Add(slot);
             }
         }
 
-        // 저장소에 보관된 아이템을 슬롯에 채워 넣기
         List<Item> saved = InventoryStore.Load();
+
         for (int i = 0; i < slots.Count && i < saved.Count; i++)
         {
             if (saved[i] != null)
             {
                 slots[i].SetItem(saved[i]);
             }
+            else
+            {
+                slots[i].ClearSlot();
+            }
         }
 
-        // 복원이 끝났으니 저장 잠금 해제
         InventoryStore.lockSave = false;
     }
 
-    // i번째 슬롯의 아이템을 돌려줌 (퀵슬롯 표시용)
+    // 해당 슬롯의 아이템 반환
     public Item GetItemAt(int index)
     {
-        if (index < 0 || index >= slots.Count) return null;
+        if (index < 0 || index >= slots.Count)
+            return null;
+
         return slots[index].CurrentItem;
     }
 
-    // i번째 슬롯의 아이템을 사용 (퀵슬롯 숫자키용)
+    // 기존 아이템 사용 기능 유지
     public void UseItemAt(int index)
     {
-        if (index < 0 || index >= slots.Count) return;
+        if (index < 0 || index >= slots.Count)
+            return;
+
         slots[index].UseItem();
     }
 
-    // 빈 슬롯이 있는지 확인
+    // 분리수거 전용: 지정한 슬롯의 아이템 1개 제거
+    public void RemoveItemAt(int index)
+    {
+        if (index < 0 || index >= slots.Count)
+        {
+            Debug.LogWarning("분리수거 실패: 슬롯 번호가 올바르지 않습니다.");
+            return;
+        }
+
+        if (slots[index].CurrentItem == null)
+        {
+            Debug.LogWarning("분리수거 실패: 해당 슬롯에 아이템이 없습니다.");
+            return;
+        }
+
+        slots[index].RemoveOneItem();
+
+        SaveToStore();
+
+        Debug.Log("분리수거 후 인벤토리를 저장했습니다.");
+    }
+
+    // 빈 슬롯 확인
     public bool HasEmptySlot()
     {
         foreach (Slot slot in slots)
         {
-            if (slot.CurrentItem == null) return true;
+            if (slot.CurrentItem == null)
+                return true;
         }
+
         return false;
     }
 
-
-    // 외부에서 아이템을 획득했을 때 호출하는 함수
+    // 아이템 획득
     public bool AddItem(Item newItem)
     {
-        // 비어있는 슬롯을 찾아 아이템 배치
         foreach (Slot slot in slots)
         {
-            // 슬롯의 데이터가 비어있다면 빈 슬롯으로 판정
             if (slot.CurrentItem == null)
             {
                 slot.SetItem(newItem);
                 SaveToStore();
 
-                // 도감에 얻은 쓰레기로 기록
                 TrashCollection.Record(newItem.itemName);
 
-                return true; // 추가 성공
+                return true;
             }
         }
 
         Debug.Log("인벤토리가 가득 찼습니다!");
-        return false; // 인벤토리 가득 참
+        return false;
     }
 
-    // 현재 슬롯 상태를 저장소에 기록
+    // 현재 인벤토리 저장
     public void SaveToStore()
     {
         List<Item> items = new List<Item>();
+
         foreach (Slot slot in slots)
         {
             items.Add(slot.CurrentItem);
         }
+
         InventoryStore.Save(items);
     }
 
-    // 씬을 나갈 때도 한 번 더 저장 (아이템을 옮기거나 지운 경우 대비)
     void OnDestroy()
     {
-        if (slots.Count > 0) SaveToStore();
+        if (slots.Count > 0)
+        {
+            SaveToStore();
+        }
     }
 }

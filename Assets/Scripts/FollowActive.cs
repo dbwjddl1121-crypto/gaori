@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class FollowActive : MonoBehaviour
 {
-    public GameObject target;   // WorkshopInteriorPanel
+    public GameObject target; // WorkshopInteriorPanel
 
     private CanvasGroup group;
 
@@ -24,3 +24,4 @@ public class FollowActive : MonoBehaviour
         group.blocksRaycasts = on;
     }
 }
+

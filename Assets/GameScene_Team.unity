@@ -7814,7 +7814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uAE61\uD1B5"
+  trashName: "\uD1B5\uC870\uB9BC \uCE94"
 --- !u!212 &805101700
 SpriteRenderer:
   serializedVersion: 2
@@ -8071,7 +8071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uD53C\uC790 \uBC15\uC2A4"
+  trashName: "\uD53C\uC790\uBC15\uC2A4"
 --- !u!58 &866831964
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8374,7 +8374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uCE94\uCF5C\uB77C"
+  trashName: "\uCF5C\uB77C\uCE94"
 --- !u!212 &928234592
 SpriteRenderer:
   serializedVersion: 2
@@ -9664,8 +9664,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   oxygenBar: {fileID: 1314810642}
   healthBar: {fileID: 551833794}
-  maxOxygen: 10
-  maxHealth: 10
+  maxOxygen: 100
+  maxHealth: 100
   healthTickInterval: 5
   healthDamagePerTick: 3
 --- !u!114 &1231205131
@@ -11538,11 +11538,15 @@ MonoBehaviour:
   trashTag: Trash
   pollutedRenderer: {fileID: 1871080830}
   cleanRenderer: {fileID: 1392594854}
+  cameraZoomDuration: 1.5
   crossfadeDuration: 3.5
   sparkleDuration: 2.5
   holdAfterSparkle: 0.5
+  fitPadding: 1
   sparkle: {fileID: 714842763}
   sparkleSound: {fileID: 0}
+  sparkleCount: 150
+  sparkleSizeRatio: 0.03
   percentText: {fileID: 2096554108}
   percentSlider: {fileID: 0}
   returnSceneName: GameScene
