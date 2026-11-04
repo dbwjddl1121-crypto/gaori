@@ -8934,7 +8934,7 @@ MonoBehaviour:
   closeDuration: 0.2
   startScale: 0.8
   fadePanel: {fileID: 1599078972}
-  fadeInDuration: 0.8
+  fadeInDuration: 0.5
   fadeOutDuration: 0.8
 --- !u!4 &1058901586
 Transform:

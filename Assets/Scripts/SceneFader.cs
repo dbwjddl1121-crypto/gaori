@@ -37,6 +37,7 @@ public class SceneFader : MonoBehaviour
     // 배 클릭용: 검은 화면으로 페이드아웃 → 선택창 켜기
     public void FadeToStageSelect()
     {
+        StopAllCoroutines();   // 시작할 때 FadeIn이 남아 있으면 끊어서 충돌 방지
         StartCoroutine(FadeToStageSelectRoutine());
     }
 
@@ -49,6 +50,7 @@ public class SceneFader : MonoBehaviour
     // 나가기용: 선택창 닫고 검은 화면 걷기
     public void CloseStageSelect()
     {
+        StopAllCoroutines();
         StartCoroutine(CloseStageSelectRoutine());
     }
 
@@ -64,6 +66,8 @@ public class SceneFader : MonoBehaviour
             fadeImage.color = color;
             yield return null;
         }
+        color.a = 0f;
+        fadeImage.color = color;
         fadeImage.gameObject.SetActive(false);
     }
 
@@ -76,6 +80,8 @@ public class SceneFader : MonoBehaviour
 
         float timer = 0f;
         Color color = fadeImage.color;
+        color.a = 0f;
+        fadeImage.color = color;
 
         while (timer < fadeDuration)
         {
@@ -88,7 +94,14 @@ public class SceneFader : MonoBehaviour
         fadeImage.color = color;
 
         if (stageSelectPanel != null)
+        {
             stageSelectPanel.SetActive(true);
+            stageSelectPanel.transform.SetAsLastSibling();   // 검은 화면 위로 확실히
+        }
+        else
+        {
+            Debug.LogWarning("SceneFader: stageSelectPanel이 연결되지 않았어요!");
+        }
     }
 
     IEnumerator CloseStageSelectRoutine()
@@ -96,7 +109,6 @@ public class SceneFader : MonoBehaviour
         if (stageSelectPanel != null)
             stageSelectPanel.SetActive(false);
 
-        // 투명해진 플레이어/쓰레기통 다시 보이게
         if (spriteFadeGroup != null)
             StartCoroutine(spriteFadeGroup.FadeIn(fadeDuration));
 
@@ -173,6 +185,6 @@ public class SceneFader : MonoBehaviour
             yield return new WaitForSeconds(blackHoldDuration);
         }
 
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

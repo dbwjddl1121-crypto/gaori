@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 // 분리수거통 종류
@@ -21,9 +20,6 @@ public class TrashCanController : MonoBehaviour
     [Header("애니메이션 설정")]
     private Animator anim;
 
-    [Header("미니게임 설정")]
-    public GameObject miniGamePanel;
-
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -33,10 +29,6 @@ public class TrashCanController : MonoBehaviour
 
         if (inventory == null)
             inventory = FindFirstObjectByType<InventoryManager>();
-
-        // 게임 시작 시 미니게임 패널 숨기기
-        if (miniGamePanel != null)
-            miniGamePanel.SetActive(false);
     }
 
     private void OnMouseDown()
@@ -46,6 +38,10 @@ public class TrashCanController : MonoBehaviour
 
     public void TryRecycle()
     {
+        // 미니게임 중에는 다른 쓰레기를 버릴 수 없음
+        if (MiniGameManager.Instance != null && MiniGameManager.Instance.IsPlaying)
+            return;
+
         // 퀵슬롯 선택 여부 확인
         if (quickSlotBar == null || !quickSlotBar.IsItemSelected())
         {
@@ -103,19 +99,18 @@ public class TrashCanController : MonoBehaviour
         // 퀵슬롯 UI 갱신
         quickSlotBar.Refresh();
 
-        // 생수병을 올바르게 버렸을 때 미니게임 표시
-        if (recycledItemName == "생수병")
+        // 미니게임이 있는 쓰레기면 미니게임 시작
+        if (MiniGameManager.HasMiniGame(recycledItemName))
         {
-            if (miniGamePanel != null)
+            if (MiniGameManager.Instance != null)
             {
-                miniGamePanel.SetActive(true);
-                Debug.Log("[미니게임] 생수병 라벨 제거 미니게임 시작!");
+                MiniGameManager.Instance.StartMiniGame(recycledItemName);
             }
             else
             {
                 Debug.LogWarning(
-                    "[미니게임 오류] MiniGamePanel이 연결되지 않았습니다. " +
-                    "Inspector에서 연결해 주세요."
+                    "[미니게임 오류] 씬에 MiniGameManager가 없습니다. " +
+                    "빈 오브젝트에 MiniGameManager를 붙여 주세요."
                 );
             }
         }
