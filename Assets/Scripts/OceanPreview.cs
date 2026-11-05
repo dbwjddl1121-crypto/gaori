@@ -28,14 +28,27 @@ public class OceanPreview : MonoBehaviour
 
     RenderTexture rt;
     int layer;
-    int selectedStage = -1;
-    string loadedScene;
-    Coroutine loadRoutine;
     bool initialized = false;
+
+    // 보여 주고 싶은 스테이지 (-1이면 미리보기 끔)
+    int wantedStage = -1;
+    string loadedScene;
+    bool working = false;
+
+    // 미리보기 씬이 바꿔 놓는 체력 값을 되돌리기 위한 백업
+    bool vitalsBackedUp = false;
+    float backupHealth;
+    float backupMaxHealth;
 
     void Start()
     {
         Init();
+    }
+
+    void OnDisable()
+    {
+        // 오브젝트가 꺼지면 코루틴도 멈추므로 작업 중 표시를 풀어 둠
+        working = false;
     }
 
     void Init()
@@ -60,37 +73,118 @@ public class OceanPreview : MonoBehaviour
         initialized = true;
     }
 
+    // ───── 체력 백업/복원 ─────
+    void BackupVitals()
+    {
+        if (vitalsBackedUp) return;
+
+        backupHealth = PlayerVitals.savedHealth;
+        backupMaxHealth = PlayerVitals.maxHealth;
+        vitalsBackedUp = true;
+    }
+
+    void RestoreVitals()
+    {
+        if (!vitalsBackedUp) return;
+
+        PlayerVitals.savedHealth = backupHealth;
+        PlayerVitals.maxHealth = backupMaxHealth;
+    }
+
     // 스테이지가 바뀔 때 호출 (stageSelectUI에서 호출)
     public void SelectStage(int index)
     {
         Init();
         if (!initialized) return;
         if (index < 0 || index >= stageScenes.Length) return;
-        if (index == selectedStage) return;
+        if (index == wantedStage) return;
 
-        selectedStage = index;
-        if (loadRoutine != null) StopCoroutine(loadRoutine);
-        loadRoutine = StartCoroutine(SwitchPreview(stageScenes[index]));
+        BackupVitals();
+        wantedStage = index;
+
+        // 이미 작업 중이면 반복문이 새 목표를 알아서 처리함
+        if (!working)
+            StartCoroutine(PreviewWorker());
     }
 
-    IEnumerator SwitchPreview(string sceneName)
+    // 미리보기 끄기 (입장하거나 패널이 닫힐 때 호출)
+    public void ClosePreview()
     {
-        // 이전 미리보기 씬 언로드
-        if (!string.IsNullOrEmpty(loadedScene))
+        wantedStage = -1;
+
+        if (!working && !string.IsNullOrEmpty(loadedScene) && isActiveAndEnabled)
+            StartCoroutine(PreviewWorker());
+    }
+
+    // 마지막으로 선택된 스테이지만 순서대로 처리 (중간에 끊지 않음)
+    IEnumerator PreviewWorker()
+    {
+        working = true;
+
+        while (true)
         {
-            var scene = SceneManager.GetSceneByName(loadedScene);
-            if (scene.isLoaded)
-                yield return SceneManager.UnloadSceneAsync(scene);
-            loadedScene = null;
+            int target = wantedStage;
+            string targetScene =
+                (target >= 0 && target < stageScenes.Length) ? stageScenes[target] : null;
+
+            // 원하는 상태가 이미 만들어져 있으면 끝
+            if (loadedScene == targetScene) break;
+
+            // 1) 떠 있는 미리보기 씬 내리기
+            if (!string.IsNullOrEmpty(loadedScene))
+            {
+                Scene old = SceneManager.GetSceneByName(loadedScene);
+                if (old.isLoaded)
+                    yield return SceneManager.UnloadSceneAsync(old);
+
+                loadedScene = null;
+                RestoreVitals();   // 미리보기 씬이 바꾼 체력을 원래대로
+            }
+
+            // 내리는 동안 목표가 바뀌었으면 처음부터 다시 판단
+            if (wantedStage != target) continue;
+            if (targetScene == null) break;
+
+            // 2) 새 씬 Additive 로드
+            yield return SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
+            loadedScene = targetScene;
+
+            Scene oceanScene = SceneManager.GetSceneByName(targetScene);
+            Camera oceanCam = PreparePreviewScene(oceanScene);
+
+            // 바다 씬의 Start()들이 실행될 시간을 한 프레임 준다
+            yield return null;
+
+            // 불러오는 동안 목표가 바뀌었으면 이 씬은 다음 반복에서 내려감
+            if (wantedStage != target) continue;
+
+            // 기본값: 바다 카메라 설정 복사
+            if (oceanCam != null)
+            {
+                previewCamera.transform.position = oceanCam.transform.position;
+                previewCamera.orthographicSize = oceanCam.orthographicSize;
+                previewCamera.backgroundColor = oceanCam.backgroundColor;
+            }
+
+            if (autoFit)
+                FitCameraToScene(oceanScene);
         }
 
-        // 새 씬 Additive 로드
-        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        loadedScene = sceneName;
-        Scene oceanScene = SceneManager.GetSceneByName(sceneName);
+        // 미리보기를 완전히 껐으면 체력을 원래대로 돌려 두고 백업 해제
+        if (wantedStage < 0)
+        {
+            RestoreVitals();
+            vitalsBackedUp = false;
+        }
 
-        // 레이어 지정, 플레이어 숨김, 카메라/UI/오디오 끄기
+        working = false;
+    }
+
+    // 레이어 지정, 플레이어 숨김, 카메라/UI/오디오/사망 처리 끄기. 바다 카메라를 돌려줌
+    Camera PreparePreviewScene(Scene oceanScene)
+    {
         Camera oceanCam = null;
+
         foreach (var root in oceanScene.GetRootGameObjects())
         {
             SetLayerExceptPlayer(root.transform, layer);
@@ -106,21 +200,13 @@ public class OceanPreview : MonoBehaviour
                 canvas.enabled = false;
             foreach (var es in root.GetComponentsInChildren<UnityEngine.EventSystems.EventSystem>(true))
                 es.gameObject.SetActive(false);
+
+            // 미리보기에서는 체크포인트 저장, 시간 정지, 사망 연출이 돌지 않게 끔
+            foreach (var gos in root.GetComponentsInChildren<GameOverByStatus>(true))
+                gos.enabled = false;
         }
 
-        // 바다 씬의 Start()들이 실행될 시간을 한 프레임 준다
-        yield return null;
-
-        // 기본값: 바다 카메라 설정 복사
-        if (oceanCam != null)
-        {
-            previewCamera.transform.position = oceanCam.transform.position;
-            previewCamera.orthographicSize = oceanCam.orthographicSize;
-            previewCamera.backgroundColor = oceanCam.backgroundColor;
-        }
-
-        if (autoFit)
-            FitCameraToScene(oceanScene);
+        return oceanCam;
     }
 
     void FitCameraToScene(Scene scene)
@@ -192,21 +278,6 @@ public class OceanPreview : MonoBehaviour
         t.gameObject.layer = layer;
         foreach (Transform child in t)
             SetLayerExceptPlayer(child, layer);
-    }
-
-    // 미리보기 끄기 (입장하거나 패널이 닫힐 때 호출)
-    public void ClosePreview()
-    {
-        if (loadRoutine != null) StopCoroutine(loadRoutine);
-        selectedStage = -1;
-
-        if (!string.IsNullOrEmpty(loadedScene))
-        {
-            var scene = SceneManager.GetSceneByName(loadedScene);
-            if (scene.isLoaded)
-                SceneManager.UnloadSceneAsync(scene);
-            loadedScene = null;
-        }
     }
 
     void OnDestroy()

@@ -129,6 +129,10 @@ public class SceneFader : MonoBehaviour
 
     IEnumerator TransitionAndLoad(string sceneName)
     {
+        // 스테이지창이 전환 이미지를 가리지 않게 입장하는 순간 닫기
+        if (stageSelectPanel != null)
+            stageSelectPanel.SetActive(false);
+
         fadeImage.gameObject.SetActive(true);
         Color color = fadeImage.color;
         color.a = 1f;

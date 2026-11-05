@@ -2402,7 +2402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2428,7 +2428,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 662783787}
   m_HandleRect: {fileID: 0}
@@ -9554,11 +9554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1667430713899161090, guid: db7e65babca7fbd4e82ff4acde411f68, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -159
+      value: -185
       objectReference: {fileID: 0}
     - target: {fileID: 1667430713899161090, guid: db7e65babca7fbd4e82ff4acde411f68, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -90
+      value: -88.173
       objectReference: {fileID: 0}
     - target: {fileID: 1667430713899161090, guid: db7e65babca7fbd4e82ff4acde411f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
