@@ -9,20 +9,23 @@ EditorBuildSettings:
     path: Assets/coinscene.unity
     guid: fad9846f735cd0d459472baf37922e38
   - enabled: 1
-    path: Assets/Scenes/REBLUE_Backup.unity
-    guid: acbff712e9a8e4c4ab82f7102bfc0c7c
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/SplashScene.unity
+    guid: a93a6c2cdd5657f42b89bbbe02893e90
   - enabled: 1
     path: Assets/TitleScene.unity
     guid: 2e00da4daca0a9a4f9a8d89ae70ec555
   - enabled: 1
+    path: Assets/PrologueScene.unity
+    guid: fb295074ff673904c83aba14f13c0fff
+  - enabled: 0
+    path: Assets/PrologueScene_Old.unity
+    guid: db697c8488ffe4b469f46be0e2df91f8
+  - enabled: 1
     path: Assets/GameScene.unity
     guid: d0e7157c4e87c234f835e0d6fbff182e
-  - enabled: 1
-    path: Assets/SplashScene.unity
-    guid: a93a6c2cdd5657f42b89bbbe02893e90
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
     path: Assets/GameScene_Team.unity
     guid: 304f4eb10265a7e41b188dfb8109109b
@@ -32,6 +35,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameScene_Mid.unity
     guid: 6861b284f6a797f478d234cad2f94bbd
+  - enabled: 0
+    path: Assets/Scenes/REBLUE_Backup.unity
+    guid: acbff712e9a8e4c4ab82f7102bfc0c7c
+  - enabled: 0
+    path: Assets/TestMid.unity
+    guid: 28b6afe462b361545816bbce162db1ba
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
