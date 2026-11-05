@@ -1713,7 +1713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a46aed69fb357d4b8c9d75004442d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 30
+  moveSpeed: 60
 --- !u!95 &356657604
 Animator:
   serializedVersion: 7
@@ -2451,6 +2451,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &564214837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8382128706232068528, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+  m_PrefabInstance: {fileID: 904443244683037399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &564214841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564214837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8981523909f7b4787f7a441db0e749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  korean: "\uD0C0\uC774\uD2C0 \uD654\uBA74\uC73C\uB85C"
+  english: Back to Title
 --- !u!1 &662783786
 GameObject:
   m_ObjectHideFlags: 0
@@ -8123,6 +8142,25 @@ MonoBehaviour:
   floatAmount: 2.21
   sideAmount: 0.78
   floatSpeed: 1.5
+--- !u!1 &892749002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2047855677549274644, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+  m_PrefabInstance: {fileID: 904443244683037399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &892749006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892749002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8981523909f7b4787f7a441db0e749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  korean: "\uC774\uBC88 \uD0D0\uD5D8 \uC815\uC0B0"
+  english: Expedition Summary
 --- !u!1 &917985741
 GameObject:
   m_ObjectHideFlags: 0
@@ -9664,8 +9702,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   oxygenBar: {fileID: 1314810642}
   healthBar: {fileID: 551833794}
-  maxOxygen: 100
-  maxHealth: 100
+  maxOxygen: 30
+  maxHealth: 15
   healthTickInterval: 5
   healthDamagePerTick: 3
 --- !u!114 &1231205131
@@ -11027,6 +11065,7 @@ GameObject:
   - component: {fileID: 1577138056}
   - component: {fileID: 1577138058}
   - component: {fileID: 1577138057}
+  - component: {fileID: 1577138059}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -11153,6 +11192,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577138055}
   m_CullTransparentMesh: 1
+--- !u!114 &1577138059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577138055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8981523909f7b4787f7a441db0e749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  korean: "\uB2E4\uC2DC \uC2DC\uC791"
+  english: Try Again
 --- !u!1 &1597712434
 GameObject:
   m_ObjectHideFlags: 0
@@ -11164,6 +11217,7 @@ GameObject:
   - component: {fileID: 1597712435}
   - component: {fileID: 1597712437}
   - component: {fileID: 1597712436}
+  - component: {fileID: 1597712438}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -11290,6 +11344,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597712434}
   m_CullTransparentMesh: 1
+--- !u!114 &1597712438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597712434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8981523909f7b4787f7a441db0e749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  korean: "\uD0C0\uC774\uD2C0 \uD654\uBA74\uC73C\uB85C"
+  english: Back to Title
 --- !u!1 &1599078971
 GameObject:
   m_ObjectHideFlags: 0
@@ -11550,6 +11618,8 @@ MonoBehaviour:
   sparkleSpreadSpeed: 0.5
   percentText: {fileID: 2096554108}
   percentSlider: {fileID: 0}
+  percentLabelKo: "\uC815\uD654\uB3C4"
+  percentLabelEn: Purity
   returnSceneName: GameScene
 --- !u!4 &1892119051
 Transform:
@@ -12768,6 +12838,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1667430713899161090, guid: db7e65babca7fbd4e82ff4acde411f68, type: 3}
   m_PrefabInstance: {fileID: 1114117796}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2135251192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2110946130321320186, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+  m_PrefabInstance: {fileID: 904443244683037399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2135251196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135251192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8981523909f7b4787f7a441db0e749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  korean: "\uACC4\uC18D \uD0D0\uD5D8\uD558\uAE30"
+  english: Keep Exploring
 --- !u!1001 &904443244683037399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12779,6 +12868,10 @@ PrefabInstance:
     - target: {fileID: 2352926900281062152, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
       propertyPath: m_Name
       value: ResultPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352926900281062152, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5515911061048253334, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
       propertyPath: m_Pivot.x
@@ -12860,10 +12953,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6825995029888905843, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      propertyPath: m_fontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825995029888905843, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825995029888905843, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6825995029888905843, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2047855677549274644, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 892749006}
+    - targetCorrespondingSourceObject: {fileID: 8382128706232068528, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 564214841}
+    - targetCorrespondingSourceObject: {fileID: 2110946130321320186, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2135251196}
   m_SourcePrefab: {fileID: 100100000, guid: b2901ce11f6cedc42a5245ea19530b6b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

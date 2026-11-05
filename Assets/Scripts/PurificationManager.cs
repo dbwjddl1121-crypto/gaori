@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -41,6 +40,10 @@ public class PurificationManager : MonoBehaviour
     [Header("UI (선택)")]
     [SerializeField] TMP_Text percentText;
     [SerializeField] Slider percentSlider;
+
+    [Header("UI 라벨 (영어)")]
+    [SerializeField] string percentLabelKo = "정화도";
+    [SerializeField] string percentLabelEn = "Purity";
 
     [Header("나가기")]
     [SerializeField] string returnSceneName = "GameScene";
@@ -369,7 +372,11 @@ public class PurificationManager : MonoBehaviour
         int p = Mathf.RoundToInt(percent * 100f);
 
         if (percentText != null)
-            percentText.text = "정화도 " + p + "%";
+        {
+            bool isKor = Localization.Current == Language.Korean;
+            string label = isKor ? percentLabelKo : percentLabelEn;
+            percentText.text = label + " " + p + "%";
+        }
 
         if (percentSlider != null)
             percentSlider.value = percent;

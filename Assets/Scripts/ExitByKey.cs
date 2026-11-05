@@ -37,6 +37,15 @@ public class ExitByKey : MonoBehaviour
 
     void Start()
     {
+        // 작업장에서 미리보기로 로드된 경우에는 동작하지 않음
+        if (gameObject.scene != SceneManager.GetActiveScene())
+        {
+            if (resultPanel != null) resultPanel.SetActive(false);
+            if (fadePanel != null) fadePanel.gameObject.SetActive(false);
+            enabled = false;
+            return;
+        }
+
         if (resultPanel != null)
         {
             // 연출용 CanvasGroup / RectTransform 준비 (없으면 자동 추가)
@@ -97,11 +106,16 @@ public class ExitByKey : MonoBehaviour
 
         if (resultStatsText != null)
         {
+            bool isKor = Localization.Current == Language.Korean;
+
             // 쓰레기 개수와 캐시는 "이번 탐험" 기준, 정화율은 이전 탐험까지 합친 값
-            resultStatsText.text =
-                "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
-                "번 캐시: " + RunStats.cashEarned + "\n" +
-                "정화율: " + RunStats.PurificationPercent.ToString("F0") + "%";
+            resultStatsText.text = isKor
+                ? "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
+                  "번 캐시: " + RunStats.cashEarned + "\n" +
+                  "정화율: " + RunStats.PurificationPercent.ToString("F0") + "%"
+                : "Trash Collected: " + RunStats.trashCount + "\n" +
+                  "Cash Earned: " + RunStats.cashEarned + "\n" +
+                  "Purification: " + RunStats.PurificationPercent.ToString("F0") + "%";
         }
 
         // 꺼져 있던 창이면 처음 상태(투명 + 작게)로 맞추고 켜기

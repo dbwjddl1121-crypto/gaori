@@ -43,6 +43,14 @@ public class GameOverByStatus : MonoBehaviour
 
     void Start()
     {
+        // 작업장에서 미리보기로 로드된 경우에는 동작하지 않음
+        if (gameObject.scene != SceneManager.GetActiveScene())
+        {
+            if (deathPanel != null) deathPanel.SetActive(false);
+            enabled = false;
+            return;
+        }
+
         Time.timeScale = 1f;
 
         // 현재 플레이 중인 씬 이름 기억
@@ -133,10 +141,15 @@ public class GameOverByStatus : MonoBehaviour
         // 3. 사망 기록 표시
         if (statsText != null)
         {
-            statsText.text =
-                "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
-                "잡은 물고기: " + RunStats.fishCaught + "마리\n" +
-                "번 캐시: " + RunStats.cashEarned;
+            bool isKor = Localization.Current == Language.Korean;
+
+            statsText.text = isKor
+                ? "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
+                  "잡은 물고기: " + RunStats.fishCaught + "마리\n" +
+                  "번 캐시: " + RunStats.cashEarned
+                : "Trash Collected: " + RunStats.trashCount + "\n" +
+                  "Fish Caught: " + RunStats.fishCaught + "\n" +
+                  "Cash Earned: " + RunStats.cashEarned;
         }
 
         // 4. 사망 창 표시

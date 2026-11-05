@@ -20,9 +20,13 @@ public class GlassMiniGame : MonoBehaviour
     [Header("신문지 단계 (순서대로: 펼친 신문지, 구기는 중1, 구기는 중2, 완전히 구겨짐)")]
     public Stage[] stages;
 
-    [Header("안내 문구")]
+    [Header("안내 문구 (한국어)")]
     public string collectGuide = "유리 조각을 신문지 위로 옮겨 주세요!";
     public string crumpleGuide = "신문지를 연타해서 구겨 주세요!";
+
+    [Header("안내 문구 (영어)")]
+    public string collectGuideEn = "Move the glass shards onto the newspaper!";
+    public string crumpleGuideEn = "Tap the newspaper repeatedly to crumple it!";
 
     [Header("난이도")]
     public int clicksPerStage = 4;     // 단계가 바뀌는 데 필요한 클릭 수. 클수록 어려움
@@ -82,7 +86,7 @@ public class GlassMiniGame : MonoBehaviour
             ApplyStage(0);
 
         if (MiniGameManager.Instance != null)
-            MiniGameManager.Instance.SetGuide(collectGuide);
+            MiniGameManager.Instance.SetGuide(GetCollectGuide());
 
         // 조각이 하나도 없으면 바로 구기는 단계
         if (pieces.Length == 0)
@@ -138,7 +142,7 @@ public class GlassMiniGame : MonoBehaviour
         clickCount = 0;
 
         if (MiniGameManager.Instance != null)
-            MiniGameManager.Instance.SetGuide(crumpleGuide);
+            MiniGameManager.Instance.SetGuide(GetCrumpleGuide());
     }
 
     private void Update()
@@ -211,5 +215,16 @@ public class GlassMiniGame : MonoBehaviour
 
         if (MiniGameManager.Instance != null)
             MiniGameManager.Instance.EndMiniGame(true);
+    }
+
+    // ───── 언어별 안내 문구 ─────
+    private string GetCollectGuide()
+    {
+        return Localization.Current == Language.Korean ? collectGuide : collectGuideEn;
+    }
+
+    private string GetCrumpleGuide()
+    {
+        return Localization.Current == Language.Korean ? crumpleGuide : crumpleGuideEn;
     }
 }

@@ -77,7 +77,8 @@ public class TrashClickPickup : MonoBehaviour
             {
                 Debug.Log("쓰레기 수거 및 인벤토리 추가 성공!");
                 RunStats.trashCount++;
-                CollectedRecord.Add(myID);   // 수거 기록 저장
+                CollectedRecord.Add(myID);          // 수거 기록 저장
+                TrashCollection.Record(trashName);  // 도감 등록
                 Destroy(gameObject);
             }
             else

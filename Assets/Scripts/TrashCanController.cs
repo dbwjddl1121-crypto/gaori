@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 // 분리수거통 종류
 public enum TrashCanType
@@ -17,18 +18,50 @@ public class TrashCanController : MonoBehaviour
     public QuickSlotBar quickSlotBar;
     public InventoryManager inventory;
 
+    [Header("거리 설정")]
+    public float interactDistance = 2f;   // 이 거리 안에 들어와야 터치 가능
+    private Transform player;
+
     [Header("애니메이션 설정")]
     private Animator anim;
+
+    [Header("오답 피드백 설정")]
+    public SpriteRenderer spriteRenderer;   // 분리수거통 스프라이트 (비워두면 자동으로 찾음)
+    public Color wrongColor = new Color(1f, 0.3f, 0.3f, 1f); // 빨갛게 변할 색
+    public int flashCount = 3;              // 깜빡이는 횟수
+    public float flashInterval = 0.08f;     // 한 번 깜빡이는 시간(초)
+    public float shakeStrength = 0.1f;      // 좌우로 흔들리는 폭
+    public float shakeDuration = 0.3f;      // 흔들리는 총 시간(초)
+
+    private Color originalColor;
+    private Vector3 originalPos;
+    private Coroutine flashCoroutine;
+    private Coroutine shakeCoroutine;
+
+    [Header("캐시 보상 설정")]
+    public int noMiniGameCashReward = 100; // 미니게임 없는 쓰레기 분리수거 시 지급할 캐시
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+
+        PlayerMove playerMove = FindFirstObjectByType<PlayerMove>();
+        if (playerMove != null)
+            player = playerMove.transform;
 
         if (quickSlotBar == null)
             quickSlotBar = FindFirstObjectByType<QuickSlotBar>();
 
         if (inventory == null)
             inventory = FindFirstObjectByType<InventoryManager>();
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+            originalColor = spriteRenderer.color;
+
+        originalPos = transform.localPosition;
     }
 
     private void OnMouseDown()
@@ -38,6 +71,22 @@ public class TrashCanController : MonoBehaviour
 
     public void TryRecycle()
     {
+        // 플레이어가 너무 멀면 터치 불가
+        if (player != null)
+        {
+            float dist = Vector2.Distance(transform.position, player.position);
+
+            if (dist > interactDistance)
+            {
+                Debug.Log("[실패] 분리수거통에 너무 멀리 있어요. 가까이 다가가세요.");
+                return;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[거리 확인] player를 찾지 못했어요!");
+        }
+
         // 미니게임 중에는 다른 쓰레기를 버릴 수 없음
         if (MiniGameManager.Instance != null && MiniGameManager.Instance.IsPlaying)
             return;
@@ -69,6 +118,7 @@ public class TrashCanController : MonoBehaviour
         if (!IsCorrectTrash(selectedItem, canType))
         {
             Debug.Log($"[실패] {selectedItem.itemName}은(는) 이 분리수거통({canType})에 버릴 수 없습니다!");
+            PlayWrongFeedback(); // ★ 잘못 눌렀을 때 빨간 점멸 + 쉐이크 피드백
             return;
         }
 
@@ -99,7 +149,7 @@ public class TrashCanController : MonoBehaviour
         // 퀵슬롯 UI 갱신
         quickSlotBar.Refresh();
 
-        // 미니게임이 있는 쓰레기면 미니게임 시작
+        // 미니게임이 있는 쓰레기면 미니게임 시작, 없으면 바로 캐시 지급
         if (MiniGameManager.HasMiniGame(recycledItemName))
         {
             if (MiniGameManager.Instance != null)
@@ -114,6 +164,70 @@ public class TrashCanController : MonoBehaviour
                 );
             }
         }
+        else
+        {
+            // ★ 미니게임이 없는 쓰레기는 분리수거 즉시 캐시 지급
+            if (CashManager.Instance != null)
+            {
+                CashManager.Instance.AddCash(noMiniGameCashReward);
+                Debug.Log($"[캐시 지급] {recycledItemName} 분리수거로 {noMiniGameCashReward}캐시를 받았습니다!");
+            }
+            else
+            {
+                Debug.LogWarning("[캐시 오류] 씬에 CashManager가 없습니다.");
+            }
+        }
+    }
+
+    // ★ 오답 피드백: 빨간 점멸 + 좌우 흔들림
+    private void PlayWrongFeedback()
+    {
+        // 연출이 돌고 있지 않을 때만 "지금 상태"를 원래 값으로 저장
+        // (페이드 도중에 저장된 투명한 색/어긋난 위치를 쓰지 않기 위해)
+        if (flashCoroutine == null && spriteRenderer != null)
+            originalColor = spriteRenderer.color;
+
+        if (shakeCoroutine == null)
+            originalPos = transform.localPosition;
+
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        if (shakeCoroutine != null) StopCoroutine(shakeCoroutine);
+
+        if (spriteRenderer != null)
+            flashCoroutine = StartCoroutine(FlashRedRoutine());
+
+        shakeCoroutine = StartCoroutine(ShakeRoutine());
+    }
+
+    private IEnumerator FlashRedRoutine()
+    {
+        // 빨간색이 되어도 투명도는 원래 값 그대로 유지
+        Color flashColor = wrongColor;
+        flashColor.a = originalColor.a;
+
+        for (int i = 0; i < flashCount; i++)
+        {
+            spriteRenderer.color = flashColor;
+            yield return new WaitForSeconds(flashInterval);
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(flashInterval);
+        }
+        spriteRenderer.color = originalColor;
+        flashCoroutine = null;
+    }
+
+    private IEnumerator ShakeRoutine()
+    {
+        float elapsed = 0f;
+        while (elapsed < shakeDuration)
+        {
+            float offsetX = Mathf.Sin(elapsed * 60f) * shakeStrength;
+            transform.localPosition = originalPos + new Vector3(offsetX, 0f, 0f);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.localPosition = originalPos;
+        shakeCoroutine = null;
     }
 
     private bool IsCorrectTrash(Item item, TrashCanType targetCan)
@@ -150,5 +264,11 @@ public class TrashCanController : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, interactDistance);
     }
 }

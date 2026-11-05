@@ -10,6 +10,9 @@ public class WorkshopController : MonoBehaviour
     [Header("배경과 같이 페이드시킬 스프라이트 (플레이어, 쓰레기통)")]
     public SpriteFadeGroup spriteFadeGroup;
 
+    [Header("입장 시 플레이어 위치")]
+    public Transform entrySpawnPoint;   // 문 앞 위치 (빈 오브젝트)
+
     private CanvasGroup interiorCanvasGroup;
     private CanvasGroup blackCanvasGroup;
 
@@ -17,6 +20,15 @@ public class WorkshopController : MonoBehaviour
     public float blackFadeDuration = 0.25f;
     public float interiorFadeDuration = 0.3f;
     [Range(0f, 1f)] public float maxBlackAlpha = 0.75f;
+
+    // 게임 실행 후 첫 입장 여부 (씬을 다시 불러와도 유지됨)
+    private static bool hasEnteredOnce = false;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatic()
+    {
+        hasEnteredOnce = false;
+    }
 
     void Awake()
     {
@@ -39,6 +51,25 @@ public class WorkshopController : MonoBehaviour
     {
         if (interiorCanvasGroup != null) interiorCanvasGroup.alpha = a;
         if (spriteFadeGroup != null) spriteFadeGroup.SetAlpha(a);
+    }
+
+    private void MovePlayerToEntry()
+    {
+        // 게임 실행 후 첫 입장은 기존 입장 연출을 살리기 위해 위치를 옮기지 않음
+        if (!hasEnteredOnce)
+        {
+            hasEnteredOnce = true;
+            return;
+        }
+
+        if (entrySpawnPoint == null) return;
+
+        PlayerMove pm = FindFirstObjectByType<PlayerMove>();
+        if (pm == null) return;
+
+        Vector3 pos = entrySpawnPoint.position;
+        pos.z = pm.transform.position.z;   // 플레이어 z값은 유지
+        pm.transform.position = pos;
     }
 
     public void EnterWorkshop()
@@ -80,6 +111,7 @@ public class WorkshopController : MonoBehaviour
 
         // 2단계: 작업장 등장 (알파 0 상태에서 켜기)
         if (workshopInteriorPanel != null) workshopInteriorPanel.SetActive(true);
+        MovePlayerToEntry();
 
         timer = 0f;
         while (timer < interiorFadeDuration)

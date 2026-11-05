@@ -950,8 +950,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 279, y: -194}
-  m_SizeDelta: {x: 215.3701, y: 82.0553}
+  m_AnchoredPosition: {x: 273.8989, y: -187.21}
+  m_SizeDelta: {x: 224.5282, y: 100.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &92224459
 MonoBehaviour:
@@ -1003,9 +1003,9 @@ MonoBehaviour:
   m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 15
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -2172,7 +2172,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -81.818115, y: -114.99997}
+  m_AnchoredPosition: {x: -96, y: -117}
   m_SizeDelta: {x: 419.728, y: 21.43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &287993089
@@ -2219,7 +2219,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 119, y: 14.7}
+  m_Size: {x: 113.59, y: 14.7}
   m_EdgeRadius: 0
 --- !u!1 &294795974
 GameObject:
@@ -2465,8 +2465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27902a29d21d734a896b39696803c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CashManager
-  startCash: 10000
-  cash: 10000
+  startCash: 300
+  cash: 300
 --- !u!4 &300857046
 Transform:
   m_ObjectHideFlags: 0
@@ -3932,6 +3932,7 @@ GameObject:
   - component: {fileID: 459249023}
   - component: {fileID: 459249025}
   - component: {fileID: 459249024}
+  - component: {fileID: 459249026}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4008,9 +4009,9 @@ MonoBehaviour:
   m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4058,6 +4059,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459249022}
   m_CullTransparentMesh: 1
+--- !u!114 &459249026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459249022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8981523909f7b4787f7a441db0e749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
+  korean: "\uC785\uC7A5"
+  english: Admission
 --- !u!224 &506195865 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 323119527427213113, guid: 1e828116943528445a7ae2eb3d87a58e, type: 3}
@@ -4312,13 +4327,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368822974}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: quickSlotBar
       value: 
       objectReference: {fileID: 1108006231}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.b
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.g
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: miniGamePanel
       value: 
       objectReference: {fileID: 15859498}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: interactDistance
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7423228227095981077, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6673,13 +6716,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368822974}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: quickSlotBar
       value: 
       objectReference: {fileID: 1108006231}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.b
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.g
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: miniGamePanel
       value: 
       objectReference: {fileID: 15859498}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: interactDistance
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7423228227095981077, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6781,9 +6852,9 @@ MonoBehaviour:
   m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 24
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -7689,13 +7760,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368822974}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: quickSlotBar
       value: 
       objectReference: {fileID: 1108006231}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.b
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.g
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: miniGamePanel
       value: 
       objectReference: {fileID: 15859498}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: interactDistance
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7423228227095981077, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -8095,6 +8194,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 936702764}
   m_CullTransparentMesh: 1
+--- !u!1 &937105298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 937105300}
+  - component: {fileID: 937105299}
+  m_Layer: 0
+  m_Name: WorkshopExitZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &937105299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937105298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bc0bc58047b0d4e9ac152c8ba7219e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorkshopExitZone
+  workshop: {fileID: 1979812374}
+  exitPosition: {x: 459.4, y: -27.39}
+  exitDistance: 60
+--- !u!4 &937105300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937105298}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1196.956, y: 150.99957, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &942893095
 GameObject:
   m_ObjectHideFlags: 0
@@ -10556,6 +10702,8 @@ MonoBehaviour:
   amount: 1.5
   imageFadeOutDuration: 1
   blackHoldDuration: 0.2
+  titleFadeOutDuration: 2
+  titleHoldDuration: 0.8
   stageSelectPanel: {fileID: 1770610316}
 --- !u!114 &1231205132
 MonoBehaviour:
@@ -10624,6 +10772,7 @@ MonoBehaviour:
   canGame: {fileID: 1402662216}
   bottleGame: {fileID: 363607491}
   glassGame: {fileID: 1346887288}
+  completeMessageEn: Complete!
 --- !u!4 &1236812804
 Transform:
   m_ObjectHideFlags: 0
@@ -10897,7 +11046,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -199.09085, y: -59.54545}
+  m_AnchoredPosition: {x: -199.09085, y: -63}
   m_SizeDelta: {x: 419.728, y: 21.43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1300673192
@@ -11020,6 +11169,8 @@ MonoBehaviour:
   collectGuide: "\uC720\uB9AC \uC870\uAC01\uC744 \uC2E0\uBB38\uC9C0 \uC704\uB85C
     \uC62E\uACA8 \uC8FC\uC138\uC694!"
   crumpleGuide: "\uC2E0\uBB38\uC9C0\uB97C \uC5F0\uD0C0\uD574\uC11C \uAD6C\uACA8 \uC8FC\uC138\uC694!"
+  collectGuideEn: Move the glass shards onto the newspaper!
+  crumpleGuideEn: Tap the newspaper repeatedly to crumple it!
   clicksPerStage: 4
   absorbWait: 0.4
   absorbDuration: 0.35
@@ -11350,12 +11501,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
+  m_fontSize: 40
   m_fontSizeBase: 28
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 40
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
@@ -11927,6 +12078,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 323119527427213113, guid: 1e828116943528445a7ae2eb3d87a58e, type: 3}
   m_PrefabInstance: {fileID: 884328885}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1438165430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1438165431}
+  m_Layer: 0
+  m_Name: WorkshopEntryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1438165431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438165430}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 464, y: 85, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1445056379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13965,9 +14147,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1770610317}
   - component: {fileID: 1770610319}
+  - component: {fileID: 1770610322}
   - component: {fileID: 1770610318}
   - component: {fileID: 1770610320}
-  - component: {fileID: 1770610322}
   - component: {fileID: 1770610321}
   m_Layer: 5
   m_Name: stageSelectPanel
@@ -13984,8 +14166,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1770610316}
   m_LocalRotation: {x: -0.00017452026, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.4958134, y: 0.4958134, z: 0.4958134}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2071157513}
@@ -13999,8 +14181,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.033325195, y: 1.434906}
-  m_SizeDelta: {x: 998.6666, y: 562}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1770610318
 MonoBehaviour:
@@ -14267,13 +14449,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368822974}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: quickSlotBar
       value: 
       objectReference: {fileID: 1108006231}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.b
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.g
+      value: 0.72156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: miniGamePanel
       value: 
       objectReference: {fileID: 15859498}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: interactDistance
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 7423228227095981077, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -15611,6 +15821,7 @@ MonoBehaviour:
   workshopInteriorPanel: {fileID: 887246896}
   blackScreenPanel: {fileID: 1872375472}
   spriteFadeGroup: {fileID: 1231205132}
+  entrySpawnPoint: {fileID: 1438165431}
   blackFadeDuration: 1
   interiorFadeDuration: 0.4
   maxBlackAlpha: 1
@@ -15795,12 +16006,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 60
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 60
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
@@ -16995,12 +17206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -17158,17 +17369,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140992927}
   m_LocalRotation: {x: -0.00017452026, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90.001}
-  m_LocalScale: {x: 0.4818507, y: 0.4818507, z: 0.4818507}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 48265639}
   m_Father: {fileID: 2115597020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0021362305, y: 0.000030517578}
-  m_SizeDelta: {x: 1657.4, y: 932.31}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2140992929
 MonoBehaviour:
@@ -17639,13 +17850,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368822974}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: quickSlotBar
       value: 
       objectReference: {fileID: 1108006231}
     - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.b
+      value: 0.7201257
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.g
+      value: 0.7201257
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: wrongColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: flashInterval
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
       propertyPath: miniGamePanel
       value: 
       objectReference: {fileID: 15859498}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: shakeStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105973554784386479, guid: 05e46fb73866c8f4dae8de0dd0a01847, type: 3}
+      propertyPath: interactDistance
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17668,6 +17911,10 @@ PrefabInstance:
       propertyPath: shopPanel
       value: 
       objectReference: {fileID: 2458325893787718480}
+    - target: {fileID: 663525575378558783, guid: 781bd4cdab1709a4f9c9fbf7f9d32b08, type: 3}
+      propertyPath: interactDistance
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 1410004043217575270, guid: 781bd4cdab1709a4f9c9fbf7f9d32b08, type: 3}
       propertyPath: m_Name
       value: ShopDeskButton
@@ -17746,7 +17993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3652397887669690606, guid: 781bd4cdab1709a4f9c9fbf7f9d32b08, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -694.9373
+      value: -691
       objectReference: {fileID: 0}
     - target: {fileID: 3652397887669690606, guid: 781bd4cdab1709a4f9c9fbf7f9d32b08, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -17782,6 +18029,7 @@ SceneRoots:
   - {fileID: 233958370}
   - {fileID: 1084733709}
   - {fileID: 1979812375}
+  - {fileID: 1438165431}
   - {fileID: 300857046}
   - {fileID: 1830656110}
   - {fileID: 1737359543}
@@ -17794,3 +18042,4 @@ SceneRoots:
   - {fileID: 2094405679}
   - {fileID: 1236812804}
   - {fileID: 1231205129}
+  - {fileID: 937105300}

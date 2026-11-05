@@ -134,11 +134,17 @@ public class MiniGameManager : MonoBehaviour
 
         HideAllGames();
 
+        bool isKor = Localization.Current == Language.Korean;
+
         // 쓰레기별 제목, 안내 문구 설정 및 게임 켜기
         switch (itemName)
         {
             case "생수병":
-                SetTexts("생수병 라벨 떼기", "라벨을 아래로 천천히 당겨 떼어 주세요! (너무 빠르면 찢어져요)");
+                SetTexts(
+                    isKor ? "생수병 라벨 떼기" : "Peel the Bottle Label",
+                    isKor ? "라벨을 아래로 천천히 당겨 떼어 주세요! (너무 빠르면 찢어져요)"
+                          : "Slowly pull the label down to peel it off! (Pulling too fast will tear it)"
+                );
                 if (bottleGame != null)
                     bottleGame.gameObject.SetActive(true);
                 else
@@ -146,7 +152,10 @@ public class MiniGameManager : MonoBehaviour
                 break;
 
             case "깨진 유리":
-                SetTexts("깨진 유리 포장하기", "유리 조각을 신문지 위로 옮겨 주세요!");
+                SetTexts(
+                    isKor ? "깨진 유리 포장하기" : "Wrap the Broken Glass",
+                    isKor ? "유리 조각을 신문지 위로 옮겨 주세요!" : "Move the glass shards onto the newspaper!"
+                );
                 if (glassGame != null)
                     glassGame.gameObject.SetActive(true);   // 켜질 때 안내 문구를 스스로 설정함
                 else
@@ -154,7 +163,10 @@ public class MiniGameManager : MonoBehaviour
                 break;
 
             case "콜라캔":
-                SetTexts("콜라캔 찌그러뜨리기", "캔을 연타해서 찌그러뜨려 주세요!");
+                SetTexts(
+                    isKor ? "콜라캔 찌그러뜨리기" : "Crush the Can",
+                    isKor ? "캔을 연타해서 찌그러뜨려 주세요!" : "Tap repeatedly to crush the can!"
+                );
                 if (canGame != null)
                     canGame.gameObject.SetActive(true);
                 else
@@ -266,7 +278,9 @@ public class MiniGameManager : MonoBehaviour
         if (completeText == null) yield break;
 
         RectTransform rt = completeText.rectTransform;
-        completeText.text = completeMessage;
+
+        bool isKor = Localization.Current == Language.Korean;
+        completeText.text = isKor ? completeMessage : completeMessageEn;
         completeText.gameObject.SetActive(true);
 
         // 통통 튀며 나타남
@@ -341,4 +355,7 @@ public class MiniGameManager : MonoBehaviour
         if (titleText != null) titleText.text = title;
         if (guideText != null) guideText.text = guide;
     }
+
+    [Header("완료 글씨 (영어)")]
+    public string completeMessageEn = "Complete!";
 }

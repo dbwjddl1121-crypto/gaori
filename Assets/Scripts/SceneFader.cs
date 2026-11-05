@@ -8,6 +8,9 @@ public class SceneFader : MonoBehaviour
     [Header("같이 페이드시킬 스프라이트 (플레이어, 쓰레기통)")]
     public SpriteFadeGroup spriteFadeGroup;
 
+    [Header("입장 시 플레이어 위치")]
+    public Transform entrySpawnPoint;   // 문 앞 위치 (빈 오브젝트)
+
     [Header("검은 화면")]
     public Image fadeImage;
     public float fadeDuration = 1.0f;
@@ -25,6 +28,10 @@ public class SceneFader : MonoBehaviour
     [Header("이미지 사라진 후 검정 화면 유지")]
     public float imageFadeOutDuration = 0.3f;
     public float blackHoldDuration = 0.3f;
+
+    [Header("타이틀 → 게임 전환 (시작 버튼용)")]
+    public float titleFadeOutDuration = 2.0f;   // 서서히 어두워지는 시간
+    public float titleHoldDuration = 0.8f;      // 완전히 검어진 뒤 유지 시간
 
     [Header("스테이지 선택창")]
     public GameObject stageSelectPanel;
@@ -45,6 +52,14 @@ public class SceneFader : MonoBehaviour
     public void FadeToScene(string sceneName)
     {
         StartCoroutine(TransitionAndLoad(sceneName));
+    }
+
+    // 타이틀 시작 버튼용: 서서히 어두워짐 → 유지 → 씬 이동
+    public void FadeToSceneSmooth(string sceneName)
+    {
+        TrashCollection.ResetAll();   // 새 게임 시작 시 도감 초기화
+        StopAllCoroutines();
+        StartCoroutine(FadeOutAndLoad(sceneName));
     }
 
     // 나가기용: 선택창 닫고 검은 화면 걷기
@@ -69,6 +84,32 @@ public class SceneFader : MonoBehaviour
         color.a = 0f;
         fadeImage.color = color;
         fadeImage.gameObject.SetActive(false);
+    }
+
+    IEnumerator FadeOutAndLoad(string sceneName)
+    {
+        fadeImage.gameObject.SetActive(true);
+        fadeImage.transform.SetAsLastSibling();   // 모든 UI 위로
+
+        Color color = fadeImage.color;
+        color.a = 0f;
+        fadeImage.color = color;
+
+        float timer = 0f;
+        while (timer < titleFadeOutDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+            float t = timer / titleFadeOutDuration;
+            color.a = Mathf.SmoothStep(0f, 1f, t);   // 부드럽게 가속/감속
+            fadeImage.color = color;
+            yield return null;
+        }
+        color.a = 1f;
+        fadeImage.color = color;
+
+        yield return new WaitForSecondsRealtime(titleHoldDuration);
+
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     IEnumerator FadeToStageSelectRoutine()
@@ -106,8 +147,14 @@ public class SceneFader : MonoBehaviour
 
     IEnumerator CloseStageSelectRoutine()
     {
+        Debug.Log("[Fader] 닫기 시작 / timeScale = " + Time.timeScale);
+
+        fadeImage.gameObject.SetActive(true);
+
         if (stageSelectPanel != null)
             stageSelectPanel.SetActive(false);
+
+        Debug.Log("[Fader] 패널 끄기 완료");
 
         if (spriteFadeGroup != null)
             StartCoroutine(spriteFadeGroup.FadeIn(fadeDuration));
@@ -117,14 +164,17 @@ public class SceneFader : MonoBehaviour
 
         while (timer < fadeDuration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             color.a = Mathf.Lerp(1f, 0f, timer / fadeDuration);
             fadeImage.color = color;
             yield return null;
         }
+
         color.a = 0f;
         fadeImage.color = color;
         fadeImage.gameObject.SetActive(false);
+
+        Debug.Log("[Fader] 닫기 완료");
     }
 
     IEnumerator TransitionAndLoad(string sceneName)

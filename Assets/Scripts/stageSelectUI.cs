@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -78,6 +77,8 @@ public class stageSelectUI : MonoBehaviour
 
         Init();
         Refresh();
+
+        Localization.OnLanguageChanged += Refresh;
     }
 
     void OnDisable()
@@ -87,6 +88,8 @@ public class stageSelectUI : MonoBehaviour
 
         if (oceanPreview != null)
             oceanPreview.ClosePreview();
+
+        Localization.OnLanguageChanged -= Refresh;
     }
 
     void Update()
@@ -178,14 +181,16 @@ public class stageSelectUI : MonoBehaviour
             return;
         }
 
+        bool isKor = Localization.Current == Language.Korean;
+
         if (stageNameText != null)
-            stageNameText.text = data.stageLabel;
+            stageNameText.text = isKor ? data.stageLabel : data.stageLabelEn;
 
         if (stageTitleText != null)
-            stageTitleText.text = data.stageTitle;
+            stageTitleText.text = isKor ? data.stageTitle : data.stageTitleEn;
 
         if (stageDescText != null)
-            stageDescText.text = data.stageDescription;
+            stageDescText.text = isKor ? data.stageDescription : data.stageDescriptionEn;
 
         if (stagePreview != null && data.previewImage != null)
             stagePreview.sprite = data.previewImage;

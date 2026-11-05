@@ -119,6 +119,13 @@ public class CollectionBook : MonoBehaviour
             if (iconT != null) e.icon = iconT.GetComponent<Image>();
             if (nameT != null) e.nameText = nameT.GetComponent<TextMeshProUGUI>();
 
+            // 처음부터 아이콘을 꺼두기 (하얀 네모가 잠깐이라도 보이지 않게)
+            if (e.icon != null)
+            {
+                e.icon.sprite = null;
+                e.icon.enabled = false;
+            }
+
             entries.Add(e);
         }
 
@@ -131,13 +138,24 @@ public class CollectionBook : MonoBehaviour
         foreach (EntryUI e in entries)
         {
             bool has = TrashCollection.Has(e.data.itemName);
+            bool showIcon = has && e.data.icon != null;
 
             if (e.icon != null)
             {
-                e.icon.sprite = e.data.icon;
-                e.icon.preserveAspect = true;
-                e.icon.color = Color.white;
-                e.icon.enabled = has && e.data.icon != null;   // 못 얻었으면 그림 숨김
+                if (showIcon)
+                {
+                    e.icon.sprite = e.data.icon;
+                    e.icon.type = Image.Type.Simple;
+                    e.icon.preserveAspect = true;
+                    e.icon.color = Color.white;
+                    e.icon.enabled = true;
+                }
+                else
+                {
+                    // 못 얻었거나 그림이 없으면 스프라이트 비우고 완전히 끔
+                    e.icon.sprite = null;
+                    e.icon.enabled = false;
+                }
             }
 
             if (e.nameText != null)
