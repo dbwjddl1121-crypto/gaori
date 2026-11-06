@@ -145,7 +145,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580937301}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 7f5e721fd382ab54e98aa112edf3fa3b, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 9f7dabb0c965617458249f22d625fccf, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 1894563006}
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrologueController
   videoPlayer: {fileID: 580937302}
+  playInEditor: 1
 --- !u!1 &756547659
 GameObject:
   m_ObjectHideFlags: 0

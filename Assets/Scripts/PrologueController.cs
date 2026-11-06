@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 public class PrologueController : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
-    [Tooltip("체크하면 에디터에서도 영상을 재생 (끄면 에디터에서는 바로 건너뜀)")]
-    [SerializeField] bool playInEditor = false;
 
     bool finished;
 
@@ -14,14 +12,6 @@ public class PrologueController : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioListener.pause = false;
-
-#if UNITY_EDITOR
-        if (!playInEditor)
-        {
-            Finish();
-            return;
-        }
-#endif
 
         videoPlayer.errorReceived += (vp, msg) => Debug.LogError("[Prologue] 영상 에러: " + msg);
         videoPlayer.loopPointReached += _ => Finish();
