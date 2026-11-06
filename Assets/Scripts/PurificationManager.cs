@@ -50,12 +50,19 @@ public class PurificationManager : MonoBehaviour
 
     List<GameObject> trashList = new List<GameObject>();
     int totalTrash;
+
+    // 정화가 끝났는지 다른 스크립트가 알 수 있게 공개
+    public static bool PurificationDone;
+
     bool completed;
     float timer;
 
     void Start()
     {
         bool isPreview = gameObject.scene != SceneManager.GetActiveScene();
+
+        if (!isPreview)
+            PurificationDone = false;
 
         if (sparkle != null)
             sparkle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -68,6 +75,11 @@ public class PurificationManager : MonoBehaviour
             SetAlpha(cleanRenderer, 1f);
             SetAlpha(pollutedRenderer, 0f);
             UpdateUI(1f);
+
+            // 이미 정화된 바다는 처음부터 산소/체력이 멈춤
+            if (!isPreview)
+                PurificationDone = true;
+
             completed = true;
             return;
         }
@@ -136,6 +148,7 @@ public class PurificationManager : MonoBehaviour
     IEnumerator CompleteRoutine()
     {
         StageProgress.SetCleaned(stageIndex);
+        PurificationDone = true;
 
         Camera cam = Camera.main;
         Bounds bounds = GetOceanBounds();

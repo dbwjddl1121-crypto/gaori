@@ -78,13 +78,12 @@ public class TrashCanController : MonoBehaviour
 
             if (dist > interactDistance)
             {
-                Debug.Log("[실패] 분리수거통에 너무 멀리 있어요. 가까이 다가가세요.");
+                NoticeUI.Show(
+                    "분리수거통이 너무 멀리 있습니다.",
+                    "The recycling bin is too far away."
+                );
                 return;
             }
-        }
-        else
-        {
-            Debug.LogWarning("[거리 확인] player를 찾지 못했어요!");
         }
 
         // 미니게임 중에는 다른 쓰레기를 버릴 수 없음
@@ -117,7 +116,10 @@ public class TrashCanController : MonoBehaviour
         // 올바른 분리수거통인지 확인
         if (!IsCorrectTrash(selectedItem, canType))
         {
-            Debug.Log($"[실패] {selectedItem.itemName}은(는) 이 분리수거통({canType})에 버릴 수 없습니다!");
+            NoticeUI.Show(
+                "잘못된 분리수거통입니다.",
+                "Wrong recycling bin."
+            );
             PlayWrongFeedback(); // ★ 잘못 눌렀을 때 빨간 점멸 + 쉐이크 피드백
             return;
         }

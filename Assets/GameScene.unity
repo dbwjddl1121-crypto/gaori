@@ -6631,6 +6631,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e892df01adbc2b240ade6e6056861c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GlassPiece
+--- !u!1 &834712496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834712498}
+  - component: {fileID: 834712497}
+  m_Layer: 0
+  m_Name: NoticeUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &834712497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834712496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 432999983c339e941bc727b0cbc020f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoticeUI
+  fontAsset: {fileID: 11400000, guid: 09e87dd320cbb424183b862d980eca8d, type: 2}
+  fontSize: 28
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  alignment: 1028
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0.1
+  margin: {x: 40, y: 40}
+  boxSize: {x: 700, y: 50}
+  showDuration: 0.7
+  fadeInTime: 0.2
+  fadeOutTime: 0.3
+  keepShowing: 0
+  testKorean: "\uC0C1\uC810\uC774 \uB108\uBB34 \uBA40\uB9AC \uC788\uC2B5\uB2C8\uB2E4."
+  testEnglish: The shop is too far away.
+--- !u!4 &834712498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834712496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 548.6046, y: 306.4833, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &861090165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10692,6 +10750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneFader
   spriteFadeGroup: {fileID: 1231205132}
+  entrySpawnPoint: {fileID: 0}
   fadeImage: {fileID: 2140992929}
   fadeDuration: 1
   transitionImage: {fileID: 48265640}
@@ -18043,3 +18102,4 @@ SceneRoots:
   - {fileID: 1236812804}
   - {fileID: 1231205129}
   - {fileID: 937105300}
+  - {fileID: 834712498}

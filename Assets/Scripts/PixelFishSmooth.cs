@@ -158,11 +158,13 @@ public class PixelFishSmooth : MonoBehaviour
         if (player != null && cam != null)
         {
             float dist = GetScreenDistance();
-            Debug.Log("화면 거리: " + dist + " (허용: " + catchDistancePixels + ")");
 
             if (dist > catchDistancePixels)
             {
-                Debug.Log("너무 멀어요!");
+                NoticeUI.Show(
+                    "물고기가 너무 멀리 있습니다.",
+                    "The fish is too far away."
+                );
                 return;
             }
         }

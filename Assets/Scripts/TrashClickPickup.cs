@@ -56,7 +56,10 @@ public class TrashClickPickup : MonoBehaviour
 
         if (distance > pickupRange)
         {
-            Debug.Log("쓰레기가 너무 멀리 있습니다.");
+            NoticeUI.Show(
+                "쓰레기가 너무 멀리 있습니다.",
+                "The trash is too far away."
+            );
             return;
         }
 
