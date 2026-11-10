@@ -30,6 +30,13 @@ public class stageSelectUI : MonoBehaviour
     public Button enterButton;
     public Button closeButton;
 
+    [Header("잠금 표시")]
+    public GameObject lockOverlay;     // 잠겼을 때 화면 전체를 어둡게 덮는 이미지
+    public TMP_Text lockMessageText;   // 잠금 안내 문구 (잠겼을 때만 표시)
+    public LockShake lockShake;        // 입장을 눌렀을 때 흔들 자물쇠
+    public string lockMessageKor = "이전 스테이지를 클리어하면 열려요";
+    public string lockMessageEng = "Clear the previous stage to unlock.";
+
     [Header("UI 연동")]
     public GameObject bookButton;
 
@@ -96,6 +103,23 @@ public class stageSelectUI : MonoBehaviour
     {
         if (BPressed())
             CloseSelect();
+
+#if UNITY_EDITOR
+        // 테스트용: F5 = 전체 해제, F6 = 잠금 초기화
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            StageLock.UnlockAll();
+            Refresh();
+            Debug.Log("[테스트] 모든 스테이지 잠금 해제");
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            StageLock.ResetAll();
+            Refresh();
+            Debug.Log("[테스트] 스테이지 잠금 초기화");
+        }
+#endif
     }
 
     bool BPressed()
@@ -212,6 +236,21 @@ public class stageSelectUI : MonoBehaviour
                 currentIndex < stages.Length - 1;
         }
 
+        // 잠금 상태 반영 (입장 버튼은 계속 눌리게 두고, 클릭 시 EnterStage에서 처리)
+        bool locked = !StageLock.IsUnlocked(currentIndex);
+
+        if (stagePreview != null)
+            stagePreview.color = Color.white;
+
+        if (lockOverlay != null)
+            lockOverlay.SetActive(locked);
+
+        if (lockMessageText != null)
+        {
+            lockMessageText.gameObject.SetActive(locked);
+            lockMessageText.text = isKor ? lockMessageKor : lockMessageEng;
+        }
+
         UpdateOceanPreview();
     }
 
@@ -266,6 +305,15 @@ public class stageSelectUI : MonoBehaviour
             stages[currentIndex] == null)
         {
             Debug.LogError("선택한 스테이지 데이터가 없습니다.");
+            return;
+        }
+
+        // 잠긴 스테이지는 입장 불가 → 자물쇠만 흔들기
+        if (!StageLock.IsUnlocked(currentIndex))
+        {
+            if (lockShake != null)
+                lockShake.Shake();
+
             return;
         }
 

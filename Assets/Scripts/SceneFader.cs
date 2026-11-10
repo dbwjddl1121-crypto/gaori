@@ -58,6 +58,7 @@ public class SceneFader : MonoBehaviour
     public void FadeToSceneSmooth(string sceneName)
     {
         TrashCollection.ResetAll();   // 새 게임 시작 시 도감 초기화
+        StageLock.ResetAll();
         StopAllCoroutines();
         StartCoroutine(FadeOutAndLoad(sceneName));
     }
