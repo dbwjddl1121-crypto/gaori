@@ -25,15 +25,21 @@ MonoBehaviour:
     down into the midwater
     zone.
 
-    
+
 
     It floats through the fading light,
 
-    
 
-    and changes
-    have begun to appear
+
+    and changes have begun
+    to appear
 
     in the ocean''s ecosystem.'
+  stageLabelVi: "M\xE0n 2"
+  stageTitleVi: "T\u1EA7ng n\u01B0\u1EDBc gi\u1EEFa"
+  stageDescriptionVi: "R\xE1c theo d\xF2ng n\u01B0\u1EDBc tr\xF4i v\xE0o t\u1EADn
+    t\u1EA7ng n\u01B0\u1EDBc gi\u1EEFa.\r\n\r\nR\xE1c l\u01A1 l\u1EEDng gi\u1EEFa
+    th\u1EE9 \xE1nh s\xE1ng ng\xE0y m\u1ED9t m\u1EDD \u0111i,\r\n\r\nv\xE0 h\u1EC7
+    sinh th\xE1i d\u01B0\u1EDBi bi\u1EC3n c\u0169ng b\u1EAFt \u0111\u1EA7u thay \u0111\u1ED5i."
   previewImage: {fileID: 5746158101184120910, guid: c5bd592cfa9289c4380d52708980d62f, type: 3}
   stageIndex: 1

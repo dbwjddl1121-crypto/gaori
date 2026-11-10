@@ -181,16 +181,24 @@ public class stageSelectUI : MonoBehaviour
             return;
         }
 
-        bool isKor = Localization.Current == Language.Korean;
-
+        // Localization.Pick 순서: 한국어, 영어, 베트남어
         if (stageNameText != null)
-            stageNameText.text = isKor ? data.stageLabel : data.stageLabelEn;
+            stageNameText.text = Localization.Pick(
+                data.stageLabel,
+                data.stageLabelEn,
+                ViLabel(data));
 
         if (stageTitleText != null)
-            stageTitleText.text = isKor ? data.stageTitle : data.stageTitleEn;
+            stageTitleText.text = Localization.Pick(
+                data.stageTitle,
+                data.stageTitleEn,
+                ViTitle(data));
 
         if (stageDescText != null)
-            stageDescText.text = isKor ? data.stageDescription : data.stageDescriptionEn;
+            stageDescText.text = Localization.Pick(
+                data.stageDescription,
+                data.stageDescriptionEn,
+                ViDescription(data));
 
         if (stagePreview != null && data.previewImage != null)
             stagePreview.sprite = data.previewImage;
@@ -205,6 +213,36 @@ public class stageSelectUI : MonoBehaviour
         }
 
         UpdateOceanPreview();
+    }
+
+    // 스테이지 이름 (Inspector에 적은 게 있으면 그걸 우선 사용)
+    string ViLabel(stageData d)
+    {
+        if (!string.IsNullOrEmpty(d.stageLabelVi)) return d.stageLabelVi;
+        return "Màn " + (d.stageIndex + 1);
+    }
+
+    // 스테이지 제목
+    string ViTitle(stageData d)
+    {
+        if (!string.IsNullOrEmpty(d.stageTitleVi)) return d.stageTitleVi;
+
+        switch (d.stageIndex)
+        {
+            case 0: return "Vùng ven biển";   // 연안
+            case 1: return "Tầng nước giữa";  // 중층
+            case 2: return "Biển sâu";        // 심해
+        }
+        return d.stageTitleEn;
+    }
+
+    // 스테이지 설명 (아직 베트남어 번역을 안 넣어서 영어로 대신 보여줘요)
+    string ViDescription(stageData d)
+    {
+        if (!string.IsNullOrEmpty(d.stageDescriptionVi)) return d.stageDescriptionVi;
+
+        // 설명 번역을 받으면 여기에 case 0, 1, 2로 넣을 거예요
+        return d.stageDescriptionEn;
     }
 
     void UpdateOceanPreview()

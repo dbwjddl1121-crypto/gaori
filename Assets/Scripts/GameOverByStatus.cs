@@ -139,17 +139,25 @@ public class GameOverByStatus : MonoBehaviour
             cam.transform.position = originalCameraPosition;
 
         // 3. 사망 기록 표시
+        // Localization.Pick 순서: 한국어, 영어, 베트남어
         if (statsText != null)
         {
-            bool isKor = Localization.Current == Language.Korean;
+            string ko =
+                "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
+                "잡은 물고기: " + RunStats.fishCaught + "마리\n" +
+                "번 캐시: " + RunStats.cashEarned;
 
-            statsText.text = isKor
-                ? "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
-                  "잡은 물고기: " + RunStats.fishCaught + "마리\n" +
-                  "번 캐시: " + RunStats.cashEarned
-                : "Trash Collected: " + RunStats.trashCount + "\n" +
-                  "Fish Caught: " + RunStats.fishCaught + "\n" +
-                  "Cash Earned: " + RunStats.cashEarned;
+            string en =
+                "Trash Collected: " + RunStats.trashCount + "\n" +
+                "Fish Caught: " + RunStats.fishCaught + "\n" +
+                "Cash Earned: " + RunStats.cashEarned;
+
+            string vi =
+                "Rác đã thu gom: " + RunStats.trashCount + "\n" +
+                "Cá đã bắt: " + RunStats.fishCaught + "\n" +
+                "Tiền kiếm được: " + RunStats.cashEarned;
+
+            statsText.text = Localization.Pick(ko, en, vi);
         }
 
         // 4. 사망 창 표시

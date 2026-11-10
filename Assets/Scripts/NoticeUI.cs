@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,31 +8,32 @@ public class NoticeUI : MonoBehaviour
 {
     static NoticeUI instance;
 
-    [Header("ÆùÆ® (ºñ¿öµÎ¸é ¸¼Àº °íµñ ÀÚµ¿ »ç¿ë)")]
+    [Header("í°íŠ¸ (ë¹„ì›Œë‘ë©´ ë§‘ì€ ê³ ë”• ìë™ ì‚¬ìš©)")]
     public TMP_FontAsset fontAsset;
 
-    [Header("±Û¾¾")]
+    [Header("ê¸€ì”¨")]
     public float fontSize = 24f;
     public Color textColor = Color.white;
     public TextAlignmentOptions alignment = TextAlignmentOptions.BottomRight;
 
-    [Header("Å×µÎ¸® (µÎ²² 0ÀÌ¸é ¾øÀ½)")]
+    [Header("í…Œë‘ë¦¬ (ë‘ê»˜ 0ì´ë©´ ì—†ìŒ)")]
     public Color outlineColor = Color.black;
     [Range(0f, 1f)] public float outlineWidth = 0.25f;
 
-    [Header("À§Ä¡ / ¿µ¿ª (È­¸é ¿À¸¥ÂÊ ¾Æ·¡ ±âÁØ)")]
-    public Vector2 margin = new Vector2(40f, 40f);     // ¿À¸¥ÂÊ, ¾Æ·¡¿¡¼­ ¶³¾îÁø °Å¸®
-    public Vector2 boxSize = new Vector2(700f, 50f);   // ±Û¾¾°¡ µé¾î°¡´Â ¿µ¿ª
+    [Header("ìœ„ì¹˜ / ì˜ì—­ (í™”ë©´ ì˜¤ë¥¸ìª½ ì•„ë˜ ê¸°ì¤€)")]
+    public Vector2 margin = new Vector2(40f, 40f);     // ì˜¤ë¥¸ìª½, ì•„ë˜ì—ì„œ ë–¨ì–´ì§„ ê±°ë¦¬
+    public Vector2 boxSize = new Vector2(700f, 50f);   // ê¸€ì”¨ê°€ ë“¤ì–´ê°€ëŠ” ì˜ì—­
 
-    [Header("Ç¥½Ã ½Ã°£")]
+    [Header("í‘œì‹œ ì‹œê°„")]
     public float showDuration = 1.8f;
     public float fadeInTime = 0.15f;
     public float fadeOutTime = 0.3f;
 
-    [Header("Å×½ºÆ® (½ÇÇà Áß Ã¼Å©ÇÏ¸é ¹®±¸°¡ °è¼Ó º¸ÀÓ)")]
+    [Header("í…ŒìŠ¤íŠ¸ (ì‹¤í–‰ ì¤‘ ì²´í¬í•˜ë©´ ë¬¸êµ¬ê°€ ê³„ì† ë³´ì„)")]
     public bool keepShowing = false;
-    public string testKorean = "»óÁ¡ÀÌ ³Ê¹« ¸Ö¸® ÀÖ½À´Ï´Ù.";
+    public string testKorean = "ìƒì ì´ ë„ˆë¬´ ë©€ë¦¬ ìˆìŠµë‹ˆë‹¤.";
     public string testEnglish = "The shop is too far away.";
+    public string testVietnamese = "Cá»­a hÃ ng á»Ÿ quÃ¡ xa.";
 
     CanvasGroup group;
     RectTransform textRect;
@@ -41,25 +42,51 @@ public class NoticeUI : MonoBehaviour
     TMP_FontAsset autoFont;
     bool wasKeepShowing;
 
-    // »ç¿ë¹ı: NoticeUI.Show("ÇÑ±¹¾î ¹®±¸", "English text");
+    // ì˜ˆì „ ë°©ì‹: NoticeUI.Show("í•œêµ­ì–´ ë¬¸êµ¬", "English text");
+    // ë‹¤ë¥¸ ìŠ¤í¬ë¦½íŠ¸ì—ì„œ ì´ ë°©ì‹ìœ¼ë¡œ ë¶€ë¥´ê³  ìˆì–´ë„ ê·¸ëŒ€ë¡œ ë™ì‘í•´ìš”.
+    // (ë² íŠ¸ë‚¨ì–´ë¥¼ ê³ ë¥´ë©´ ì˜ì–´ ë¬¸êµ¬ê°€ ëŒ€ì‹  ë‚˜ì™€ìš”)
     public static void Show(string ko, string en, float duration = -1f)
+    {
+        Show(ko, en, GuessVietnamese(ko, en), duration);
+    }
+
+    // ë² íŠ¸ë‚¨ì–´ë¥¼ ë”°ë¡œ ì•ˆ ë„˜ê¸´ ì˜ˆì „ ë¬¸êµ¬ëŠ” í•œêµ­ì–´ ë‹¨ì–´ë¥¼ ë³´ê³  ë² íŠ¸ë‚¨ì–´ë¥¼ ê³¨ë¼ìš”
+    static string GuessVietnamese(string ko, string en)
+    {
+        if (string.IsNullOrEmpty(ko)) return en;
+
+        string k = ko.Replace(" ", "");
+        bool far = k.Contains("ë©€");
+
+        if (k.Contains("ìƒì ") && far) return "Cá»­a hÃ ng á»Ÿ quÃ¡ xa.";
+        if (k.Contains("ë¶„ë¦¬ìˆ˜ê±°í†µ") && far) return "ThÃ¹ng phÃ¢n loáº¡i rÃ¡c á»Ÿ quÃ¡ xa.";
+        if (k.Contains("ë¶„ë¦¬ìˆ˜ê±°í†µ") && k.Contains("ì˜ëª»")) return "Sai thÃ¹ng phÃ¢n loáº¡i rÃ¡c.";
+        if (k.Contains("ì“°ë ˆê¸°") && far) return "RÃ¡c á»Ÿ quÃ¡ xa.";
+        if (k.Contains("ë¬¼ê³ ê¸°") && far) return "CÃ¡ á»Ÿ quÃ¡ xa.";
+
+        return en; // í•´ë‹¹ ì—†ìœ¼ë©´ ì˜ì–´ë¡œ ë³´ì—¬ì¤˜ìš”
+    }
+
+    // ìƒˆ ë°©ì‹: NoticeUI.Show("í•œêµ­ì–´ ë¬¸êµ¬", "English text", "Tiáº¿ng Viá»‡t");
+    public static void Show(string ko, string en, string vi, float duration = -1f)
     {
         if (instance == null)
             instance = FindFirstObjectByType<NoticeUI>();
 
-        // ¾À¿¡ NoticeUI ¿ÀºêÁ§Æ®°¡ ¾øÀ¸¸é ±âº» ¼³Á¤À¸·Î ÀÚµ¿ »ı¼º
+        // ì”¬ì— NoticeUI ì˜¤ë¸Œì íŠ¸ê°€ ì—†ìœ¼ë©´ ê¸°ë³¸ ì„¤ì •ìœ¼ë¡œ ìë™ ìƒì„±
         if (instance == null)
             instance = new GameObject("NoticeUI").AddComponent<NoticeUI>();
 
-        bool isKor = Localization.Current == Language.Korean;
+        if (string.IsNullOrEmpty(vi)) vi = en;
+
         float d = duration < 0f ? instance.showDuration : duration;
 
-        instance.Display(isKor ? ko : en, d);
+        instance.Display(Localization.Pick(ko, en, vi), d);
     }
 
     void Awake()
     {
-        // ÀÛ¾÷Àå ¹Ì¸®º¸±â·Î °°ÀÌ ºÒ·¯¿Â ¾ÀÀÇ ¿ÀºêÁ§Æ®°¡ µ¤¾î¾²Áö ¾Ê°Ô ÇÔ
+        // ì‘ì—…ì¥ ë¯¸ë¦¬ë³´ê¸°ë¡œ ê°™ì´ ë¶ˆëŸ¬ì˜¨ ì”¬ì˜ ì˜¤ë¸Œì íŠ¸ê°€ ë®ì–´ì“°ì§€ ì•Šê²Œ í•¨
         if (instance == null || gameObject.scene == SceneManager.GetActiveScene())
             instance = this;
 
@@ -108,7 +135,7 @@ public class NoticeUI : MonoBehaviour
         ApplyStyle();
     }
 
-    // Inspector °ªÀ» È­¸é¿¡ Àû¿ë (½ÇÇà Áß¿¡ °ªÀ» ¹Ù²Ù¸é ¹Ù·Î ¹İ¿µµÊ)
+    // Inspector ê°’ì„ í™”ë©´ì— ì ìš© (ì‹¤í–‰ ì¤‘ì— ê°’ì„ ë°”ê¾¸ë©´ ë°”ë¡œ ë°˜ì˜ë¨)
     void ApplyStyle()
     {
         if (label == null) return;
@@ -137,28 +164,29 @@ public class NoticeUI : MonoBehaviour
         ApplyStyle();
     }
 
-    // Ç×»ó °°Àº ÇÑ±Û ÆùÆ®¸¦ °í¸£±â
+    // í•­ìƒ ê°™ì€ í•œê¸€ í°íŠ¸ë¥¼ ê³ ë¥´ê¸°
+    // (malgun SDFì— Noto Sansë¥¼ Fallbackìœ¼ë¡œ ì—°ê²°í•´ ë‘ì—ˆìœ¼ë©´ ë² íŠ¸ë‚¨ì–´ë„ ê°™ì´ ë‚˜ì™€ìš”)
     TMP_FontAsset FindKoreanFont()
     {
-        // Resources Æú´õ¿¡ NoticeFont¶ó´Â ÀÌ¸§ÀÇ TMP ÆùÆ®¸¦ ³Ö¾î µÎ¸é ±×°É ¿ì¼± »ç¿ë
+        // Resources í´ë”ì— NoticeFontë¼ëŠ” ì´ë¦„ì˜ TMP í°íŠ¸ë¥¼ ë„£ì–´ ë‘ë©´ ê·¸ê±¸ ìš°ì„  ì‚¬ìš©
         TMP_FontAsset res = Resources.Load<TMP_FontAsset>("NoticeFont");
         if (res != null) return res;
 
-        // °ÔÀÓ¿¡¼­ ¾²´Â ¸¼Àº °íµñ ÆùÆ®¸¦ ÀÌ¸§À¸·Î Ã£±â
+        // ê²Œì„ì—ì„œ ì“°ëŠ” ë§‘ì€ ê³ ë”• í°íŠ¸ë¥¼ ì´ë¦„ìœ¼ë¡œ ì°¾ê¸°
         foreach (var fa in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
         {
             if (fa != null && fa.name.ToLower().Contains("malgun"))
                 return fa;
         }
 
-        // ¸ø Ã£À¸¸é ÇÑ±ÛÀÌ µé¾î ÀÖ´Â ¾Æ¹« ÆùÆ®
+        // ëª» ì°¾ìœ¼ë©´ í•œê¸€ì´ ë“¤ì–´ ìˆëŠ” ì•„ë¬´ í°íŠ¸
         TMP_Text[] all = FindObjectsByType<TMP_Text>(
             FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         foreach (var t in all)
         {
             if (t == null || t.font == null) continue;
-            if (t.font.HasCharacter('°¡', true, true))
+            if (t.font.HasCharacter('ê°€', true, true))
                 return t.font;
         }
 
@@ -171,8 +199,7 @@ public class NoticeUI : MonoBehaviour
 
         if (keepShowing)
         {
-            bool isKor = Localization.Current == Language.Korean;
-            label.text = isKor ? testKorean : testEnglish;
+            label.text = Localization.Pick(testKorean, testEnglish, testVietnamese);
             group.alpha = 1f;
         }
         else if (wasKeepShowing)
@@ -196,7 +223,7 @@ public class NoticeUI : MonoBehaviour
         float fadeIn = Mathf.Max(0.01f, fadeInTime);
         float fadeOut = Mathf.Max(0.01f, fadeOutTime);
 
-        // ÀÌ¹Ì ¶° ÀÖÀ¸¸é ±× ¹à±â¿¡¼­ ÀÌ¾î¼­ ½ÃÀÛ (¿¬Å¸ÇØµµ ±ôºıÀÌÁö ¾Ê°Ô)
+        // ì´ë¯¸ ë–  ìˆìœ¼ë©´ ê·¸ ë°ê¸°ì—ì„œ ì´ì–´ì„œ ì‹œì‘ (ì—°íƒ€í•´ë„ ê¹œë¹¡ì´ì§€ ì•Šê²Œ)
         float t = group.alpha * fadeIn;
 
         while (t < fadeIn)

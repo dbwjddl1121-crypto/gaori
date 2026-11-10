@@ -67,6 +67,7 @@ public class MiniGameManager : MonoBehaviour
     }
 
     // 미니게임이 있는 쓰레기인지 확인
+    // (쓰레기 이름은 구분용이라 한국어 그대로 둬야 해요. 번역하면 안 돼요)
     public static bool HasMiniGame(string itemName)
     {
         return itemName == "생수병"
@@ -134,16 +135,20 @@ public class MiniGameManager : MonoBehaviour
 
         HideAllGames();
 
-        bool isKor = Localization.Current == Language.Korean;
-
         // 쓰레기별 제목, 안내 문구 설정 및 게임 켜기
+        // Localization.Pick 순서: 한국어, 영어, 베트남어
         switch (itemName)
         {
             case "생수병":
                 SetTexts(
-                    isKor ? "생수병 라벨 떼기" : "Peel the Bottle Label",
-                    isKor ? "라벨을 아래로 천천히 당겨 떼어 주세요! (너무 빠르면 찢어져요)"
-                          : "Slowly pull the label down to peel it off! (Pulling too fast will tear it)"
+                    Localization.Pick(
+                        "생수병 라벨 떼기",
+                        "Peel the Bottle Label",
+                        "Bóc nhãn chai nước"),
+                    Localization.Pick(
+                        "라벨을 아래로 천천히 당겨 떼어 주세요! (너무 빠르면 찢어져요)",
+                        "Slowly pull the label down to peel it off! (Pulling too fast will tear it)",
+                        "Hãy từ từ kéo nhãn xuống để bóc ra! (Kéo quá nhanh sẽ làm rách nhãn)")
                 );
                 if (bottleGame != null)
                     bottleGame.gameObject.SetActive(true);
@@ -153,8 +158,14 @@ public class MiniGameManager : MonoBehaviour
 
             case "깨진 유리":
                 SetTexts(
-                    isKor ? "깨진 유리 포장하기" : "Wrap the Broken Glass",
-                    isKor ? "유리 조각을 신문지 위로 옮겨 주세요!" : "Move the glass shards onto the newspaper!"
+                    Localization.Pick(
+                        "깨진 유리 포장하기",
+                        "Wrap the Broken Glass",
+                        "Gói mảnh thủy tinh vỡ"),
+                    Localization.Pick(
+                        "유리 조각을 신문지 위로 옮겨 주세요!",
+                        "Move the glass shards onto the newspaper!",
+                        "Hãy chuyển các mảnh thủy tinh lên tờ báo!")
                 );
                 if (glassGame != null)
                     glassGame.gameObject.SetActive(true);   // 켜질 때 안내 문구를 스스로 설정함
@@ -164,8 +175,14 @@ public class MiniGameManager : MonoBehaviour
 
             case "콜라캔":
                 SetTexts(
-                    isKor ? "콜라캔 찌그러뜨리기" : "Crush the Can",
-                    isKor ? "캔을 연타해서 찌그러뜨려 주세요!" : "Tap repeatedly to crush the can!"
+                    Localization.Pick(
+                        "콜라캔 찌그러뜨리기",
+                        "Crush the Can",
+                        "Đập bẹp lon nước"),
+                    Localization.Pick(
+                        "캔을 연타해서 찌그러뜨려 주세요!",
+                        "Tap repeatedly to crush the can!",
+                        "Hãy bấm liên tục để đập bẹp lon!")
                 );
                 if (canGame != null)
                     canGame.gameObject.SetActive(true);
@@ -279,8 +296,7 @@ public class MiniGameManager : MonoBehaviour
 
         RectTransform rt = completeText.rectTransform;
 
-        bool isKor = Localization.Current == Language.Korean;
-        completeText.text = isKor ? completeMessage : completeMessageEn;
+        completeText.text = Localization.Pick(completeMessage, completeMessageEn, completeMessageVi);
         completeText.gameObject.SetActive(true);
 
         // 통통 튀며 나타남
@@ -358,4 +374,7 @@ public class MiniGameManager : MonoBehaviour
 
     [Header("완료 글씨 (영어)")]
     public string completeMessageEn = "Complete!";
+
+    [Header("완료 글씨 (베트남어)")]
+    public string completeMessageVi = "Hoàn thành!";
 }

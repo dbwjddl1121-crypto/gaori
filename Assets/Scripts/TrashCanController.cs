@@ -80,7 +80,8 @@ public class TrashCanController : MonoBehaviour
             {
                 NoticeUI.Show(
                     "분리수거통이 너무 멀리 있습니다.",
-                    "The recycling bin is too far away."
+                    "The recycling bin is too far away.",
+                    "Thùng phân loại rác ở quá xa."
                 );
                 return;
             }
@@ -118,7 +119,8 @@ public class TrashCanController : MonoBehaviour
         {
             NoticeUI.Show(
                 "잘못된 분리수거통입니다.",
-                "Wrong recycling bin."
+                "Wrong recycling bin.",
+                "Sai thùng phân loại rác."
             );
             PlayWrongFeedback(); // ★ 잘못 눌렀을 때 빨간 점멸 + 쉐이크 피드백
             return;
@@ -232,6 +234,7 @@ public class TrashCanController : MonoBehaviour
         shakeCoroutine = null;
     }
 
+    // 쓰레기 이름은 구분용이라 한국어 그대로 둬야 해요. 번역하면 안 돼요.
     private bool IsCorrectTrash(Item item, TrashCanType targetCan)
     {
         if (item == null) return false;

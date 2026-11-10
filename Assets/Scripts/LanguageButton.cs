@@ -1,11 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class LanguageButton : MonoBehaviour
 {
-    [Header("��ư ����")]
+    [Header("버튼 글자")]
     public TMP_Text label;
+
+    [Header("특정 언어 버튼으로 쓰려면 체크")]
+    public bool selectDirectly = false;
+    public Language targetLanguage = Language.Korean;
 
     void Start()
     {
@@ -13,7 +17,10 @@ public class LanguageButton : MonoBehaviour
         if (button != null)
         {
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(Localization.Toggle);
+            if (selectDirectly)
+                button.onClick.AddListener(() => Localization.SetLanguage(targetLanguage));
+            else
+                button.onClick.AddListener(Localization.Toggle);
         }
 
         Localization.OnLanguageChanged += RefreshLabel;
@@ -29,8 +36,20 @@ public class LanguageButton : MonoBehaviour
     {
         if (label == null) return;
 
-        label.text = Localization.Current == Language.Korean
-            ? "���: �ѱ���"
-            : "Language: English";
+        // 직접 선택 버튼은 항상 자기 언어 이름을 표시
+        Language shown = selectDirectly ? targetLanguage : Localization.Current;
+
+        switch (shown)
+        {
+            case Language.English:
+                label.text = selectDirectly ? "English" : "Language: English";
+                break;
+            case Language.Vietnamese:
+                label.text = selectDirectly ? "Tiếng Việt" : "Ngôn ngữ: Tiếng Việt";
+                break;
+            default:
+                label.text = selectDirectly ? "한국어" : "언어: 한국어";
+                break;
+        }
     }
 }

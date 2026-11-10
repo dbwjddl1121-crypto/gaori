@@ -106,16 +106,26 @@ public class ExitByKey : MonoBehaviour
 
         if (resultStatsText != null)
         {
-            bool isKor = Localization.Current == Language.Korean;
-
             // 쓰레기 개수와 캐시는 "이번 탐험" 기준, 정화율은 이전 탐험까지 합친 값
-            resultStatsText.text = isKor
-                ? "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
-                  "번 캐시: " + RunStats.cashEarned + "\n" +
-                  "정화율: " + RunStats.PurificationPercent.ToString("F0") + "%"
-                : "Trash Collected: " + RunStats.trashCount + "\n" +
-                  "Cash Earned: " + RunStats.cashEarned + "\n" +
-                  "Purification: " + RunStats.PurificationPercent.ToString("F0") + "%";
+            // Localization.Pick 순서: 한국어, 영어, 베트남어
+            string percent = RunStats.PurificationPercent.ToString("F0") + "%";
+
+            string ko =
+                "수거한 쓰레기: " + RunStats.trashCount + "개\n" +
+                "번 캐시: " + RunStats.cashEarned + "\n" +
+                "정화율: " + percent;
+
+            string en =
+                "Trash Collected: " + RunStats.trashCount + "\n" +
+                "Cash Earned: " + RunStats.cashEarned + "\n" +
+                "Purification: " + percent;
+
+            string vi =
+                "Rác đã thu gom: " + RunStats.trashCount + "\n" +
+                "Tiền kiếm được: " + RunStats.cashEarned + "\n" +
+                "Độ sạch: " + percent;
+
+            resultStatsText.text = Localization.Pick(ko, en, vi);
         }
 
         // 꺼져 있던 창이면 처음 상태(투명 + 작게)로 맞추고 켜기

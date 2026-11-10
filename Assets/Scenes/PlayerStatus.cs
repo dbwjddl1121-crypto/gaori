@@ -25,6 +25,9 @@ public class PlayerStatus : MonoBehaviour
     private bool lastFrozen = false;
     private string freezeReason = "";
 
+    // 산소통으로 지금 더해진 산소 시간
+    private float appliedOxygenBonus = 0f;
+
     void OnEnable()
     {
         PlayerVitals.OnHealthChanged += SyncHealth;
@@ -48,7 +51,9 @@ public class PlayerStatus : MonoBehaviour
         // 작업장에서 미리보기로 로드된 씬이면 산소/체력을 줄이지 않음
         isPreview = gameObject.scene != SceneManager.GetActiveScene();
 
-        currentOxygen = maxOxygen;
+        // 산소통을 장착하고 있으면 처음부터 산소 시간이 늘어남
+        appliedOxygenBonus = EquipEffects.OxygenBonus;
+        currentOxygen = maxOxygen + appliedOxygenBonus;
 
         // 작업장에서도 최대 체력을 알 수 있게 기록
         PlayerVitals.maxHealth = maxHealth;
@@ -60,7 +65,7 @@ public class PlayerStatus : MonoBehaviour
 
         if (oxygenBar != null)
         {
-            oxygenBar.maxValue = maxOxygen;
+            oxygenBar.maxValue = maxOxygen + appliedOxygenBonus;
             oxygenBar.value = currentOxygen;
         }
 
@@ -73,7 +78,30 @@ public class PlayerStatus : MonoBehaviour
         PlayerVitals.savedHealth = currentHealth;
 
         Debug.Log("[산소/체력] 시작 / 미리보기 = " + isPreview +
-                  " / 멈춤 창 개수 = " + (freezeWhileOpen == null ? 0 : freezeWhileOpen.Length));
+                  " / 멈춤 창 개수 = " + (freezeWhileOpen == null ? 0 : freezeWhileOpen.Length) +
+                  " / 산소통 보너스 = " + appliedOxygenBonus);
+    }
+
+    // 바다에서 산소통을 장착하거나 뺐을 때 산소 시간 갱신
+    void UpdateOxygenBonus()
+    {
+        float bonus = EquipEffects.OxygenBonus;
+
+        if (Mathf.Approximately(bonus, appliedOxygenBonus)) return;
+
+        float diff = bonus - appliedOxygenBonus;
+        appliedOxygenBonus = bonus;
+
+        float newMax = maxOxygen + appliedOxygenBonus;
+        currentOxygen = Mathf.Clamp(currentOxygen + diff, 0f, newMax);
+
+        if (oxygenBar != null)
+        {
+            oxygenBar.maxValue = newMax;
+            oxygenBar.value = currentOxygen;
+        }
+
+        Debug.Log("[산소/체력] 산소통 보너스 변경 = " + appliedOxygenBonus);
     }
 
     // 정화가 끝났거나 지정한 창이 열려 있으면 true
@@ -114,6 +142,9 @@ public class PlayerStatus : MonoBehaviour
     void Update()
     {
         if (isPreview) return;
+
+        // 인벤토리를 열어서 멈춰 있는 동안에도 장착 변경이 반영되도록 먼저 확인
+        UpdateOxygenBonus();
 
         // 멈춰 있는 동안에는 산소도 체력도 줄지 않음
         bool frozen = IsFrozen();

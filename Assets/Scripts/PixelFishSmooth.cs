@@ -169,6 +169,13 @@ public class PixelFishSmooth : MonoBehaviour
             }
         }
 
+        // 작살을 장착했으면 한 번에 잡힘
+        if (EquipEffects.HasHarpoon)
+        {
+            Catch();
+            return;
+        }
+
         hitCount++;
 
         if (hitCount >= hitsToCatch)

@@ -24,6 +24,9 @@ public class PurificationManager : MonoBehaviour
     [SerializeField] float holdAfterSparkle = 0.5f;
 
     [Header("전체 화면 맞춤")]
+    [Tooltip("체크하면 화면을 이미지로 꽉 채워서 바깥이 안 보여요 (이미지 가장자리 일부가 잘림). " +
+             "해제하면 이미지 전체가 보이지만 비율이 다르면 바깥이 보일 수 있어요.")]
+    [SerializeField] bool coverScreen = true;
     [SerializeField] float fitPadding = 1.0f;
 
     [Header("샤라라 효과")]
@@ -41,9 +44,10 @@ public class PurificationManager : MonoBehaviour
     [SerializeField] TMP_Text percentText;
     [SerializeField] Slider percentSlider;
 
-    [Header("UI 라벨 (영어)")]
+    [Header("UI 라벨")]
     [SerializeField] string percentLabelKo = "정화도";
     [SerializeField] string percentLabelEn = "Purity";
+    [SerializeField] string percentLabelVi = "Độ sạch";
 
     [Header("나가기")]
     [SerializeField] string returnSceneName = "GameScene";
@@ -153,6 +157,9 @@ public class PurificationManager : MonoBehaviour
         Camera cam = Camera.main;
         Bounds bounds = GetOceanBounds();
 
+        // 반짝이를 뿌릴 영역 (기본은 바다 이미지 전체)
+        Bounds sparkleBounds = bounds;
+
         float fitSize = 0f;
         Vector3 fitPos = Vector3.zero;
 
@@ -175,12 +182,24 @@ public class PurificationManager : MonoBehaviour
             float sizeByH = bounds.size.y / 2f;
             float sizeByW = bounds.size.x / (2f * cam.aspect);
 
-            fitSize = Mathf.Max(sizeByH, sizeByW) * fitPadding;
+            // coverScreen: 화면을 이미지로 꽉 채움 (바깥이 안 보임)
+            // 아니면: 이미지 전체가 화면에 들어옴 (비율이 다르면 바깥이 보임)
+            float baseSize = coverScreen
+                ? Mathf.Min(sizeByH, sizeByW)
+                : Mathf.Max(sizeByH, sizeByW);
+
+            fitSize = baseSize * fitPadding;
 
             fitPos = new Vector3(
                 bounds.center.x,
                 bounds.center.y,
                 cam.transform.position.z
+            );
+
+            // 반짝이는 실제로 화면에 보이는 영역에만 뿌림
+            sparkleBounds = new Bounds(
+                new Vector3(fitPos.x, fitPos.y, 0f),
+                new Vector3(fitSize * 2f * cam.aspect, fitSize * 2f, 1f)
             );
 
             Vector3 startPos = cam.transform.position;
@@ -226,7 +245,7 @@ public class PurificationManager : MonoBehaviour
         SetAlpha(pollutedRenderer, 0f);
 
         // 바다가 깨끗해진 뒤 화면 전체에 반짝이 표시
-        PlayFullScreenSparkle(bounds);
+        PlayFullScreenSparkle(sparkleBounds);
 
         if (sparkleSound != null)
             sparkleSound.Play();
@@ -386,8 +405,9 @@ public class PurificationManager : MonoBehaviour
 
         if (percentText != null)
         {
-            bool isKor = Localization.Current == Language.Korean;
-            string label = isKor ? percentLabelKo : percentLabelEn;
+            // Localization.Pick 순서: 한국어, 영어, 베트남어
+            string label = Localization.Pick(
+                percentLabelKo, percentLabelEn, percentLabelVi);
             percentText.text = label + " " + p + "%";
         }
 

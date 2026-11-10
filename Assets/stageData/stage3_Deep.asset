@@ -25,17 +25,24 @@ MonoBehaviour:
     to the deep, dark
     sea.
 
-    
+
 
     Traces of pollution remain
 
     where no light can reach,
 
-    
+
 
     and
     even the ocean''s blue
 
     is fading away.'
+  stageLabelVi: "M\xE0n 3"
+  stageTitleVi: "Bi\u1EC3n s\xE2u"
+  stageDescriptionVi: "R\xE1c \u0111\xE3 ch\xECm xu\u1ED1ng t\u1EADn v\xF9ng bi\u1EC3n
+    s\xE2u t\u1ED1i t\u0103m.\n\nD\u01B0\u1EDBi \u0111\xE1y bi\u1EC3n n\u01A1i \xE1nh
+    s\xE1ng kh\xF4ng th\u1EC3 ch\u1EA1m t\u1EDBi,\nd\u1EA5u v\u1EBFt \xF4 nhi\u1EC5m
+    v\u1EABn c\xF2n \u0111\xF3,\n\nv\xE0 ngay c\u1EA3 s\u1EAFc xanh c\u1EE7a bi\u1EC3n
+    c\u0169ng d\u1EA7n nh\u1EA1t \u0111i."
   previewImage: {fileID: -3185492047411741784, guid: 49792286d2738d941bd79721ca79d3c5, type: 3}
   stageIndex: 2

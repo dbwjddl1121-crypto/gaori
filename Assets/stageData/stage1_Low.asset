@@ -25,15 +25,21 @@ MonoBehaviour:
     has spread across
     the coast.
 
-    
+
 
     The once familiar, blue sea
 
     has turned murky,
 
-    
+
 
     and
     trash has begun piling up everywhere.'
+  stageLabelVi: "M\xE0n 1"
+  stageTitleVi: "V\xF9ng ven bi\u1EC3n"
+  stageDescriptionVi: "R\xE1c th\u1EA3i lan ra t\u1EEB v\u1EE5 tai n\u1EA1n th\xED
+    nghi\u1EC7m\r\n\u0111\xE3 ph\u1EE7 k\xEDn kh\u1EAFp v\xF9ng ven bi\u1EC3n.\r\n\r\nBi\u1EC3n
+    xanh quen thu\u1ED9c nay \u0111\xE3 tr\u1EDF n\xEAn \u0111\u1EE5c ng\u1EA7u,\r\n\r\nv\xE0
+    r\xE1c b\u1EAFt \u0111\u1EA7u ch\u1EA5t th\xE0nh \u0111\u1ED1ng kh\u1EAFp n\u01A1i."
   previewImage: {fileID: 21300000, guid: eca5c09b3b0406f4ebfe120d9bfbfdd6, type: 3}
   stageIndex: 0

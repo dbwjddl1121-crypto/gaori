@@ -1,11 +1,12 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class Slot : MonoBehaviour,
+    IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler,
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [Header("UI 컴포넌트")]
     public Image iconImage;
@@ -25,6 +26,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     public Item CurrentItem => currentItem;
 
     private bool hovering = false;
+
+    // 드래그 중 마우스를 따라다니는 아이콘
+    private GameObject dragGhost;
+    private Canvas dragCanvas;
 
     void Awake()
     {
@@ -91,7 +96,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
         OnAnySlotChanged?.Invoke();
     }
 
-    // 마우스가 슬롯에 올라오면 툴팁 표시
+    // ───────── 툴팁 ─────────
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isMirror) return;
@@ -112,6 +118,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
     void OnDisable()
     {
         HideTooltip();
+        DestroyGhost();
     }
 
     void HideTooltip()
@@ -125,6 +132,140 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, I
             ItemTooltip.Instance.Hide();
         }
     }
+
+    // ───────── 드래그 앤 드롭 ─────────
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (isMirror) return;
+        if (currentItem == null || iconImage == null || iconImage.sprite == null) return;
+
+        HideTooltip();
+
+        Canvas canvas = GetComponentInParent<Canvas>();
+        if (canvas == null) return;
+        dragCanvas = canvas.rootCanvas;
+
+        // 마우스를 따라다닐 복사 아이콘 만들기
+        dragGhost = new GameObject("DragGhost");
+        dragGhost.transform.SetParent(dragCanvas.transform, false);
+        dragGhost.transform.SetAsLastSibling();
+
+        Image ghostImage = dragGhost.AddComponent<Image>();
+        ghostImage.sprite = iconImage.sprite;
+        ghostImage.preserveAspect = true;
+        ghostImage.raycastTarget = false; // 드롭 대상을 가리지 않게
+
+        RectTransform ghostRect = dragGhost.GetComponent<RectTransform>();
+        ghostRect.sizeDelta = iconImage.rectTransform.rect.size;
+
+        // 원래 칸의 아이콘은 반투명하게
+        Color c = iconImage.color;
+        c.a = 0.4f;
+        iconImage.color = c;
+
+        MoveGhost(eventData);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (dragGhost == null) return;
+        MoveGhost(eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        DestroyGhost();
+
+        // 슬롯 밖에 놓았거나 취소되면 아이콘 원래대로
+        if (iconImage != null)
+        {
+            Color c = iconImage.color;
+            c.a = 1f;
+            iconImage.color = c;
+        }
+    }
+
+    // 다른 칸 위에 놓였을 때: 두 칸의 아이템 맞바꾸기
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (isMirror) return;
+
+        GameObject dragged = eventData.pointerDrag;
+        if (dragged == null) return;
+
+        InventoryManager manager = FindFirstObjectByType<InventoryManager>();
+
+        // 장비칸에서 끌어온 경우
+        EquipSlot equip = dragged.GetComponentInParent<EquipSlot>();
+        if (equip != null)
+        {
+            Item equipItem = equip.CurrentItem;
+            if (equipItem == null) return;
+
+            Item myItem = this.currentItem;
+
+            // 내 칸에 있던 아이템이 장비칸에 못 들어가는 종류면 취소
+            if (myItem != null && !equip.CanEquip(myItem))
+            {
+                Debug.Log("그 아이템은 이 장비칸에 들어갈 수 없어요: " + myItem.itemName);
+                return;
+            }
+
+            this.SetItem(equipItem);
+            equip.SetEquipped(myItem); // myItem이 null이면 장비칸 비워짐
+
+            if (manager != null) manager.SaveToStore();
+            return;
+        }
+
+        // 인벤토리 칸에서 끌어온 경우
+        Slot from = dragged.GetComponentInParent<Slot>();
+        if (from == null || from == this || from.isMirror) return;
+        if (from.CurrentItem == null) return;
+
+        Item fromItem = from.CurrentItem;
+        Item toItem = this.currentItem;
+
+        this.SetItem(fromItem);
+
+        if (toItem != null)
+            from.SetItem(toItem);
+        else
+            from.ClearSlot();
+
+        if (manager != null) manager.SaveToStore();
+    }
+
+    void MoveGhost(PointerEventData eventData)
+    {
+        if (dragGhost == null || dragCanvas == null) return;
+
+        if (dragCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+        {
+            dragGhost.transform.position = eventData.position;
+        }
+        else
+        {
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                dragCanvas.transform as RectTransform,
+                eventData.position,
+                dragCanvas.worldCamera,
+                out Vector3 worldPos);
+            dragGhost.transform.position = worldPos;
+        }
+    }
+
+    void DestroyGhost()
+    {
+        if (dragGhost != null)
+        {
+            Destroy(dragGhost);
+            dragGhost = null;
+        }
+    }
+
+    // ───────── 아이템 사용 ─────────
 
     // 인벤토리 슬롯 우클릭: 체력 포션 사용
     public void OnPointerClick(PointerEventData eventData)
