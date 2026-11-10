@@ -328,6 +328,8 @@ MonoBehaviour:
   sparkleSpreadSpeed: 0.5
   percentText: {fileID: 0}
   percentSlider: {fileID: 0}
+  percentLabelKo: "\uC815\uD654\uB3C4"
+  percentLabelEn: Purity
   returnSceneName: GameScene
 --- !u!4 &144470453
 Transform:
@@ -1239,7 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a46aed69fb357d4b8c9d75004442d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 30
+  moveSpeed: 55
 --- !u!95 &356657604
 Animator:
   serializedVersion: 7
@@ -1872,7 +1874,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.3099999
+  m_Radius: 1.91
 --- !u!114 &605066820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2030,7 +2032,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.16
+  m_Radius: 0.87
 --- !u!114 &605489951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5138,10 +5140,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   oxygenBar: {fileID: 1314810642}
   healthBar: {fileID: 551833794}
-  maxOxygen: 5
-  maxHealth: 10
+  maxOxygen: 30
+  maxHealth: 20
   healthTickInterval: 5
-  healthDamagePerTick: 3
+  healthDamagePerTick: 5
+  freezeWhileOpen: []
 --- !u!114 &1231205131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12417,7 +12420,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.185
+  m_Radius: 1.16
 --- !u!114 &1972240229
 MonoBehaviour:
   m_ObjectHideFlags: 0
