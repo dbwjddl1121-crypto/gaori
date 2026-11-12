@@ -40,7 +40,7 @@ Texture2D:
   m_ColorSpace: 1
   m_PlatformBlob: 
   image data: 1
-  _typelessdata: cd
+  _typelessdata: 00
   m_StreamData:
     serializedVersion: 2
     offset: 0
@@ -126,7 +126,59 @@ MonoBehaviour:
     m_Height: 1023
   m_FontFeatureTable:
     m_MultipleSubstitutionRecords: []
-    m_LigatureSubstitutionRecords: []
+    m_LigatureSubstitutionRecords:
+    - m_ComponentGlyphIDs: 1200000011000000b8130000
+      m_LigatureGlyphID: 2366
+    - m_ComponentGlyphIDs: 120000001100000059140000
+      m_LigatureGlyphID: 2079
+    - m_ComponentGlyphIDs: 120000001100000043180000
+      m_LigatureGlyphID: 2231
+    - m_ComponentGlyphIDs: 1200000012000000b8130000
+      m_LigatureGlyphID: 2367
+    - m_ComponentGlyphIDs: 120000001200000059140000
+      m_LigatureGlyphID: 2080
+    - m_ComponentGlyphIDs: 120000001200000043180000
+      m_LigatureGlyphID: 2232
+    - m_ComponentGlyphIDs: 1200000013000000b8130000
+      m_LigatureGlyphID: 2368
+    - m_ComponentGlyphIDs: 120000001300000059140000
+      m_LigatureGlyphID: 2081
+    - m_ComponentGlyphIDs: 120000001300000043180000
+      m_LigatureGlyphID: 2233
+    - m_ComponentGlyphIDs: 1200000014000000b8130000
+      m_LigatureGlyphID: 2369
+    - m_ComponentGlyphIDs: 120000001400000043180000
+      m_LigatureGlyphID: 2234
+    - m_ComponentGlyphIDs: 1200000015000000b8130000
+      m_LigatureGlyphID: 2370
+    - m_ComponentGlyphIDs: 120000001500000043180000
+      m_LigatureGlyphID: 2235
+    - m_ComponentGlyphIDs: 1200000016000000b8130000
+      m_LigatureGlyphID: 2371
+    - m_ComponentGlyphIDs: 120000001600000043180000
+      m_LigatureGlyphID: 2236
+    - m_ComponentGlyphIDs: 1200000017000000b8130000
+      m_LigatureGlyphID: 2372
+    - m_ComponentGlyphIDs: 120000001700000043180000
+      m_LigatureGlyphID: 2237
+    - m_ComponentGlyphIDs: 1200000018000000b8130000
+      m_LigatureGlyphID: 2373
+    - m_ComponentGlyphIDs: 120000001800000043180000
+      m_LigatureGlyphID: 2238
+    - m_ComponentGlyphIDs: 1200000019000000b8130000
+      m_LigatureGlyphID: 2374
+    - m_ComponentGlyphIDs: 120000001900000043180000
+      m_LigatureGlyphID: 2239
+    - m_ComponentGlyphIDs: 120000001a000000b8130000
+      m_LigatureGlyphID: 2375
+    - m_ComponentGlyphIDs: 120000001a00000043180000
+      m_LigatureGlyphID: 2240
+    - m_ComponentGlyphIDs: 12000000b8130000
+      m_LigatureGlyphID: 2357
+    - m_ComponentGlyphIDs: 1200000059140000
+      m_LigatureGlyphID: 2070
+    - m_ComponentGlyphIDs: 1200000043180000
+      m_LigatureGlyphID: 2222
     m_GlyphPairAdjustmentRecords: []
     m_MarkToBaseAdjustmentRecords: []
     m_MarkToMarkAdjustmentRecords: []
@@ -260,9 +312,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.9
+    - _ScaleRatioB: 0.73125
+    - _ScaleRatioC: 0.73125
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

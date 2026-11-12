@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 // 심해 씬을 어둡게 덮고, 플레이어 주변만 동그랗게 보이게 합니다.
 // 손전등을 장착하면 보이는 동그라미가 커집니다.
+// 정화가 끝나면(클리어 연출) 어둠이 사라져서 화면 전체가 보입니다.
 public class DeepDarkness : MonoBehaviour
 {
     [Header("어둠")]
@@ -15,6 +16,9 @@ public class DeepDarkness : MonoBehaviour
     [Range(0.02f, 1f)] public float flashlightRadius = 0.28f;  // 손전등 장착했을 때
     [Range(0f, 0.95f)] public float softEdge = 0.6f; // 가장자리가 부드러운 정도
     public float smoothSpeed = 6f;                   // 크기가 바뀔 때 부드러운 정도
+
+    [Header("정화 완료 시 어둠이 걷히는 속도 (클수록 빨리 사라짐)")]
+    public float clearFadeSpeed = 3f;
 
     [Header("테스트")]
     public bool darknessOn = true;                   // 끄면 어둠이 사라짐
@@ -42,6 +46,17 @@ public class DeepDarkness : MonoBehaviour
         get { return FlashlightOn ? flashlightRadius : visibleRadius; }
     }
 
+    // 정화가 끝났으면 어둠을 0으로, 아니면 설정한 어둠 세기로
+    float TargetAlpha
+    {
+        get
+        {
+            if (!darknessOn) return 0f;
+            if (PurificationManager.PurificationDone) return 0f;
+            return darkness;
+        }
+    }
+
     void Start()
     {
         // 작업장에서 미리보기로 같이 불러온 씬이면 어둠을 만들지 않음
@@ -56,7 +71,7 @@ public class DeepDarkness : MonoBehaviour
         Build();
 
         currentRadius = TargetRadius;
-        currentAlpha = darknessOn ? darkness : 0f;
+        currentAlpha = TargetAlpha;
         built = true;
     }
 
@@ -145,7 +160,17 @@ public class DeepDarkness : MonoBehaviour
         // 어둠 세기와 동그라미 크기를 부드럽게 바꿈
         float t = 1f - Mathf.Exp(-smoothSpeed * Time.unscaledDeltaTime);
         currentRadius = Mathf.Lerp(currentRadius, TargetRadius, t);
-        currentAlpha = Mathf.Lerp(currentAlpha, darknessOn ? darkness : 0f, t);
+
+        // 정화가 끝났을 때는 어둠이 걷히는 속도를 따로 적용
+        float alphaSpeed = PurificationManager.PurificationDone ? clearFadeSpeed : smoothSpeed;
+        float ta = 1f - Mathf.Exp(-alphaSpeed * Time.unscaledDeltaTime);
+        currentAlpha = Mathf.Lerp(currentAlpha, TargetAlpha, ta);
+
+        // 어둠이 거의 다 사라졌으면 캔버스를 꺼서 화면 전체가 깨끗하게 보이게 함
+        bool visible = currentAlpha > 0.003f;
+        if (canvas != null && canvas.enabled != visible)
+            canvas.enabled = visible;
+        if (!visible) return;
 
         float W = Screen.width;
         float H = Screen.height;

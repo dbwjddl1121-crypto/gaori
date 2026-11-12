@@ -87,6 +87,13 @@ public class TrashClickPickup : MonoBehaviour
             else
             {
                 Debug.Log("인벤토리가 가득 찼습니다!");
+
+                // 인벤토리가 꽉 찼을 때 화면에 안내 문구 표시
+                NoticeUI.Show(
+                    "인벤토리가 가득 찼습니다!",
+                    "Your inventory is full!",
+                    "Túi đồ đã đầy!"
+                );
             }
         }
         else
