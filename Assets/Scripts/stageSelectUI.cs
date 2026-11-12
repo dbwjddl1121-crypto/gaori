@@ -14,10 +14,10 @@ public class stageSelectUI : MonoBehaviour
     [Header("스테이지별 씬 이름")]
     public string[] sceneNames =
     {
-        "GameScene_Team",
-        "GameScene_Mid",
-        "GameScene_Deep"
-    };
+    "GameScene_Team",
+    "GameScene_Mid",
+    "GameScene_Deep"
+};
 
     [Header("UI 연결")]
     public TMP_Text stageNameText;
@@ -31,9 +31,9 @@ public class stageSelectUI : MonoBehaviour
     public Button closeButton;
 
     [Header("잠금 표시")]
-    public GameObject lockOverlay;     // 잠겼을 때 화면 전체를 어둡게 덮는 이미지
-    public TMP_Text lockMessageText;   // 잠금 안내 문구 (잠겼을 때만 표시)
-    public LockShake lockShake;        // 입장을 눌렀을 때 흔들 자물쇠
+    public GameObject lockOverlay;
+    public TMP_Text lockMessageText;
+    public LockShake lockShake;
     public string lockMessageKor = "이전 스테이지를 클리어하면 열려요";
     public string lockMessageEng = "Clear the previous stage to unlock.";
 
@@ -103,7 +103,6 @@ public class stageSelectUI : MonoBehaviour
     {
         if (BPressed())
             CloseSelect();
-
 #if UNITY_EDITOR
         // 테스트용: F5 = 전체 해제, F6 = 잠금 초기화
         if (Input.GetKeyDown(KeyCode.F5))
@@ -126,9 +125,9 @@ public class stageSelectUI : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         return Keyboard.current != null &&
-               Keyboard.current.bKey.wasPressedThisFrame;
+        Keyboard.current.bKey.wasPressedThisFrame;
 #else
-        return Input.GetKeyDown(KeyCode.B);
+return Input.GetKeyDown(KeyCode.B);
 #endif
     }
 
@@ -236,7 +235,7 @@ public class stageSelectUI : MonoBehaviour
                 currentIndex < stages.Length - 1;
         }
 
-        // 잠금 상태 반영 (입장 버튼은 계속 눌리게 두고, 클릭 시 EnterStage에서 처리)
+        // 잠금 상태 반영
         bool locked = !StageLock.IsUnlocked(currentIndex);
 
         if (stagePreview != null)
@@ -248,39 +247,47 @@ public class stageSelectUI : MonoBehaviour
         if (lockMessageText != null)
         {
             lockMessageText.gameObject.SetActive(locked);
-            lockMessageText.text = isKor ? lockMessageKor : lockMessageEng;
+            lockMessageText.text = Localization.Pick(
+                lockMessageKor,
+                lockMessageEng,
+                lockMessageEng
+            );
         }
 
         UpdateOceanPreview();
     }
 
-    // 스테이지 이름 (Inspector에 적은 게 있으면 그걸 우선 사용)
+    // 스테이지 이름
     string ViLabel(stageData d)
     {
-        if (!string.IsNullOrEmpty(d.stageLabelVi)) return d.stageLabelVi;
+        if (!string.IsNullOrEmpty(d.stageLabelVi))
+            return d.stageLabelVi;
+
         return "Màn " + (d.stageIndex + 1);
     }
 
     // 스테이지 제목
     string ViTitle(stageData d)
     {
-        if (!string.IsNullOrEmpty(d.stageTitleVi)) return d.stageTitleVi;
+        if (!string.IsNullOrEmpty(d.stageTitleVi))
+            return d.stageTitleVi;
 
         switch (d.stageIndex)
         {
-            case 0: return "Vùng ven biển";   // 연안
-            case 1: return "Tầng nước giữa";  // 중층
-            case 2: return "Biển sâu";        // 심해
+            case 0: return "Vùng ven biển";
+            case 1: return "Tầng nước giữa";
+            case 2: return "Biển sâu";
         }
+
         return d.stageTitleEn;
     }
 
-    // 스테이지 설명 (아직 베트남어 번역을 안 넣어서 영어로 대신 보여줘요)
+    // 스테이지 설명
     string ViDescription(stageData d)
     {
-        if (!string.IsNullOrEmpty(d.stageDescriptionVi)) return d.stageDescriptionVi;
+        if (!string.IsNullOrEmpty(d.stageDescriptionVi))
+            return d.stageDescriptionVi;
 
-        // 설명 번역을 받으면 여기에 case 0, 1, 2로 넣을 거예요
         return d.stageDescriptionEn;
     }
 
@@ -308,7 +315,7 @@ public class stageSelectUI : MonoBehaviour
             return;
         }
 
-        // 잠긴 스테이지는 입장 불가 → 자물쇠만 흔들기
+        // 잠긴 스테이지는 입장 불가
         if (!StageLock.IsUnlocked(currentIndex))
         {
             if (lockShake != null)
@@ -370,3 +377,4 @@ public class stageSelectUI : MonoBehaviour
         sceneFader.CloseStageSelect();
     }
 }
+
