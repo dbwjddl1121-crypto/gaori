@@ -253,7 +253,9 @@ public class TrashCanController : MonoBehaviour
                 return name == "생수병";
 
             case TrashCanType.Vinyl:
-                return name == "비닐봉지";
+                return name == "비닐봉지"
+                    || name == "과자봉지"
+                    || name == "라면 봉지";
 
             case TrashCanType.Can:
                 return name == "참치캔"
@@ -263,9 +265,7 @@ public class TrashCanController : MonoBehaviour
             case TrashCanType.General:
                 return name == "종이컵"
                     || name == "피자박스"
-                    || name == "깨진 유리"
-                    || name == "과자봉지"
-                    || name == "라면 봉지";
+                    || name == "깨진 유리";
         }
 
         return false;

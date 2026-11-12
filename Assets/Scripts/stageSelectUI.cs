@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -14,10 +15,10 @@ public class stageSelectUI : MonoBehaviour
     [Header("스테이지별 씬 이름")]
     public string[] sceneNames =
     {
-    "GameScene_Team",
-    "GameScene_Mid",
-    "GameScene_Deep"
-};
+        "GameScene_Team",
+        "GameScene_Mid",
+        "GameScene_Deep"
+    };
 
     [Header("UI 연결")]
     public TMP_Text stageNameText;
@@ -103,6 +104,7 @@ public class stageSelectUI : MonoBehaviour
     {
         if (BPressed())
             CloseSelect();
+
 #if UNITY_EDITOR
         // 테스트용: F5 = 전체 해제, F6 = 잠금 초기화
         if (Input.GetKeyDown(KeyCode.F5))
@@ -125,9 +127,9 @@ public class stageSelectUI : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         return Keyboard.current != null &&
-        Keyboard.current.bKey.wasPressedThisFrame;
+               Keyboard.current.bKey.wasPressedThisFrame;
 #else
-return Input.GetKeyDown(KeyCode.B);
+        return Input.GetKeyDown(KeyCode.B);
 #endif
     }
 
@@ -377,4 +379,3 @@ return Input.GetKeyDown(KeyCode.B);
         sceneFader.CloseStageSelect();
     }
 }
-

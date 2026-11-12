@@ -32,7 +32,7 @@ MonoBehaviour:
       \uB69C\uAED1\uC744 \uBD84\uB9AC\uD574\uC11C \uC720\uB9AC\uBCD1 \uD1B5\uC5D0
       \uBC84\uB824\uC694. \uAE68\uC9C4 \uC720\uB9AC\uB294 \uC2E0\uBB38\uC9C0\uC5D0
       \uC2F8\uC11C \uC77C\uBC18 \uC4F0\uB808\uAE30\uB85C \uBC84\uB824\uC694."
-  - itemName: "\uC720\uB9AC \uACF5\uBCD1"
+  - itemName: "\uC720\uB9AC\uACF5\uBCD1"
     icon: {fileID: -382896075446734618, guid: 41a9fed220cb5b04faa36e85641668b3, type: 3}
     category: 1
     description: "\uC74C\uB8CC\uC218\uBCD1, \uC18C\uC2A4\uBCD1 \uAC19\uC740 \uC720\uB9AC
@@ -61,7 +61,7 @@ MonoBehaviour:
     recycleTip: "\uB0B4\uC6A9\uBB3C\uC744 \uBE44\uC6B0\uACE0 \uD5F9\uAD70 \uB4A4
       \uCC0C\uADF8\uB7EC\uB728\uB824\uC11C \uCE94 \uD1B5\uC5D0 \uBC84\uB824\uC694.
       \uC548\uC5D0 \uB2F4\uBC30\uAF41\uCD08\uB97C \uB123\uC73C\uBA74 \uC548 \uB3FC\uC694."
-  - itemName: "\uD1B5\uC870\uB9BD \uCE94"
+  - itemName: "\uD1B5\uC870\uB9BC\uCE94"
     icon: {fileID: -4096823603353507263, guid: 41a9fed220cb5b04faa36e85641668b3, type: 3}
     category: 4
     description: "\uC74C\uB8CC\uC218 \uCE94, \uD1B5\uC870\uB9BC \uCE94 \uAC19\uC740
@@ -88,7 +88,7 @@ MonoBehaviour:
     recycleTip: "\uD53C\uC790 \uC0C1\uC790\uB098 \uAE30\uB984 \uBB3B\uC740 \uC885\uC774,
       \uC816\uC740 \uC885\uC774\uB294 \uC885\uB7C9\uC81C \uBD09\uD22C\uC5D0 \uB2F4\uC544
       \uC77C\uBC18 \uC4F0\uB808\uAE30\uB85C \uBC84\uB824\uC694."
-  - itemName: "\uD53C\uC790 \uBC15\uC2A4"
+  - itemName: "\uD53C\uC790\uBC15\uC2A4"
     icon: {fileID: -2289889273813980661, guid: 41a9fed220cb5b04faa36e85641668b3, type: 3}
     category: 0
     description: "\uC74C\uC2DD\uBB3C\uC774\uB098 \uAE30\uB984\uC774 \uBB3B\uC5B4
@@ -97,7 +97,7 @@ MonoBehaviour:
     recycleTip: "\uD53C\uC790 \uC0C1\uC790\uB098 \uAE30\uB984 \uBB3B\uC740 \uC885\uC774,
       \uC816\uC740 \uC885\uC774\uB294 \uC885\uB7C9\uC81C \uBD09\uD22C\uC5D0 \uB2F4\uC544
       \uC77C\uBC18 \uC4F0\uB808\uAE30\uB85C \uBC84\uB824\uC694."
-  - itemName: "\uAE68\uC9C4 \uC720\uB9AC"
+  - itemName: "\uAE68\uC9C4\uC720\uB9AC"
     icon: {fileID: -7469405785105167509, guid: 41a9fed220cb5b04faa36e85641668b3, type: 3}
     category: 0
     description: "\uC74C\uB8CC\uC218\uBCD1, \uC18C\uC2A4\uBCD1 \uAC19\uC740 \uC720\uB9AC
@@ -125,7 +125,7 @@ MonoBehaviour:
     recycleTip: "\uB0B4\uC6A9\uBB3C\uC744 \uBE44\uC6B0\uACE0 \uD5F9\uAD70 \uB4A4,
       \uB77C\uBCA8\uC744 \uB5BC\uACE0 \uCC0C\uADF8\uB7EC\uB728\uB824 \uD50C\uB77C\uC2A4\uD2F1
       \uD1B5\uC5D0 \uBC84\uB824\uC694.\n"
-  - itemName: "\uB77C\uBA74 \uBD09\uC9C0"
+  - itemName: "\uB77C\uBA74\uBD09\uC9C0"
     icon: {fileID: 9140861201569050054, guid: 5dbc8874b95efbc44a537e6f9193dabd, type: 3}
     category: 3
     description: "\uD398\uD2B8\uBCD1, \uC6A9\uAE30 \uB4F1 \uD50C\uB77C\uC2A4\uD2F1\uC73C\uB85C

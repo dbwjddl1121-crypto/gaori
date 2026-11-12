@@ -1662,7 +1662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uAE61\uD1B5"
+  trashName: "\uD1B5\uC870\uB9BC\uCE94"
 --- !u!58 &360406993
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2076,7 +2076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uC720\uB9AC \uACF5\uBCD1"
+  trashName: "\uC720\uB9AC\uACF5\uBCD1"
 --- !u!58 &421895608
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2438,7 +2438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uB77C\uBA74 \uBD09\uC9C0"
+  trashName: "\uB77C\uBA74\uBD09\uC9C0"
 --- !u!212 &605066821
 SpriteRenderer:
   serializedVersion: 2
@@ -4440,7 +4440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uD53C\uC790 \uBC15\uC2A4"
+  trashName: "\uD53C\uC790\uBC15\uC2A4"
 --- !u!58 &866831964
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5894,6 +5894,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6992348715578675673, guid: aa794d9909f2e4e47a84f58f6c5cc25b, type: 3}
   m_PrefabInstance: {fileID: 1024386449}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1024386452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5539909136872634388, guid: aa794d9909f2e4e47a84f58f6c5cc25b, type: 3}
+  m_PrefabInstance: {fileID: 1024386449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1058901584
 GameObject:
   m_ObjectHideFlags: 0
@@ -7016,7 +7021,8 @@ MonoBehaviour:
   maxHealth: 20
   healthTickInterval: 5
   healthDamagePerTick: 5
-  freezeWhileOpen: []
+  freezeWhileOpen:
+  - {fileID: 1024386452}
 --- !u!114 &1231205131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12550,7 +12556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uC720\uB9AC \uACF5\uBCD1"
+  trashName: "\uC720\uB9AC\uACF5\uBCD1"
 --- !u!58 &1382564067
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13097,7 +13103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uBA38\uADF8\uCEF5"
+  trashName: "\uAE68\uC9C4\uC720\uB9AC"
 --- !u!58 &1434917447
 CircleCollider2D:
   m_ObjectHideFlags: 0
