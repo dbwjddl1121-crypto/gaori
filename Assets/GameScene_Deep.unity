@@ -7674,7 +7674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a46aed69fb357d4b8c9d75004442d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 70
+  moveSpeed: 55
 --- !u!95 &356657604
 Animator:
   serializedVersion: 7
@@ -12237,8 +12237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   oxygenBar: {fileID: 1314810642}
   healthBar: {fileID: 551833794}
-  maxOxygen: 50000
-  maxHealth: 50000
+  maxOxygen: 30
+  maxHealth: 20
   healthTickInterval: 5
   healthDamagePerTick: 5
   freezeWhileOpen:

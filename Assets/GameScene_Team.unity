@@ -12047,8 +12047,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   oxygenBar: {fileID: 1314810642}
   healthBar: {fileID: 551833794}
-  maxOxygen: 100000
-  maxHealth: 100000
+  maxOxygen: 30
+  maxHealth: 20
   healthTickInterval: 5
   healthDamagePerTick: 5
   freezeWhileOpen:
