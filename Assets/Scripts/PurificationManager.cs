@@ -52,6 +52,9 @@ public class PurificationManager : MonoBehaviour
     [Header("나가기")]
     [SerializeField] string returnSceneName = "GameScene";
 
+    [Header("엔딩")]
+    [SerializeField] string endingSceneName = "EndingScene";
+
     List<GameObject> trashList = new List<GameObject>();
     int totalTrash;
 
@@ -253,6 +256,14 @@ public class PurificationManager : MonoBehaviour
         yield return new WaitForSeconds(
             sparkleDuration + holdAfterSparkle
         );
+
+        // 심해(마지막 스테이지) 정화 완료 → 해피엔딩
+        if (stageIndex == 2)
+        {
+            EndingController.pending = EndingController.EndingType.Happy;
+            SceneManager.LoadScene(endingSceneName);
+            yield break;
+        }
 
         StageProgress.openStageSelect = true;
         StageProgress.returnStage = stageIndex;

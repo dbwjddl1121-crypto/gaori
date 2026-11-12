@@ -7002,7 +7002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a46aed69fb357d4b8c9d75004442d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 55
+  moveSpeed: 70
 --- !u!95 &356657604
 Animator:
   serializedVersion: 7
@@ -9530,6 +9530,7 @@ MonoBehaviour:
   percentLabelEn: Purity
   percentLabelVi: "\u0110\u1ED9 s\u1EA1ch"
   returnSceneName: GameScene
+  endingSceneName: EndingScene
 --- !u!4 &1008454355
 Transform:
   m_ObjectHideFlags: 0
@@ -11511,8 +11512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
   oxygenBar: {fileID: 1314810642}
   healthBar: {fileID: 551833794}
-  maxOxygen: 30
-  maxHealth: 20
+  maxOxygen: 50000
+  maxHealth: 50000
   healthTickInterval: 5
   healthDamagePerTick: 5
   freezeWhileOpen:
@@ -14881,6 +14882,75 @@ MonoBehaviour:
   korean: "\uACC4\uC18D \uD0D0\uD5D8\uD558\uAE30"
   english: Keep Exploring
   vietnamese: "Ti\u1EBFp t\u1EE5c th\xE1m hi\u1EC3m"
+--- !u!1001 &1759950703
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4052515717892531277, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_Name
+      value: FishWatcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 34.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 34.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 34.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2052.1492
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 242.00545
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.9753423
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.22069776
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393888916891522119, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6eba66bdd54d96a48aa991e48504fbb6, type: 3}
 --- !u!1 &1794522591
 GameObject:
   m_ObjectHideFlags: 0
@@ -18001,3 +18071,4 @@ SceneRoots:
   - {fileID: 104067858}
   - {fileID: 1008454355}
   - {fileID: 1727623699}
+  - {fileID: 1759950703}
