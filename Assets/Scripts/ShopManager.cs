@@ -38,6 +38,13 @@ public class ShopManager : MonoBehaviour
         if (!inventoryManager.HasEmptySlot())
         {
             Debug.Log("인벤토리가 가득 찼어요!");
+
+            // 인벤토리가 꽉 찼을 때 화면에 안내 문구 표시
+            NoticeUI.Show(
+                "인벤토리가 가득 찼습니다!",
+                "Your inventory is full!",
+                "Túi đồ đã đầy!"
+            );
             return;
         }
 

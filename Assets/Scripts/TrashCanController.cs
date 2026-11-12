@@ -13,6 +13,9 @@ public enum TrashCanType
 
 public class TrashCanController : MonoBehaviour
 {
+    // 튜토리얼이 "분리수거에 성공했는지" 알 수 있게 성공 횟수를 센다
+    public static int RecycleCount = 0;
+
     [Header("분리수거통 설정")]
     public TrashCanType canType;
     public QuickSlotBar quickSlotBar;
@@ -117,6 +120,9 @@ public class TrashCanController : MonoBehaviour
         // 올바른 분리수거통인지 확인
         if (!IsCorrectTrash(selectedItem, canType))
         {
+            // 어떤 이름 때문에 걸렸는지 확인할 수 있게 로그를 남김
+            Debug.Log("[오답] 쓰레기 이름 = [" + selectedItem.itemName + "] / 통 종류 = " + canType);
+
             NoticeUI.Show(
                 "잘못된 분리수거통입니다.",
                 "Wrong recycling bin.",
@@ -139,6 +145,7 @@ public class TrashCanController : MonoBehaviour
 
         // 분리수거 성공
         Debug.Log($"[성공] {recycledItemName}을(를) 올바르게 분리수거했습니다!");
+        RecycleCount++; // 튜토리얼용 성공 횟수
 
         // 뚜껑 애니메이션 재생
         if (anim != null)
@@ -234,18 +241,26 @@ public class TrashCanController : MonoBehaviour
         shakeCoroutine = null;
     }
 
+    // 이름에서 띄어쓰기를 모두 지움 ("라면 봉지"와 "라면봉지"를 같은 이름으로 취급)
+    private static string RemoveSpaces(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return "";
+        return s.Replace(" ", "").Replace("\u00A0", "").Trim();
+    }
+
     // 쓰레기 이름은 구분용이라 한국어 그대로 둬야 해요. 번역하면 안 돼요.
+    // 아래 이름들은 띄어쓰기 없이 적어요. 비교할 때 양쪽 띄어쓰기를 지워서 맞춥니다.
     private bool IsCorrectTrash(Item item, TrashCanType targetCan)
     {
         if (item == null) return false;
 
-        string name = item.itemName;
+        string name = RemoveSpaces(item.itemName);
 
         switch (targetCan)
         {
             case TrashCanType.Glass:
                 return name == "사이다병"
-                    || name == "유리 공병"
+                    || name == "유리공병"
                     || name == "맥주병"
                     || name == "음료수병";
 
@@ -255,17 +270,17 @@ public class TrashCanController : MonoBehaviour
             case TrashCanType.Vinyl:
                 return name == "비닐봉지"
                     || name == "과자봉지"
-                    || name == "라면 봉지";
+                    || name == "라면봉지";
 
             case TrashCanType.Can:
                 return name == "참치캔"
-                    || name == "통조림 캔"
+                    || name == "통조림캔"
                     || name == "콜라캔";
 
             case TrashCanType.General:
                 return name == "종이컵"
                     || name == "피자박스"
-                    || name == "깨진 유리";
+                    || name == "깨진유리";
         }
 
         return false;

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 4xygen
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemData
   itemName: "\uC190\uC804\uB4F1"
-  price: 700
+  price: 800
   icon: {fileID: -2621890254544512445, guid: 27ebdd9797979204bbf63656a2a2c1f1, type: 3}
