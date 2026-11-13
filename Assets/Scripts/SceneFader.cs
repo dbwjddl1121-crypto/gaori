@@ -33,6 +33,9 @@ public class SceneFader : MonoBehaviour
     public float titleFadeOutDuration = 2.0f;   // 서서히 어두워지는 시간
     public float titleHoldDuration = 0.8f;      // 완전히 검어진 뒤 유지 시간
 
+    [Header("게임 종료 (종료 버튼용)")]
+    public float quitFadeDuration = 1.0f;       // 종료 전에 어두워지는 시간
+
     [Header("스테이지 선택창")]
     public GameObject stageSelectPanel;
 
@@ -61,6 +64,13 @@ public class SceneFader : MonoBehaviour
         StageLock.ResetAll();
         StopAllCoroutines();
         StartCoroutine(FadeOutAndLoad(sceneName));
+    }
+
+    // 종료 버튼용: 서서히 어두워짐 → 게임 종료
+    public void FadeToQuit()
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeOutAndQuit());
     }
 
     // 나가기용: 선택창 닫고 검은 화면 걷기
@@ -111,6 +121,36 @@ public class SceneFader : MonoBehaviour
         yield return new WaitForSecondsRealtime(titleHoldDuration);
 
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+
+    IEnumerator FadeOutAndQuit()
+    {
+        fadeImage.gameObject.SetActive(true);
+        fadeImage.transform.SetAsLastSibling();   // 모든 UI 위로
+
+        Color color = fadeImage.color;
+        color.a = 0f;
+        fadeImage.color = color;
+
+        float timer = 0f;
+        while (timer < quitFadeDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+            color.a = Mathf.SmoothStep(0f, 1f, timer / quitFadeDuration);
+            fadeImage.color = color;
+            yield return null;
+        }
+        color.a = 1f;
+        fadeImage.color = color;
+
+        Debug.Log("[종료] 게임을 종료합니다.");
+
+#if UNITY_EDITOR
+        // 에디터에서는 Application.Quit()이 안 먹어서 재생을 멈춤
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     IEnumerator FadeToStageSelectRoutine()

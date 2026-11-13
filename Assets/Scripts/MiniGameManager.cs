@@ -66,23 +66,33 @@ public class MiniGameManager : MonoBehaviour
         HideAllGames();
     }
 
+    // 이름에서 띄어쓰기를 모두 지움 ("깨진 유리"와 "깨진유리"를 같은 이름으로 취급)
+    private static string NormalizeName(string s)
+    {
+        if (string.IsNullOrEmpty(s)) return "";
+        return s.Replace(" ", "").Replace("\u00A0", "").Trim();
+    }
+
     // 미니게임이 있는 쓰레기인지 확인
     // (쓰레기 이름은 구분용이라 한국어 그대로 둬야 해요. 번역하면 안 돼요)
+    // 아래 이름은 띄어쓰기 없이 적어요. 비교할 때 띄어쓰기를 지워서 맞춥니다.
     public static bool HasMiniGame(string itemName)
     {
-        return itemName == "생수병"
-            || itemName == "깨진 유리"
-            || itemName == "콜라캔";
+        string name = NormalizeName(itemName);
+
+        return name == "생수병"
+            || name == "깨진유리"
+            || name == "콜라캔";
     }
 
     // 쓰레기별 보상 금액
     private int GetReward(string itemName)
     {
-        switch (itemName)
+        switch (NormalizeName(itemName))
         {
             case "콜라캔": return colaCanReward;
             case "생수병": return bottleReward;
-            case "깨진 유리": return glassReward;
+            case "깨진유리": return glassReward;
         }
 
         return 0;
@@ -137,7 +147,7 @@ public class MiniGameManager : MonoBehaviour
 
         // 쓰레기별 제목, 안내 문구 설정 및 게임 켜기
         // Localization.Pick 순서: 한국어, 영어, 베트남어
-        switch (itemName)
+        switch (NormalizeName(itemName))
         {
             case "생수병":
                 SetTexts(
@@ -156,7 +166,7 @@ public class MiniGameManager : MonoBehaviour
                     Debug.LogWarning("[미니게임 오류] BottleGame이 연결되지 않았습니다.");
                 break;
 
-            case "깨진 유리":
+            case "깨진유리":
                 SetTexts(
                     Localization.Pick(
                         "깨진 유리 포장하기",

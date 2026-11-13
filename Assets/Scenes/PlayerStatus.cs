@@ -67,12 +67,18 @@ public class PlayerStatus : MonoBehaviour
         {
             oxygenBar.maxValue = maxOxygen + appliedOxygenBonus;
             oxygenBar.value = currentOxygen;
+
+            // 마우스로 잡아끌어서 값이 바뀌지 않게 잠금
+            oxygenBar.interactable = false;
         }
 
         if (healthBar != null)
         {
             healthBar.maxValue = maxHealth;
             healthBar.value = currentHealth;
+
+            // 마우스로 잡아끌어서 값이 바뀌지 않게 잠금
+            healthBar.interactable = false;
         }
 
         PlayerVitals.savedHealth = currentHealth;
