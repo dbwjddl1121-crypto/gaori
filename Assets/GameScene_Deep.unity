@@ -9531,7 +9531,6 @@ MonoBehaviour:
   percentLabelEn: Purity
   percentLabelVi: "\u0110\u1ED9 s\u1EA1ch"
   returnSceneName: GameScene
-  endingSceneName: EndingScene
 --- !u!4 &1008454355
 Transform:
   m_ObjectHideFlags: 0
@@ -10646,7 +10645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashClickPickup
   pickupRange: 100
-  trashName: "\uC0DD\uC218\uBCD1"
+  trashName: "\uC74C\uB8CC\uC218\uBCD1"
 --- !u!58 &1104325255
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10747,7 +10746,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -831020561108044173, guid: 41a9fed220cb5b04faa36e85641668b3, type: 3}
+  m_Sprite: {fileID: -1997009958342316650, guid: 41a9fed220cb5b04faa36e85641668b3, type: 3}
   m_Color: {r: 0.7798742, g: 0.767612, b: 0.767612, a: 1}
   m_FlipX: 0
   m_FlipY: 0

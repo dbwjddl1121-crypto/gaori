@@ -52,9 +52,6 @@ public class PurificationManager : MonoBehaviour
     [Header("나가기")]
     [SerializeField] string returnSceneName = "GameScene";
 
-    [Header("엔딩")]
-    [SerializeField] string endingSceneName = "EndingScene";
-
     List<GameObject> trashList = new List<GameObject>();
     int totalTrash;
 
@@ -257,14 +254,8 @@ public class PurificationManager : MonoBehaviour
             sparkleDuration + holdAfterSparkle
         );
 
-        // 심해(마지막 스테이지) 정화 완료 → 해피엔딩
-        if (stageIndex == 2)
-        {
-            EndingController.pending = EndingController.EndingType.Happy;
-            SceneManager.LoadScene(endingSceneName);
-            yield break;
-        }
-
+        // 심해도 다른 스테이지처럼 GameScene으로 돌아간다.
+        // 해피엔딩은 작업장의 EndingWatcher가 "심해 정화 + 분리수거 완료"를 확인하고 시작한다.
         StageProgress.openStageSelect = true;
         StageProgress.returnStage = stageIndex;
 

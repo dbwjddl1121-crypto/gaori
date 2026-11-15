@@ -2729,8 +2729,8 @@ MonoBehaviour:
     sprite: {fileID: 8831158282220028974, guid: 381a5ed92e2bd3d49bbb07873bf29761, type: 3}
     size: {x: 430, y: 430}
   progressFill: {fileID: 414024131}
-  peelDistance: 1200
-  tearSpeed: 2800
+  peelDistance: 1000
+  tearSpeed: 2000
   tearPenalty: 0.15
   resetOnRelease: 1
   tearColor: {r: 1, g: 0.4, b: 0.4, a: 1}
@@ -13047,6 +13047,68 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2812489528508677938, guid: a8ec09e76ce1f2448a1785d7169955a0, type: 3}
   m_PrefabInstance: {fileID: 2080177338}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1412053643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1412053645}
+  - component: {fileID: 1412053644}
+  m_Layer: 0
+  m_Name: EndingWatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1412053644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412053643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac7ccfcb1612214a87e6838b5dce0af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EndingWatcher
+  endingSceneName: EndingScene
+  endDelay: 1.5
+  checkInterval: 0.3
+  trashNames:
+  - "\uC0AC\uC774\uB2E4\uBCD1"
+  - "\uC720\uB9AC\uACF5\uBCD1"
+  - "\uB9E5\uC8FC\uBCD1"
+  - "\uC74C\uB8CC\uC218\uBCD1"
+  - "\uC0DD\uC218\uBCD1"
+  - "\uBE44\uB2D0\uBD09\uC9C0"
+  - "\uACFC\uC790\uBD09\uC9C0"
+  - "\uB77C\uBA74\uBD09\uC9C0"
+  - "\uCC38\uCE58\uCE94"
+  - "\uD1B5\uC870\uB9BC\uCE94"
+  - "\uCF5C\uB77C\uCE94"
+  - "\uC885\uC774\uCEF5"
+  - "\uD53C\uC790\uBC15\uC2A4"
+  - "\uAE68\uC9C4\uC720\uB9AC"
+--- !u!4 &1412053645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412053643}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 206.62956, y: 34.4741, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1424193748
 GameObject:
   m_ObjectHideFlags: 0
@@ -20163,3 +20225,4 @@ SceneRoots:
   - {fileID: 937105300}
   - {fileID: 834712498}
   - {fileID: 1276821995}
+  - {fileID: 1412053645}

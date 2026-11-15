@@ -12,3 +12,10 @@ UpgradeLog.htm
 
 *.csproj
 *.sln
+# Recording videos (local only)
+Recordings/
+
+# Test and backup videos (local only)
+Assets/Videos/prologue_baseline.mp4*
+Assets/Videos/prologue_fixed.mp4*
+Assets/Videos/the end (2).mp4*

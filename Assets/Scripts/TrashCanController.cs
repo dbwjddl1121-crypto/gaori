@@ -261,11 +261,12 @@ public class TrashCanController : MonoBehaviour
             case TrashCanType.Glass:
                 return name == "사이다병"
                     || name == "유리공병"
-                    || name == "맥주병"
-                    || name == "음료수병";
+                    || name == "맥주병";
+
 
             case TrashCanType.Plastic:
-                return name == "생수병";
+                return name == "생수병"
+                    || name == "음료수병";
 
             case TrashCanType.Vinyl:
                 return name == "비닐봉지"

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -6,6 +5,12 @@ public class InventoryManager : MonoBehaviour
 {
     public Transform slotContainer;
     private List<Slot> slots = new List<Slot>();
+
+    // 인벤토리 칸 개수 (엔딩 조건 확인용)
+    public int SlotCount
+    {
+        get { return slots.Count; }
+    }
 
     void Start()
     {

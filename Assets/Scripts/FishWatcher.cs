@@ -66,7 +66,7 @@ public class FishWatcher : MonoBehaviour
         if (extraDelay > 0f)
             yield return new WaitForSeconds(extraDelay);
 
-        EndingController.pending = EndingController.EndingType.Bad;
-        SceneManager.LoadScene(endingSceneName);
+        // 검은색으로 페이드아웃 후 엔딩 씬으로 이동
+        EndingFader.FadeOutAndLoad(this, EndingController.EndingType.Bad, endingSceneName);
     }
 }
