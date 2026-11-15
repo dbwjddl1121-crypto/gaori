@@ -35,6 +35,9 @@ public class GlassMiniGame : MonoBehaviour
     public float absorbWait = 0.4f;      // 마지막 조각을 놓은 뒤 빨려 들어가기까지 대기 시간
     public float absorbDuration = 0.35f; // 빨려 들어가는 데 걸리는 시간
 
+    [Header("소리")]
+    public float crumpleSoundSeconds = 4.5f;   // 신문지 구기는 소리를 앞에서 몇 초만 쓸지
+
     [Header("완료 효과")]
     public UIBurstEffect burst;        // 팡 터지는 효과
     public float finishPunch = 1.25f;  // 완성 순간 커지는 배율
@@ -94,6 +97,13 @@ public class GlassMiniGame : MonoBehaviour
             collectDone = true;
             StartCoroutine(StartCrumpleRoutine());
         }
+    }
+
+    private void OnDisable()
+    {
+        // 창이 꺼질 때 구기는 소리가 남아 있으면 부드럽게 멈춤
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopLimitedSFX(0.2f);
     }
 
     // 조각을 놓았을 때 호출됨. 신문지 위면 true
@@ -170,6 +180,10 @@ public class GlassMiniGame : MonoBehaviour
 
         clickCount++;
 
+        // 처음 클릭하는 순간 구기는 소리 시작 (앞부분 몇 초만)
+        if (clickCount == 1 && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFXFor("paper_crumple", crumpleSoundSeconds);
+
         int lastStage = stages.Length - 1;
         int stage = Mathf.Min(clickCount / Mathf.Max(1, clicksPerStage), lastStage);
         ApplyStage(stage);
@@ -212,6 +226,10 @@ public class GlassMiniGame : MonoBehaviour
     private IEnumerator FinishRoutine()
     {
         yield return new WaitForSecondsRealtime(finishDelay);
+
+        // 창이 닫히기 전에 구기는 소리를 부드럽게 마무리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopLimitedSFX(0.3f);
 
         if (MiniGameManager.Instance != null)
             MiniGameManager.Instance.EndMiniGame(true);

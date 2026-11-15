@@ -74,14 +74,28 @@ public class WorkshopController : MonoBehaviour
 
     public void EnterWorkshop()
     {
+        // 입장 문 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("door");
+
         StopAllCoroutines();
         StartCoroutine(FadeInWorkshopSequence());
     }
 
+    // 소리 없이 나가기 (뒤로가기 버튼용)
     public void ExitWorkshop()
     {
         StopAllCoroutines();
         StartCoroutine(FadeOutWorkshopSequence());
+    }
+
+    // 문 소리와 함께 나가기 (출구로 걸어갈 때용)
+    public void ExitWorkshopWithSound()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("door");
+
+        ExitWorkshop();
     }
 
     IEnumerator FadeInWorkshopSequence()

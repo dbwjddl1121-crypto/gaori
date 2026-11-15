@@ -99,6 +99,10 @@ public class GameOverByStatus : MonoBehaviour
 
     IEnumerator DeathSequence()
     {
+        // 죽는 순간 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("death");
+
         // 1. 슬로모션 시작
         Time.timeScale = slowMotionScale;
 

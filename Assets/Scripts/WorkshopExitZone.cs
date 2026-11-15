@@ -45,7 +45,7 @@ public class WorkshopExitZone : MonoBehaviour
         if (!exiting && dist <= exitDistance)
         {
             exiting = true;
-            workshop.ExitWorkshop();
+            workshop.ExitWorkshopWithSound();   // 출구로 나갈 때만 문 소리
         }
     }
 

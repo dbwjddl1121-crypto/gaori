@@ -667,6 +667,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1358573898}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &362092087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,6 +1418,7 @@ MonoBehaviour:
   blackHoldDuration: 1
   titleFadeOutDuration: 1
   titleHoldDuration: 0.8
+  quitFadeDuration: 1
   stageSelectPanel: {fileID: 0}
 --- !u!4 &793305173
 Transform:
@@ -2169,6 +2182,125 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294886192}
   m_CullTransparentMesh: 1
+--- !u!1 &1358573897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1358573899}
+  - component: {fileID: 1358573898}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1358573898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358573897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696d7dc0fa18d6f458562de9cdbf45e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  bgmSource: {fileID: 0}
+  sceneBgmList:
+  - sceneName: GameScene
+    clip: {fileID: 8300000, guid: 30d5fd771e959c14eb49d11e799d62cf, type: 3}
+  - sceneName: GameScene_Team
+    clip: {fileID: 8300000, guid: ab476d53cc6305d459d62127aeb93799, type: 3}
+  - sceneName: GameScene_Mid
+    clip: {fileID: 8300000, guid: ab476d53cc6305d459d62127aeb93799, type: 3}
+  - sceneName: GameScene_Deep
+    clip: {fileID: 8300000, guid: ab476d53cc6305d459d62127aeb93799, type: 3}
+  - sceneName: TitleScene
+    clip: {fileID: 8300000, guid: 30d5fd771e959c14eb49d11e799d62cf, type: 3}
+  bgmGain: 0.1
+  sfxSource: {fileID: 0}
+  sfxList:
+  - name: click
+    clip: {fileID: 8300000, guid: 811664dd1643db946a3834928604cfa9, type: 3}
+    volume: 0.7
+    startTime: 0
+    endTrim: 0
+  - name: coin
+    clip: {fileID: 8300000, guid: dca457516a2c38d41b8127353faaefdf, type: 3}
+    volume: 0.4
+    startTime: 0
+    endTrim: 0
+  - name: fish
+    clip: {fileID: 8300000, guid: b421bcc9bce2d1e4b9e545462987c96b, type: 3}
+    volume: 0.7
+    startTime: 0
+    endTrim: 0
+  - name: door
+    clip: {fileID: 8300000, guid: 823a4cf8d84e73849b68dd4e73f4b972, type: 3}
+    volume: 0.5
+    startTime: 0
+    endTrim: 0
+  - name: pickup
+    clip: {fileID: 8300000, guid: 5be056166e40ead409505e5e37eff3bd, type: 3}
+    volume: 0.7
+    startTime: 0
+    endTrim: 0
+  - name: trash
+    clip: {fileID: 8300000, guid: 669fcdec7823cab4eac3a25389093658, type: 3}
+    volume: 1
+    startTime: 0
+    endTrim: 0
+  - name: can_crush
+    clip: {fileID: 8300000, guid: a131ff6de1f1a57459dbe4952832f6e5, type: 3}
+    volume: 0.7
+    startTime: 1
+    endTrim: 0.3
+  - name: label_peel
+    clip: {fileID: 8300000, guid: 0ca89d9c2ae5a72478654d07f690d8c7, type: 3}
+    volume: 0.7
+    startTime: 2.2
+    endTrim: 1.5
+  - name: paper_crumple
+    clip: {fileID: 8300000, guid: 95ca816f021ec794ab777ac4d056f253, type: 3}
+    volume: 0.7
+    startTime: 0
+    endTrim: 0.6
+  - name: complete
+    clip: {fileID: 8300000, guid: 2816b36cddf85344f86b0ec8c71d9f8e, type: 3}
+    volume: 1
+    startTime: 0
+    endTrim: 0
+  - name: purify_success
+    clip: {fileID: 8300000, guid: 423913a0647e3ea4babb2b17a5a8403b, type: 3}
+    volume: 0.7
+    startTime: 0
+    endTrim: 0
+  - name: death
+    clip: {fileID: 8300000, guid: c28439b8ccdb69f4796072449a9853d3, type: 3}
+    volume: 0.9
+    startTime: 0
+    endTrim: 0
+--- !u!4 &1358573899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358573897}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 544.0917, y: 197.06038, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1367527380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2546,6 +2678,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1358573898}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1574635437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2828,6 +2972,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1358573898}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: PlaySFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: click
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1857746761
@@ -3460,3 +3616,4 @@ SceneRoots:
   - {fileID: 240066846}
   - {fileID: 1944550449}
   - {fileID: 793305173}
+  - {fileID: 1358573899}

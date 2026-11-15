@@ -154,6 +154,10 @@ public class PurificationManager : MonoBehaviour
         StageProgress.SetCleaned(stageIndex);
         PurificationDone = true;
 
+        // 정화율 100% 달성 성공 효과음
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("purify_success");
+
         Camera cam = Camera.main;
         Bounds bounds = GetOceanBounds();
 

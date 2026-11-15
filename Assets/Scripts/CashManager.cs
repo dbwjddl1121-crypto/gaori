@@ -68,6 +68,12 @@ public class CashManager : MonoBehaviour
         cash += amount;
         Save();
         OnCashChanged?.Invoke(cash);
+
+        // 돈이 늘어날 때만 코인 소리
+        if (amount > 0 && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySFX("coin");
+        }
     }
 
     // 바다에 들어온 순간 호출: 현재 금액을 저장점으로 기록

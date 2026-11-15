@@ -154,6 +154,10 @@ public class TrashCanController : MonoBehaviour
             anim.SetBool("IsOpen", true);
         }
 
+        // 뚜껑 열리는 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("trash");
+
         // 실제 인벤토리 아이템 제거 및 저장
         inventory.RemoveItemAt(selectedIndex);
 

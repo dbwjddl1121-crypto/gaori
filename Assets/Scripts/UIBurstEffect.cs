@@ -25,6 +25,10 @@ public class UIBurstEffect : MonoBehaviour
 
     public void Play()
     {
+        // 팡 터지는 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("complete");
+
         StartCoroutine(BurstRoutine());
     }
 

@@ -34,6 +34,12 @@ public class SettingsManager : MonoBehaviour
         SFXVolume = PlayerPrefs.GetFloat(SFX_KEY, 0.7f);
         bool isFullscreen = PlayerPrefs.GetInt(FULLSCREEN_KEY, 0) == 1;
 
+        // 저장된 BGM 볼륨을 실제 음악에 적용
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.SetBGMVolume(BGMVolume);
+        }
+
         // UI에 반영 (이벤트는 발생시키지 않음)
         if (bgmSlider != null)
         {
@@ -66,6 +72,13 @@ public class SettingsManager : MonoBehaviour
         BGMVolume = value;
         PlayerPrefs.SetFloat(BGM_KEY, value);
         PlayerPrefs.Save();
+
+        // 슬라이더를 움직이면 바로 음악 볼륨이 바뀜
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.SetBGMVolume(value);
+        }
+
         Debug.Log("BGM 볼륨: " + value);
     }
 

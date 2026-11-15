@@ -79,6 +79,11 @@ public class TrashClickPickup : MonoBehaviour
             if (isSuccess)
             {
                 Debug.Log("쓰레기 수거 및 인벤토리 추가 성공!");
+
+                // 줍는 소리
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX("pickup");
+
                 RunStats.trashCount++;
                 CollectedRecord.Add(myID);          // 수거 기록 저장
                 TrashCollection.Record(trashName);  // 도감 등록

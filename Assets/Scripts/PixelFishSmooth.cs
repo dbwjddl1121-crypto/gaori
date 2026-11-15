@@ -193,6 +193,10 @@ public class PixelFishSmooth : MonoBehaviour
     {
         isFleeing = true;
 
+        // 도망칠 때 물고기 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("fish");
+
         // 플레이어 반대 방향으로 도망
         if (player != null && cam != null)
         {
@@ -223,6 +227,10 @@ public class PixelFishSmooth : MonoBehaviour
     {
         isCaught = true;
         StopAllCoroutines();
+
+        // 잡았을 때 물고기 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("fish");
 
         RunStats.fishCaught++;              // 추가
         RunStats.cashEarned += rewardCash;  // 추가

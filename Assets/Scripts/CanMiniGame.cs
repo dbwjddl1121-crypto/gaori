@@ -57,6 +57,10 @@ public class CanMiniGame : MonoBehaviour, IPointerClickHandler
 
         clickCount++;
 
+        // 클릭할 때마다 캔 찌그러지는 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("can_crush");
+
         // 현재 단계 계산
         int lastStage = stages.Length - 1;
         int stage = Mathf.Min(clickCount / clicksPerStage, lastStage);

@@ -46,6 +46,7 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     private bool finished;
     private float shakeTimer;
     private float smoothSpeed;   // 여러 프레임 평균 속도
+    private int lastStageIndex;  // 마지막으로 보여준 단계 (소리 중복 방지용)
 
     private void Awake()
     {
@@ -62,6 +63,7 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         finished = false;
         shakeTimer = 0f;
         smoothSpeed = 0f;
+        lastStageIndex = 0;
 
         transform.localScale = baseScale;
         rect.anchoredPosition = basePos;
@@ -150,7 +152,14 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     private void RefreshStage()
     {
-        ApplyStage(GetStageIndex());
+        int index = GetStageIndex();
+
+        // 라벨이 한 단계 더 떨어졌을 때만 떼는 소리 (되돌아갈 때는 소리 없음)
+        if (index > lastStageIndex && AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("label_peel");
+
+        lastStageIndex = index;
+        ApplyStage(index);
     }
 
     // 게이지: 막대의 높이를 조절해서 위에서 아래로 차오르게 함 (이미지 필요 없음)
