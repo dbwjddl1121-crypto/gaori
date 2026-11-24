@@ -194,6 +194,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3997363}
   m_CullTransparentMesh: 1
+--- !u!1 &7560977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7560979}
+  - component: {fileID: 7560978}
+  m_Layer: 0
+  m_Name: TrashRandomizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &7560978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ec44cf299f4145479321d7f8376dc3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashRandomizer
+  stageIndex: 0
+  areaRenderer: {fileID: 1871080830}
+  trashTag: Trash
+  edgeMargin: 30
+  minDistance: 40
+  triesPerTrash: 30
+  keepPlayerAreaClear: 1
+  playerClearRadius: 60
+  rerollEveryTime: 0
+--- !u!4 &7560979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7560977}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 412.25558, y: 212.82631, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &49022335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16213,3 +16266,4 @@ SceneRoots:
   - {fileID: 1428610200}
   - {fileID: 8112994971204716985}
   - {fileID: 1420223404}
+  - {fileID: 7560979}
