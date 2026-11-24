@@ -32,8 +32,10 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     public float shakeTime = 0.25f;
     public float shakePower = 10f;
 
-    [Header("찢어짐 소리")]
+    [Header("소리")]
     [Range(0f, 1f)] public float tearSoundScale = 0.3f;   // 실패 소리 크기 (작을수록 조용함)
+    public float peelSoundSeconds = 1.0f;                 // 라벨 떼는 소리 최대 길이 (손을 떼면 바로 멈춤)
+    public float peelStopFade = 0.15f;                    // 손을 뗄 때 소리가 줄어드는 시간
 
     [Header("완료 효과")]
     public UIBurstEffect burst;          // 팡 터지는 효과
@@ -78,6 +80,12 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
             ApplyStage(0);
 
         UpdateGauge();
+    }
+
+    private void OnDisable()
+    {
+        // 창이 꺼질 때 떼는 소리가 남아 있으면 멈춤
+        StopPeelSound(0.05f);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -126,6 +134,9 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        // 손을 떼면 떼는 소리를 바로 멈춤
+        StopPeelSound(peelStopFade);
+
         if (finished) return;
 
         smoothSpeed = 0f;
@@ -149,6 +160,13 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         }
     }
 
+    // 떼는 소리 멈추기
+    private void StopPeelSound(float fade)
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.StopLimitedSFX(fade);
+    }
+
     // 진행도에 해당하는 단계 번호
     private int GetStageIndex()
     {
@@ -162,8 +180,9 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         int index = GetStageIndex();
 
         // 라벨이 한 단계 더 떨어졌을 때만 떼는 소리 (되돌아갈 때는 소리 없음)
+        // 손을 떼면 바로 멈출 수 있게 멈출 수 있는 방식으로 재생
         if (index > lastStageIndex && AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX("label_peel");
+            AudioManager.Instance.PlaySFXFor("label_peel", peelSoundSeconds, 0.1f);
 
         lastStageIndex = index;
         ApplyStage(index);

@@ -2229,57 +2229,111 @@ MonoBehaviour:
   - name: click
     clip: {fileID: 8300000, guid: 811664dd1643db946a3834928604cfa9, type: 3}
     volume: 0.7
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: coin
     clip: {fileID: 8300000, guid: dca457516a2c38d41b8127353faaefdf, type: 3}
     volume: 0.4
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: fish
     clip: {fileID: 8300000, guid: b421bcc9bce2d1e4b9e545462987c96b, type: 3}
     volume: 0.7
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: door
     clip: {fileID: 8300000, guid: 823a4cf8d84e73849b68dd4e73f4b972, type: 3}
     volume: 0.5
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: pickup
     clip: {fileID: 8300000, guid: 5be056166e40ead409505e5e37eff3bd, type: 3}
     volume: 0.5
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: trash
     clip: {fileID: 8300000, guid: 669fcdec7823cab4eac3a25389093658, type: 3}
     volume: 1
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: can_crush
     clip: {fileID: 8300000, guid: a131ff6de1f1a57459dbe4952832f6e5, type: 3}
     volume: 0.7
+    trimStart: 0.5
+    trimEnd: 1.2
+    trimFade: 0.3
   - name: label_peel
     clip: {fileID: 8300000, guid: 0ca89d9c2ae5a72478654d07f690d8c7, type: 3}
     volume: 0.7
+    trimStart: 0.3
+    trimEnd: 2.8
+    trimFade: 0.3
   - name: paper_crumple
     clip: {fileID: 8300000, guid: 95ca816f021ec794ab777ac4d056f253, type: 3}
     volume: 0.7
+    trimStart: 0
+    trimEnd: 3
+    trimFade: 0.1
   - name: complete
     clip: {fileID: 8300000, guid: 2816b36cddf85344f86b0ec8c71d9f8e, type: 3}
     volume: 0.8
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: purify_success
     clip: {fileID: 8300000, guid: 423913a0647e3ea4babb2b17a5a8403b, type: 3}
     volume: 0.7
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: death
     clip: {fileID: 8300000, guid: c28439b8ccdb69f4796072449a9853d3, type: 3}
     volume: 0.9
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: buy
     clip: {fileID: 8300000, guid: 4f43f3aa0d7dc4647866be14f725f4fd, type: 3}
     volume: 0.9
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: lock_shake
     clip: {fileID: 8300000, guid: dc6cc9d62000ea44f827b936c96879fd, type: 3}
     volume: 0.9
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: potion
     clip: {fileID: 8300000, guid: 7c638bd53dd50b148ba8bb91ef8ed0b9, type: 3}
     volume: 0.9
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: equip
     clip: {fileID: 8300000, guid: 3bd33ed2ab38e224abf94077f61a3d46, type: 3}
     volume: 1
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: error
     clip: {fileID: 8300000, guid: 53bbb8ed2cbeb034f82a8d8e0b039cdb, type: 3}
     volume: 1
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
   - name: warn
     clip: {fileID: 8300000, guid: 08c68e33cc8c8294d8b592fe259c2c2c, type: 3}
     volume: 1
+    trimStart: 0
+    trimEnd: 0
+    trimFade: 0.1
 --- !u!4 &1358573899
 Transform:
   m_ObjectHideFlags: 0
