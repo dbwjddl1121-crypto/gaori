@@ -35,6 +35,10 @@ public class LockShake : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy) return;
 
+        // 자물쇠 흔들리는 소리
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("lock_shake");
+
         if (running != null)
             StopCoroutine(running);
 

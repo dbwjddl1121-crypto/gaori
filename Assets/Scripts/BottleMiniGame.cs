@@ -32,6 +32,9 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     public float shakeTime = 0.25f;
     public float shakePower = 10f;
 
+    [Header("찢어짐 소리")]
+    [Range(0f, 1f)] public float tearSoundScale = 0.3f;   // 실패 소리 크기 (작을수록 조용함)
+
     [Header("완료 효과")]
     public UIBurstEffect burst;          // 팡 터지는 효과
     public float finishPunch = 1.25f;    // 완성 순간 커지는 배율
@@ -98,6 +101,10 @@ public class BottleMiniGame : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         // 너무 빠르면 라벨이 찢어짐
         if (smoothSpeed > tearSpeed)
         {
+            // 찢어졌을 때 실패 소리 (크기를 줄여서 재생)
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFXScaled("error", tearSoundScale);
+
             progress = Mathf.Max(0f, progress - tearPenalty);
             shakeTimer = shakeTime;
             smoothSpeed = 0f;

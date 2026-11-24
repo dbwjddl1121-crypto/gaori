@@ -56,6 +56,10 @@ public class TrashClickPickup : MonoBehaviour
 
         if (distance > pickupRange)
         {
+            // 너무 멀 때 경고 소리
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX("warn");
+
             NoticeUI.Show(
                 "쓰레기가 너무 멀리 있습니다.",
                 "The trash is too far away."
@@ -92,6 +96,10 @@ public class TrashClickPickup : MonoBehaviour
             else
             {
                 Debug.Log("인벤토리가 가득 찼습니다!");
+
+                // 인벤토리가 가득 찼을 때 오류 소리
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX("error");
 
                 // 인벤토리가 꽉 찼을 때 화면에 안내 문구 표시
                 NoticeUI.Show(

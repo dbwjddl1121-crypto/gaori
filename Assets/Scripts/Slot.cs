@@ -209,6 +209,11 @@ public class Slot : MonoBehaviour,
             if (myItem != null && !equip.CanEquip(myItem))
             {
                 Debug.Log("그 아이템은 이 장비칸에 들어갈 수 없어요: " + myItem.itemName);
+
+                // 장비칸에 못 들어갈 때 오류 소리
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX("error");
+
                 return;
             }
 

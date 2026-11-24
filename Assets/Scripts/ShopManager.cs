@@ -39,6 +39,9 @@ public class ShopManager : MonoBehaviour
         {
             Debug.Log("인벤토리가 가득 찼어요!");
 
+            // 인벤토리가 가득 찼을 때 오류 소리
+            PlayError();
+
             // 인벤토리가 꽉 찼을 때 화면에 안내 문구 표시
             NoticeUI.Show(
                 "인벤토리가 가득 찼습니다!",
@@ -57,10 +60,29 @@ public class ShopManager : MonoBehaviour
 
             inventoryManager.AddItem(newItem);
             Debug.Log(item.itemName + " 구매!");
+
+            // 구매 성공 소리
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX("buy");
         }
         else
         {
             Debug.Log("돈이 부족해요!");
+
+            // 돈이 부족할 때 오류 소리
+            PlayError();
+
+            NoticeUI.Show(
+                "캐시가 부족합니다!",
+                "Not enough cash!",
+                "Không đủ tiền!"
+            );
         }
+    }
+
+    void PlayError()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("error");
     }
 }

@@ -161,6 +161,10 @@ public class PixelFishSmooth : MonoBehaviour
 
             if (dist > catchDistancePixels)
             {
+                // 너무 멀 때 경고 소리
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX("warn");
+
                 NoticeUI.Show(
                     "물고기가 너무 멀리 있습니다.",
                     "The fish is too far away."

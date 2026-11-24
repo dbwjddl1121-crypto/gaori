@@ -18,6 +18,11 @@ public static class PlayerVitals
 
         savedHealth = Mathf.Min(savedHealth + amount, maxHealth);
         OnHealthChanged?.Invoke();
+
+        // 포션 마시는 소리 (회복에 성공했을 때만)
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("potion");
+
         return true;
     }
 }

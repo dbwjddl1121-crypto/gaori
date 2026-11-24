@@ -81,6 +81,9 @@ public class TrashCanController : MonoBehaviour
 
             if (dist > interactDistance)
             {
+                // 너무 멀 때 경고 소리
+                PlayWarn();
+
                 NoticeUI.Show(
                     "분리수거통이 너무 멀리 있습니다.",
                     "The recycling bin is too far away.",
@@ -98,6 +101,9 @@ public class TrashCanController : MonoBehaviour
         if (quickSlotBar == null || !quickSlotBar.IsItemSelected())
         {
             Debug.Log("[실패] 퀵슬롯이 선택되지 않았습니다. 숫자키를 먼저 눌러주세요.");
+
+            // 퀵슬롯 미선택 경고 소리
+            PlayWarn();
             return;
         }
 
@@ -107,6 +113,9 @@ public class TrashCanController : MonoBehaviour
         if (selectedItem == null)
         {
             Debug.Log("[실패] 선택된 칸에 아이템이 없습니다.");
+
+            // 빈 칸 선택 경고 소리
+            PlayWarn();
             return;
         }
 
@@ -122,6 +131,10 @@ public class TrashCanController : MonoBehaviour
         {
             // 어떤 이름 때문에 걸렸는지 확인할 수 있게 로그를 남김
             Debug.Log("[오답] 쓰레기 이름 = [" + selectedItem.itemName + "] / 통 종류 = " + canType);
+
+            // 오답 오류 소리
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySFX("error");
 
             NoticeUI.Show(
                 "잘못된 분리수거통입니다.",
@@ -192,6 +205,13 @@ public class TrashCanController : MonoBehaviour
                 Debug.LogWarning("[캐시 오류] 씬에 CashManager가 없습니다.");
             }
         }
+    }
+
+    // 경고 소리 (너무 멀 때, 퀵슬롯 미선택 등)
+    private void PlayWarn()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("warn");
     }
 
     // ★ 오답 피드백: 빨간 점멸 + 좌우 흔들림

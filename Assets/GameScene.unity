@@ -10972,7 +10972,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8211126104365552888, guid: dd6611a48c540214ca2eaa755b0e08b2, type: 3}
   m_PrefabInstance: {fileID: 2791045507461547909}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2791045507461547910}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2421f9c631cd068429df85792dcee87c, type: 3}
@@ -12133,6 +12133,7 @@ MonoBehaviour:
   clicksPerStage: 4
   absorbWait: 0.4
   absorbDuration: 0.35
+  crumpleSoundSeconds: 4.5
   burst: {fileID: 942893097}
   finishPunch: 1.25
   finishDelay: 1
@@ -20253,8 +20254,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5788123080664838703, guid: dd6611a48c540214ca2eaa755b0e08b2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2791045507461547911}
   m_SourcePrefab: {fileID: 100100000, guid: dd6611a48c540214ca2eaa755b0e08b2, type: 3}
+--- !u!1 &2791045507461547910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5788123080664838703, guid: dd6611a48c540214ca2eaa755b0e08b2, type: 3}
+  m_PrefabInstance: {fileID: 2791045507461547909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2791045507461547911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2791045507461547910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0fdcb5284323204f9e8ebbfa5e82532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootstepSound
+  footstepClip: {fileID: 8300000, guid: f446129ae7f3ab44081b3bc1495017cd, type: 3}
+  volume: 0.7
 --- !u!1001 &5210487021491287966
 PrefabInstance:
   m_ObjectHideFlags: 0
